@@ -1,2 +1,5 @@
+Version 0.1.1
+    * Fixed Bug: Only the first package was listed
+
 Version 0.1.0
     * Initial release

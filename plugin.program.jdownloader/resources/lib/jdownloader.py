@@ -79,9 +79,8 @@ def get_downloadlist(x):
 			package["Size"] = s.attributes['package_size'].value+ " "
 			package["Percentage"] = s.attributes['package_percent'].value
 			filelist.append(package)
-			return filelist
-			#return(packageName, packageEta, packageSize, packagePercentage) debug
-			
+		return filelist
+		#return(packageName, packageEta, packageSize, packagePercentage) debug	
 	except IOError:
 		print_exc()
 		return 'error'
