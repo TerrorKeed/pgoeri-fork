@@ -80,6 +80,17 @@ print "URL: "+str(url)
 
 OK = True
 
+#check connection
+try:
+	jdownloader.get(jdownloader.GET_STATUS)
+except jdownloader.JDError, error:
+	d = xbmcgui.Dialog()
+	(type, e, traceback) = sys.exc_info()
+	d.ok(__language__(257), e.message)
+	mode=-1
+	url="error"
+	#xbmc.executebuiltin("Action(ParentDir)")
+
 #main menu:
 if mode==None or url==None or len(url)<1:
 	

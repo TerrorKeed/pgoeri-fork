@@ -1,7 +1,7 @@
 # script constants
 __addonID__			= "plugin.program.jdownloader"
 
-import socket,urllib2 , os
+import socket,urllib2,httplib,os
 from xml.dom import minidom
 from traceback import print_exc
 import xbmc,xbmcplugin,xbmcaddon
@@ -51,6 +51,42 @@ ip_port = str(xbmcplugin.getSetting(pluginhandle,"ip_port"))
 
 urlPrefix = 'http://' + ip_adress + ':' + ip_port
 
+class JDError(Exception):
+	 def __init__(self, message='', original=None):
+		  Exception.__init__(self, message)
+		  self.message = message
+		  self.original = original
+
+	 def __str__(self):
+		  if self.original:
+			original_name = type(self.original).__name__
+			return '%s Original exception: %s, "%s"' % (self.message, original_name, self.original.args)
+		  else:
+			return self.message
+
+def _http_query(query):
+	request = urlPrefix+query
+	request_count = 0
+	while True:
+		error_data = ""
+		try:
+			try:
+				socket.setdefaulttimeout(10)
+				response = urllib2.urlopen(request)
+				break
+			except urllib2.URLError, error:
+				raise JDError('Failed to connect to server.')
+			except httplib.BadStatusLine, error:
+				if (request_count > 1):
+					raise JDError('Failed to request %s "%s".' % (self.url, query))
+		finally:
+			if error_data:
+				self._debug_response(error, error_data)
+		request_count = request_count + 1
+	result = response.read()
+	response.close()
+	return result
+
 # Get Info #
 
 # As long as only the package info gets parsed, it doesn't matter which list gets loaded (currentlist,alllist,finishedlist)
@@ -58,19 +94,15 @@ urlPrefix = 'http://' + ip_adress + ':' + ip_port
 # Due to that, the smallest will be used: currentlist
 def get_downloadlist(x):
 	xmlfile = os.path.join( BASE_RESOURCE_PATH , "dlist.xml" )
-	#urlStr = urlPrefix + '/get/downloads/%s % x
-	urlStr = urlPrefix + '/get/downloads/currentlist'
-	print "url: %s" % urlStr
 	try:
-		fileHandle = urllib2.urlopen(urlStr)
-		str1 = fileHandle.read()
-		fileHandle.close()
+		#result = _http_query('/get/downloads/%s' % x)
+		result = _http_query('/get/downloads/currentlist')
 		
 		fileObj = open(xmlfile,"w")
-		fileObj.write(str1)
+		fileObj.write(result)
 		fileObj.close()
 		
-		xmldoc = minidom.parseString(str1)
+		xmldoc = minidom.parseString(result)
 		itemlist = xmldoc.getElementsByTagName('package')
 		filelist = []
 		for s in itemlist :
@@ -97,11 +129,9 @@ def get(x):
 	if x == GET_CURRENTFILECNT:
 		getStr = '/get/downloads/currentcount'
 	
-	fileHandle = urllib2.urlopen(urlPrefix+getStr)
-	str1 = fileHandle.read()
-	fileHandle.close()
-	if str1.startswith("0"): str1 = 'none'
-	return str1
+	result = _http_query(getStr)
+	if result.startswith("0"): result = 'none'
+	return result
 
 # Actions #
 
@@ -141,21 +171,12 @@ def action( x , limit = "0" ):
 	if x == ACTION_JD_SHUTDOWN:
 		actionStr = '/action/shutdown'
 
-	urlStr = urlPrefix+actionStr
-	print "url: %s" % urlStr
-	fileHandle = urllib2.urlopen(urlStr)
-	result = fileHandle.read()
-	fileHandle.close()
+	result = _http_query(actionStr)
 	return result
 
 def action_addcontainer(grabber,start,link):
-	urlStr = urlPrefix + '/action/add/container/grabber' + str(grabber) + '/start' + str(start) + '/' + str(link)
-	fileHandle = urllib2.urlopen(urlStr)
-	fileHandle.close()
+	_http_query('/action/add/container/grabber' + str(grabber) + '/start' + str(start) + '/' + str(link))
 
 # Links must be seperated by spaces
 def action_addlinks(grabber,start,link):
-	urlStr = urlPrefix + '/action/add/links/grabber' + str(grabber) + '/start' + str(start) + '/' + str(link)
-	fileHandle = urllib2.urlopen(urlStr)
-	str1 = fileHandle.read()
-	fileHandle.close()
+	_http_query('/action/add/links/grabber' + str(grabber) + '/start' + str(start) + '/' + str(link))
