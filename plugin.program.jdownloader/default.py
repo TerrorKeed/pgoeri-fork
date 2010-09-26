@@ -30,7 +30,7 @@ __addon__ = xbmcaddon.Addon(__addonID__)
 __language__ = __addon__.getLocalizedString
 
 def addDir(name,url,mode,iconimage, c_items = None ):
-	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)+"&name="+urllib.quote_plus(name)
+	u=sys.argv[0]+"?url="+urllib.quote_plus(url)+"&mode="+str(mode)
 	ok=True
 	liz=xbmcgui.ListItem(name, iconImage="DefaultFolder.png", thumbnailImage=iconimage)
 	if c_items : liz.addContextMenuItems( c_items, replaceItems=True )
@@ -68,19 +68,15 @@ def get_params():
 
 params=get_params()
 url=None
-name=None
 mode=None
 
 try: url=urllib.unquote_plus(params["url"])
-except: pass
-try: name=urllib.unquote_plus(params["name"])
 except: pass
 try: mode=int(params["mode"])
 except: pass
 
 print "Mode: "+str(mode)
 print "URL: "+str(url)
-print "Name: "+str(name)
 
 OK = True
 

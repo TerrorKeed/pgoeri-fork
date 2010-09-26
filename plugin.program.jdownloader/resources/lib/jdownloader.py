@@ -1,7 +1,10 @@
+# script constants
+__addonID__			= "plugin.program.jdownloader"
+
 import socket,urllib2 , os
 from xml.dom import minidom
 from traceback import print_exc
-import xbmcplugin
+import xbmc,xbmcplugin,xbmcaddon
 import sys
 
 #defines
@@ -38,7 +41,8 @@ ALL_ACTIONS = {
 	ACTION_JD_SHUTDOWN:	30068
 }
 
-BASE_RESOURCE_PATH = os.path.join( os.getcwd(), "resources" )
+Addon =  xbmcaddon.Addon(id=__addonID__)
+BASE_RESOURCE_PATH = xbmc.translatePath( Addon.getAddonInfo( "Profile" ) )
 
 # Handle settings
 pluginhandle = int(sys.argv[1])
