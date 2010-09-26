@@ -51,9 +51,6 @@ ip_port = str(xbmcplugin.getSetting(pluginhandle,"ip_port"))
 
 urlPrefix = 'http://' + ip_adress + ':' + ip_port
 
-from convert import set_entity_or_charref
-from convert import translate_string
-
 # Get Info #
 
 # As long as only the package info gets parsed, it doesn't matter which list gets loaded (currentlist,alllist,finishedlist)
