@@ -1,15 +1,15 @@
 # script constants
-__plugin__			= "JDownloader"
-__addonID__			= "plugin.program.jdownloader"
-__author__			= "Ppic & pgoeri"
-__url__				= ""
-__svn_url__			= ""
-__credits__			= "Team XBMC passion, http://passion-xbmc.org"
+__plugin__		= "JDownloader"
+__addonID__		= "plugin.program.jdownloader"
+__author__		= "Ppic & pgoeri"
+__url__			= "http://pgoeri-xbmc-plugins.googlecode.com"
+__svn_url__		= "http://pgoeri-xbmc-plugins.googlecode.com/svn/trunk/plugin.program.jdownloader/"
+__credits__		= "Team XBMC passion, http://passion-xbmc.org & pgoeri"
 __platform__		= "xbmc media center, [LINUX, OS X, WIN32, XBOX]"
-__date__			= "08-09-2010"
-__version__			= "0.1.1"
+__date__			= "02-10-2010"
+__version__		= "1.0.0"
 __svn_revision__	= "$Revision:  $".replace( "Revision", "" ).strip( "$: " )
-__XBMC_Revision__	= "33519" #XBMC Dharma branch
+__XBMC_Revision__	= "34354" #XBMC Dharma branch
 __useragent__		= "Mozilla/5.0 (Windows; U; Windows NT 5.1; fr; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1"
 
 from traceback import print_exc
