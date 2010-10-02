@@ -4,7 +4,7 @@ __addonID__			= "plugin.program.jdownloader"
 import socket,urllib2,httplib,os
 from xml.dom import minidom
 from traceback import print_exc
-import xbmc,xbmcplugin,xbmcaddon
+import xbmc,xbmcaddon
 import sys
 
 #defines
@@ -44,10 +44,9 @@ ALL_ACTIONS = {
 Addon =  xbmcaddon.Addon(id=__addonID__)
 BASE_RESOURCE_PATH = xbmc.translatePath( Addon.getAddonInfo( "Profile" ) )
 
-# Handle settings
-pluginhandle = int(sys.argv[1])
-ip_adress = str(xbmcplugin.getSetting(pluginhandle,"ip_adress"))
-ip_port = str(xbmcplugin.getSetting(pluginhandle,"ip_port"))
+# load settings
+ip_adress = str(Addon.getSetting("ip_adress"))
+ip_port = str(Addon.getSetting("ip_port"))
 
 urlPrefix = 'http://' + ip_adress + ':' + ip_port
 
