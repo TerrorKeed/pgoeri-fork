@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<strings>
+    <!-- Category strings -->
+    <string id="30001">All</string>
+    <!-- main categories -->
+    <string id="30002">TV Shows</string>
+    <string id="30003">Boxsets</string>
+    
+    <string id="30004">Movies</string>
+    <string id="30005">Anime</string>
+    <string id="30006">DVD-R</string>
+    <string id="30007">HD-Rips</string>
+    
+    <string id="30008">Music</string>
+    <string id="30009">Musicvideos</string>
+    
+    <string id="30010">Games</string>
+    <string id="30011">Console Games</string>
+    <string id="30012">PS2</string>
+    <string id="30013">PS3</string>
+    <string id="30014">PSP</string>
+    <string id="30015">Wii</string>
+    <string id="30016">Xbox 360</string>
+    
+    <string id="30017">E-Books</string>
+    <string id="30018">Magazines</string>
+    
+    <string id="30019">Apps</string>
+    
+    <!-- miscellaneous -->
+    <string id="30031">Miscellaneous</string>
+    <string id="30032">iPhone/iPod</string>
+    <string id="30033">Other</string>
+    <string id="30034">Retro</string>
+    <string id="30035">Templates</string>
+    <string id="30036">Tutorials</string>
+    <string id="30037">Vectors</string>
+    <string id="30038">Wallpapers</string>
+     
+    <!-- Plugin settings strings -->
+    <string id="30300">Prefered Filehoster</string>
+    <string id="30301">hotfile.com</string>
+    <string id="30302">filesonic.com</string>
+    <string id="30303">fileserve.com</string>
+    <string id="30304">Alternative Filehoster</string>
+    <string id="30305">None</string>
+    <string id="30306">Number of posts per page</string>
+    <string id="30310">Hide TV Shows</string>
+    <string id="30311">Hide Movies</string>
+    <string id="30312">Hide Music</string>
+    <string id="30313">Hide Games</string>
+    <string id="30314">Hide E-Books</string>
+    <string id="30315">Hide Apps</string>
+    <string id="30316">Hide Miscellaneous</string>
+    <string id="30317">Hide All</string>
+    <string id="30320">Notification length in seconds</string>
+    <string id="30321">Set thumbnail view for videos in Confluence</string>
+    <string id="30322">Debug</string>
+    <string id="30350">Categories</string>
+    <string id="30351">Advanced</string>
+
+    <!-- Menu strings -->
+    <string id="30500">Video information</string>
+    <string id="30501">More Results</string>
+    <string id="30502">Change plugin settings</string>
+    <string id="30503">Open JDownloader plugin</string>
+
+    <!-- messages -->
+    <string id="30600">Error</string>
+    <string id="30601">Uncaught error:</string>
+    <string id="30602">Unkown error</string>
+    <string id="30603">Couldn't scrape IRFree.com</string>
+    <string id="30604">Couldn't scrape any filehoster links</string>
+    
+    <string id="30800">Added %d link(s) to JDownloader</string>
+    <string id="30801">Add Links</string>
+    <string id="30802">JD Info</string>
+    <string id="30803">JD Error</string>
+</strings>
