@@ -191,7 +191,7 @@ class IRFreeCore(object):
 				break
 		
 		if ( result == 200 ):
-			posts = re.compile('class="storytitle"><a href="(.+?)" rel="bookmark">(.+?)</a>.+?<p><img.+?src="(.+?)".+?</p>\n(.+?)</div><!-- end storycontent',re.DOTALL).findall(website);
+			posts = re.compile('class="storytitle"><a href="(.+?)" rel="bookmark">(.+?)</a>.+?<img.+?src="(.+?)".+?</p>\n(.+?)</div><!-- end storycontent',re.DOTALL).findall(website);
 			#posts = re.compile('class="storytitle"><a href="(.+?)" rel="bookmark">(.+?)</a>.+?<p><img.+?src="(.+?)".+?</p>\n(.+?)<p>.+?class="more-link"',re.DOTALL).findall(website);
 		else:
 			posts = [ ]
