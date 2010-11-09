@@ -1,7 +1,7 @@
 import sys, os, xbmc, xbmcaddon
 
 # plugin constants
-__version__		 = "0.1.0"
+__version__		 = "0.1.1"
 __plugin__		 = "IRFree.com-" + __version__
 __author__		 = "pgoeri"
 __url__			= "http://pgoeri-xbmc-plugins.googlecode.com"
