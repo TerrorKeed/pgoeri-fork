@@ -17,20 +17,22 @@ STATE_RUNNING		= "RUNNING"
 STATE_NOTRUNNING		= "NOT_RUNNING"
 STATE_STOPPING		= "STOPPING"
 
-ACTION_START			= "1 start"
-ACTION_STOP			= "2 stop"
-ACTION_PAUSE			= "3 pause"
-ACTION_TOGGLE		= "4 toggle"
+ACTION_START			= "01 start"
+ACTION_STOP			= "02 stop"
+ACTION_PAUSE			= "03 pause"
+ACTION_TOGGLE		= "04 toggle"
 
-ACTION_SPEEDLIMIT		= "5 speed limit"
-ACTION_MAXDOWNLOADS	= "6 max downloads"
+ACTION_SPEEDLIMIT		= "05 speed limit"
+ACTION_MAXDOWNLOADS	= "06 max downloads"
 
-ACTION_ADD_LINKS		= "7 add links"
-ACTION_ADD_DLC		= "8 add dlc"
+ACTION_ADD_LINKS		= "07 add links"
+ACTION_ADD_DLC		= "08 add dlc"
 
-ACTION_JD_UPDATE		= "9 update JDownloader"
-ACTION_JD_RESTART		= "10 restart JDownloader"
-ACTION_JD_SHUTDOWN	= "11 shutdown JDownloader"
+ACTION_RECONNECT		= "10 reconnect"
+
+ACTION_JD_UPDATE		= "20 update JDownloader"
+ACTION_JD_RESTART		= "21 restart JDownloader"
+ACTION_JD_SHUTDOWN	= "22 shutdown JDownloader"
 
 ALL_ACTIONS = {
 	ACTION_START:				30060,
@@ -41,6 +43,7 @@ ALL_ACTIONS = {
 	ACTION_MAXDOWNLOADS:	30065,
 	ACTION_ADD_LINKS:			30069,
 	ACTION_ADD_DLC:			30070,
+	ACTION_RECONNECT:		30071,
 	ACTION_JD_UPDATE:			30066,
 	ACTION_JD_RESTART:			30067,
 	ACTION_JD_SHUTDOWN:		30068
@@ -171,6 +174,8 @@ def action( x , limit = "0" ):
 		actionStr = '/action/set/download/limit/' + str(limit)
 	if x == ACTION_MAXDOWNLOADS:
 		actionStr = '/action/set/download/max/' + str(limit)
+	if x == ACTION_RECONNECT:
+		actionStr = '/action/reconnect'
 	if x == ACTION_JD_UPDATE:
 		actionStr = '/action/update/force%s/' % str(limit)
 	if x == ACTION_JD_RESTART:
