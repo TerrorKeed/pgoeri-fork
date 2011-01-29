@@ -56,7 +56,8 @@ class IRFreeCore(object):
 		( website, result) = self._fetchWebsite(link)
 		
 		# get only area with the file-links (ignore samples and comments)
-		website = re.compile('</table></span>(.+?)<a href="http://www.irfree.com/premium-member/" >',re.DOTALL).findall( website )[0]
+		#website = re.compile('</table></span>(.+?)<a href="http://www.irfree.com/premium-member/"',re.DOTALL).findall( website )[0]
+		website = re.compile('Type The Password(.+?)Tags: ',re.DOTALL).findall( website )[0]
 		
 		if (result == 200):
 			file_links = self._scrapeFilehosterLinks( website, int(self.__addon__.getSetting( "filehoster" )) )
@@ -191,7 +192,14 @@ class IRFreeCore(object):
 				break
 		
 		if ( result == 200 ):
-			posts = re.compile('class="page-content">.+?<a href="(.+?)".+?>(.+?)</a>.+?<img.+?src="(.+?)".+?\n(.+?)</div>',re.DOTALL).findall(website);
+			# 1: url
+			# 2: title
+			# 3: img
+			# 4: description
+			if ( link == "http://www.irfree.com" ):
+				posts = re.compile('class="entry_header">.+?<a href="(.+?)".*?>(.+?)</a>.+?<img.+?src="(.+?)".+?\n(.+?)</div>',re.DOTALL).findall(website)
+			else:
+				posts = re.compile('class="page-content">.+?<a href="(.+?)".+?>(.+?)</a>.+?<img.+?src="(.+?)".+?\n(.+?)</div>',re.DOTALL).findall(website)
 		else:
 			posts = [ ]
 
