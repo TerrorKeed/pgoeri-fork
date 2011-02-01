@@ -1,3 +1,7 @@
+[B]Version 0.1.2[/B]
+	* Fixed problems with scraping category 'All' and specific movies
+	* Changed plugin logo, due to the new website design
+	 
 [B]Version 0.1.1[/B]
     * Fixed problems with the new website design
 

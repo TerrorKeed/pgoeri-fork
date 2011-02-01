@@ -53,12 +53,18 @@ class IRFreeCore(object):
 		if self.__dbg__:
 			print self.__plugin__ + " scrapeFilehosterLinks: " + repr(link)
 
-		( website, result) = self._fetchWebsite(link)
+		( full_website, result) = self._fetchWebsite(link)
 		
 		# get only area with the file-links (ignore samples and comments)
-		#website = re.compile('</table></span>(.+?)<a href="http://www.irfree.com/premium-member/"',re.DOTALL).findall( website )[0]
-		website = re.compile('Type The Password(.+?)Tags: ',re.DOTALL).findall( website )[0]
-		
+		website = self._executeRE('</table></span>(.+?)<a href="http://www.irfree.com/premium-member/"', full_website)
+		if (website == None):
+			website = self._executeRE('Type The Password(.+?)Tags: ', full_website)
+		if (website == None):
+			website = self._executeRE('Download:(.+?)Tags: ', full_website)
+		if (website == None):
+			# not possible to extract link section, use the whole website for scraping
+			website = full_website
+			
 		if (result == 200):
 			file_links = self._scrapeFilehosterLinks( website, int(self.__addon__.getSetting( "filehoster" )) )
 			if ( len(file_links) == 0):
@@ -234,3 +240,10 @@ class IRFreeCore(object):
 				file_links.append(scraped_link[0])
 		
 		return file_links
+	
+	def _executeRE(self, regexp, content):
+		result = re.compile(regexp,re.DOTALL).findall( content )
+		if ( len(result)>=1 ):
+			return result[0]
+		else:
+			return None
