@@ -1,4 +1,4 @@
-import sys, urllib, urllib2, re, pickle, html2text
+import sys, urllib, urllib2, re, pickle, html2text, time
 # ERRORCODES:
 # 200 = OK
 # 303 = See other (returned an error message)
@@ -21,6 +21,8 @@ class IRFreeCore(object):
 	# 
 	#===============================================================================
 	
+	last_fetch = 0
+
 	def __init__(self):
 		return None
 	
@@ -150,6 +152,11 @@ class IRFreeCore(object):
 			print self.__plugin__ + " _fetchWebsite: " + repr(link)
 		website = ""
 
+		# prevent dos attack ;), wait at least 500 milliseconds between every fetch
+		# otherwise more than 20 posts per page doesn't work
+		while (self.last_fetch+0.5>time.time()):
+			time.sleep(0.1)
+	
 		url = urllib2.Request(link)
 		url.add_header('User-Agent', self.USERAGENT)
 		try:
@@ -159,6 +166,8 @@ class IRFreeCore(object):
 				print self.__plugin__ + " _fetchWebsite result: " + repr(website)
 			con.close()
 			
+			self.last_fetch = time.time()
+	
 			if self.__dbg__:
 				print self.__plugin__ + " _fetchWebsite done"
 			return ( website, 200 )
