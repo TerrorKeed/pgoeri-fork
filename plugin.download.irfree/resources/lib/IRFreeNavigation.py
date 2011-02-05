@@ -5,11 +5,11 @@ import IRFreeCore
 core = IRFreeCore.IRFreeCore();
 	
 class IRFreeNavigation:	 
-	__addon__	 = sys.modules[ "__main__" ].__addon__
-	__language__	 = sys.modules[ "__main__" ].__language__
-	__plugin__	 = sys.modules[ "__main__"].__plugin__
-	__dbg__		 = sys.modules[ "__main__" ].__dbg__
-	__JDaddonID__	 = sys.modules[ "__main__" ].__JDaddonID__
+	__addon__		= sys.modules[ "__main__" ].__addon__
+	__language__	= sys.modules[ "__main__" ].__language__
+	__plugin__		= sys.modules[ "__main__"].__plugin__
+	__dbg__			= sys.modules[ "__main__" ].__dbg__
+	__JDaddonID__	= sys.modules[ "__main__" ].__JDaddonID__
 	
 	plugin_thumbnail_path = os.path.join( __addon__.getAddonInfo('path'), "thumbnails" )
 
@@ -19,36 +19,36 @@ class IRFreeNavigation:
 	feeds = {};
 	feeds['all']			= "http://www.irfree.com"
 	feeds['apps']			= "http://www.irfree.com/category/apps"
-	feeds['ebooks']		= "http://www.irfree.com/category/e-books"
+	feeds['ebooks']			= "http://www.irfree.com/category/e-books"
 	feeds['magazines']		= "http://www.irfree.com/category/e-books/magazines"
-	feeds['games']		= "http://www.irfree.com/category/gamez"
+	feeds['games']			= "http://www.irfree.com/category/gamez"
 	feeds['congames']		= "http://www.irfree.com/category/gamez/console-games"
 	feeds['ps2']			= "http://www.irfree.com/category/gamez/console-games/ps2"
 	feeds['ps3']			= "http://www.irfree.com/category/gamez/console-games/ps3"
 	feeds['psp']			= "http://www.irfree.com/category/gamez/console-games/psp"
 	feeds['wii']			= "http://www.irfree.com/category/gamez/console-games/wii-console-games"
 	feeds['xbox360']		= "http://www.irfree.com/category/gamez/console-games/xbox360"
-	feeds['iphone']		= "http://www.irfree.com/category/iphoneiopd-apps-games"
-	feeds['movies']		= "http://www.irfree.com/category/moviez"
-	feeds['anime']		= "http://www.irfree.com/category/moviez/anime"
+	feeds['iphone']			= "http://www.irfree.com/category/iphoneiopd-apps-games"
+	feeds['movies']			= "http://www.irfree.com/category/moviez"
+	feeds['anime']			= "http://www.irfree.com/category/moviez/anime"
 	feeds['dvdr']			= "http://www.irfree.com/category/moviez/dvd-r"
-	feeds['hdrip']		= "http://www.irfree.com/category/moviez/hdrip"
-	feeds['music']		= "http://www.irfree.com/category/music"
+	feeds['hdrip']			= "http://www.irfree.com/category/moviez/hdrip"
+	feeds['music']			= "http://www.irfree.com/category/music"
 	feeds['musicvideos']	= "http://www.irfree.com/category/music/music-videos"
 	#feeds['off-topic']		= "http://www.irfree.com/category/off-topic" news, announcements, no downloads
-	feeds['other']		= "http://www.irfree.com/category/other"
-	feeds['retro']		= "http://www.irfree.com/category/retro"
+	feeds['other']			= "http://www.irfree.com/category/other"
+	feeds['retro']			= "http://www.irfree.com/category/retro"
 	feeds['templates']		= "http://www.irfree.com/category/templates"
 	feeds['tutorials']		= "http://www.irfree.com/category/tutorials"
 	feeds['tvshows']		= "http://www.irfree.com/category/tv-shows"
 	feeds['boxsets']		= "http://www.irfree.com/category/tv-shows/tv-showsboxsets"
 	feeds['vectors']		= "http://www.irfree.com/category/vectors"
-	feeds['wallpapers']	= "http://www.irfree.com/category/wallpapers"
+	feeds['wallpapers']		= "http://www.irfree.com/category/wallpapers"
 
 	# we fill the list with menuitems, with labels from the appropriate language file
 	#				label						,path						, thumbnail					feed
 	menuitems = (
-		{'label':__language__( 30001 )	,'path':"/root/all"			, 'thumbnail':"all"			, 'feed':"all" },
+		{'label':__language__( 30001 )	,'path':"/root/all"				, 'thumbnail':"all"				, 'feed':"all" },
 		# main categories
 		{'label':__language__( 30002 )	,'path':"/root/tvshows"			, 'thumbnail':"tvshows"			, 'feed':"" },
 		{'label':__language__( 30001 )	,'path':"/root/tvshows/all"		, 'thumbnail':"tvshows"			, 'feed':"tvshows" },

@@ -5,11 +5,11 @@ import sys, urllib, urllib2, re, pickle, html2text, time, xbmcgui
 # 500 = uncaught error
 
 class IRFreeCore(object):
-	__addon__ = sys.modules[ "__main__" ].__addon__
-	__language__ = sys.modules[ "__main__" ].__language__
-	__plugin__ = sys.modules[ "__main__" ].__plugin__
-	__dbg__ = sys.modules[ "__main__" ].__dbg__
-	__dbgv__ = False
+	__addon__		= sys.modules[ "__main__" ].__addon__
+	__language__	= sys.modules[ "__main__" ].__language__
+	__plugin__		= sys.modules[ "__main__" ].__plugin__
+	__dbg__			= sys.modules[ "__main__" ].__dbg__
+	__dbgv__		= False
 	
 	USERAGENT = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8"
 
