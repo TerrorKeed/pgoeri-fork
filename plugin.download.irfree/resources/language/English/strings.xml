@@ -72,6 +72,8 @@
     <string id="30603">Couldn't scrape IRFree.com</string>
     <string id="30604">Couldn't scrape any filehoster links</string>
     
+    <string id="30700">Fetch posts...</string>
+    
     <string id="30800">Added %d link(s) to JDownloader</string>
     <string id="30801">Add Links</string>
     <string id="30802">JD Info</string>

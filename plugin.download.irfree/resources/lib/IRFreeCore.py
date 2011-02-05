@@ -1,4 +1,4 @@
-import sys, urllib, urllib2, re, pickle, html2text, time
+import sys, urllib, urllib2, re, pickle, html2text, time, xbmcgui
 # ERRORCODES:
 # 200 = OK
 # 303 = See other (returned an error message)
@@ -30,7 +30,7 @@ class IRFreeCore(object):
 		if self.__dbg__:
 			print self.__plugin__ + " scrapePosts: " + repr(link) + " - page: " + repr(page)
 		
-		page_cnt = ( 1, 2, 3, 4, 5 )[ int( self.__addon__.getSetting( "perpage" ) ) ]
+		page_cnt = int(self.__addon__.getSetting( "perpage" )) + 1
 		
 		from_page = page_cnt * page + 1
 		to_page = from_page + page_cnt - 1
@@ -192,19 +192,31 @@ class IRFreeCore(object):
 		website = ""
 		posts = [ ]
 		result = 200
+		page_cnt = to_page - from_page + 1
 		
+		pDialog = xbmcgui.DialogProgress()
+		pDialog.create("IRFree.com",self.__language__(30700))
+		pDialog.update(0)
 		for page in range ( from_page, to_page+1 ):
+			if pDialog.iscanceled():
+				break
+			
 			( pagecontent, result) = self._fetchWebsite(link+"/page/"+str(page))
 			if ( result != 200):
-				break;
+				break
 			
 			website += pagecontent
+			
+			perc = (page-from_page+1)*100/page_cnt
+			pDialog.update(int(perc))
 			
 			# check if there are still more pages after this
 			if (re.compile('class="nextpostslink"').search(pagecontent) == None ):
 				# abort, if this was the last page
 				next = False
 				break
+		
+		pDialog.close()
 		
 		if ( result == 200 ):
 			# 1: url
