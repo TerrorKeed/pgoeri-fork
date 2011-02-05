@@ -9,7 +9,7 @@
     <string id="30004">Movies</string>
     <string id="30005">Anime</string>
     <string id="30006">DVD-R</string>
-    <string id="30007">HD-Rips</string>
+    <string id="30007">BDrip/BBrip</string>
     
     <string id="30008">Music</string>
     <string id="30009">Musicvideos</string>
@@ -25,7 +25,14 @@
     <string id="30017">E-Books</string>
     <string id="30018">Magazines</string>
     
-    <string id="30019">Apps</string>
+    <string id="30019">Applications</string>
+    
+    <string id="30020">x264</string>
+    <string id="30021">CAM</string>
+    <string id="30022">DVDRIP</string>
+    <string id="30023">DVDSCR</string>
+    <string id="30024">R5</string>
+    <string id="30025">Telesync</string>
     
     <!-- miscellaneous -->
     <string id="30031">Miscellaneous</string>

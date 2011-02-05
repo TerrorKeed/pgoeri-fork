@@ -18,46 +18,60 @@ class IRFreeNavigation:
 	#===============================================================================
 	feeds = {};
 	feeds['all']			= "http://www.irfree.com"
-	feeds['apps']			= "http://www.irfree.com/category/apps"
-	feeds['ebooks']			= "http://www.irfree.com/category/e-books"
-	feeds['magazines']		= "http://www.irfree.com/category/e-books/magazines"
-	feeds['games']			= "http://www.irfree.com/category/gamez"
-	feeds['congames']		= "http://www.irfree.com/category/gamez/console-games"
-	feeds['ps2']			= "http://www.irfree.com/category/gamez/console-games/ps2"
-	feeds['ps3']			= "http://www.irfree.com/category/gamez/console-games/ps3"
-	feeds['psp']			= "http://www.irfree.com/category/gamez/console-games/psp"
-	feeds['wii']			= "http://www.irfree.com/category/gamez/console-games/wii-console-games"
-	feeds['xbox360']		= "http://www.irfree.com/category/gamez/console-games/xbox360"
-	feeds['iphone']			= "http://www.irfree.com/category/iphoneiopd-apps-games"
-	feeds['movies']			= "http://www.irfree.com/category/moviez"
-	feeds['anime']			= "http://www.irfree.com/category/moviez/anime"
-	feeds['dvdr']			= "http://www.irfree.com/category/moviez/dvd-r"
-	feeds['hdrip']			= "http://www.irfree.com/category/moviez/hdrip"
-	feeds['music']			= "http://www.irfree.com/category/music"
-	feeds['musicvideos']	= "http://www.irfree.com/category/music/music-videos"
-	#feeds['off-topic']		= "http://www.irfree.com/category/off-topic" news, announcements, no downloads
-	feeds['other']			= "http://www.irfree.com/category/other"
-	feeds['retro']			= "http://www.irfree.com/category/retro"
-	feeds['templates']		= "http://www.irfree.com/category/templates"
-	feeds['tutorials']		= "http://www.irfree.com/category/tutorials"
-	feeds['tvshows']		= "http://www.irfree.com/category/tv-shows"
-	feeds['boxsets']		= "http://www.irfree.com/category/tv-shows/tv-showsboxsets"
-	feeds['vectors']		= "http://www.irfree.com/category/vectors"
-	feeds['wallpapers']		= "http://www.irfree.com/category/wallpapers"
+	feeds['apps']			= "http://www.irfree.com/applications/"
+	feeds['ebooks']			= "http://www.irfree.com/e-books"
+	feeds['magazines']		= "http://www.irfree.com/e-books/magazines"
+	feeds['games']			= "http://www.irfree.com/gamez"
+	feeds['congames']		= "http://www.irfree.com/gamez/console-games"
+	feeds['ps2']			= "http://www.irfree.com/gamez/console-games/ps2"
+	feeds['ps3']			= "http://www.irfree.com/gamez/console-games/ps3"
+	feeds['psp']			= "http://www.irfree.com/gamez/console-games/psp"
+	feeds['wii']			= "http://www.irfree.com/gamez/console-games/wii-console-games"
+	feeds['xbox360']		= "http://www.irfree.com/gamez/console-games/xbox360"
+	feeds['iphone']			= "http://www.irfree.com/iphoneiopd-apps-games"
+	feeds['movies']			= "http://www.irfree.com/moviez"
+	feeds['anime']			= "http://www.irfree.com/moviez/anime"
+	feeds['hdrip']			= "http://www.irfree.com/moviez/bdripbbrip"
+	feeds['cam']			= "http://www.irfree.com/moviez/cam"
+	feeds['dvdr']			= "http://www.irfree.com/moviez/dvd-r"
+	feeds['dvdrip']			= "http://www.irfree.com/moviez/dvdrip-moviez"
+	feeds['dvdscr']			= "http://www.irfree.com/moviez/dvdscr"
+	feeds['x264']			= "http://www.irfree.com/moviez/moviesx264"
+	feeds['r5']				= "http://www.irfree.com/moviez/r5"
+	feeds['ts']				= "http://www.irfree.com/moviez/telesyncts"
+	feeds['music']			= "http://www.irfree.com/music"
+	feeds['musicvideos']	= "http://www.irfree.com/music/music-videos"
+	#feeds['off-topic']		= "http://www.irfree.com/off-topic" news, announcements, no downloads
+	feeds['other']			= "http://www.irfree.com/other"
+	feeds['retro']			= "http://www.irfree.com/retro"
+	feeds['templates']		= "http://www.irfree.com/templates"
+	feeds['tutorials']		= "http://www.irfree.com/tutorials"
+	feeds['tvshows']		= "http://www.irfree.com/tv-shows"
+	feeds['tv_x264']		= "http://www.irfree.com/tv-shows/tv-showx264"
+	feeds['boxsets']		= "http://www.irfree.com/tv-shows/tv-showsboxsets"
+	feeds['vectors']		= "http://www.irfree.com/vectors"
+	feeds['wallpapers']		= "http://www.irfree.com/wallpapers"
 
 	# we fill the list with menuitems, with labels from the appropriate language file
-	#				label						,path						, thumbnail					feed
+	#	label							,path							, thumbnail						feed
 	menuitems = (
 		{'label':__language__( 30001 )	,'path':"/root/all"				, 'thumbnail':"all"				, 'feed':"all" },
 		# main categories
 		{'label':__language__( 30002 )	,'path':"/root/tvshows"			, 'thumbnail':"tvshows"			, 'feed':"" },
 		{'label':__language__( 30001 )	,'path':"/root/tvshows/all"		, 'thumbnail':"tvshows"			, 'feed':"tvshows" },
+		{'label':__language__( 30020 )	,'path':"/root/tvshows/x264"	, 'thumbnail':"tvshows"			, 'feed':"tv_x264" },
 		{'label':__language__( 30003 )	,'path':"/root/tvshows/boxsets"	, 'thumbnail':"tvshows"			, 'feed':"boxsets" },
 		{'label':__language__( 30004 )	,'path':"/root/movies"			, 'thumbnail':"movies"			, 'feed':"" },
 		{'label':__language__( 30001 )	,'path':"/root/movies/all"		, 'thumbnail':"movies"			, 'feed':"movies" },
 		{'label':__language__( 30005 )	,'path':"/root/movies/anime"	, 'thumbnail':"movies"			, 'feed':"anime" },
-		{'label':__language__( 30006 )	,'path':"/root/movies/dvdr"		, 'thumbnail':"movies"			, 'feed':"dvdr" },
 		{'label':__language__( 30007 )	,'path':"/root/movies/hdrip"	, 'thumbnail':"movies"			, 'feed':"hdrip" },
+		{'label':__language__( 30021 )	,'path':"/root/movies/cam"		, 'thumbnail':"movies"			, 'feed':"cam" },
+		{'label':__language__( 30006 )	,'path':"/root/movies/dvdr"		, 'thumbnail':"movies"			, 'feed':"dvdr" },
+		{'label':__language__( 30022 )	,'path':"/root/movies/dvdrip"	, 'thumbnail':"movies"			, 'feed':"dvdrip" },
+		{'label':__language__( 30023 )	,'path':"/root/movies/dvdrscr"	, 'thumbnail':"movies"			, 'feed':"dvdscr" },
+		{'label':__language__( 30020 )	,'path':"/root/movies/x246"		, 'thumbnail':"movies"			, 'feed':"x264" },
+		{'label':__language__( 30024 )	,'path':"/root/movies/r5"		, 'thumbnail':"movies"			, 'feed':"r5" },
+		{'label':__language__( 30025 )	,'path':"/root/movies/ts"		, 'thumbnail':"movies"			, 'feed':"ts" },
 		{'label':__language__( 30008 )	,'path':"/root/music"			, 'thumbnail':"music"			, 'feed':"" },
 		{'label':__language__( 30001 )	,'path':"/root/music/all"		, 'thumbnail':"music"			, 'feed':"music" },
 		{'label':__language__( 30009 )	,'path':"/root/music/mvideos"	, 'thumbnail':"music"			, 'feed':"musicvideos" },
