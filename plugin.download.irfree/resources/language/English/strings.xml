@@ -60,6 +60,7 @@
     <string id="30315">Hide Apps</string>
     <string id="30316">Hide Miscellaneous</string>
     <string id="30317">Hide All</string>
+    <string id="30318">Hide Subcategories</string>
     <string id="30320">Notification length in seconds</string>
     <string id="30321">Set thumbnail view for videos in Confluence</string>
     <string id="30322">Debug</string>
@@ -75,7 +76,7 @@
     <!-- messages -->
     <string id="30600">Error</string>
     <string id="30601">Uncaught error:</string>
-    <string id="30602">Unkown error</string>
+    <string id="30602">Unknown error</string>
     <string id="30603">Couldn't scrape IRFree.com</string>
     <string id="30604">Couldn't scrape any filehoster links</string>
     

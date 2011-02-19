@@ -103,7 +103,7 @@ class IRFreeNavigation:
 	def listMenu(self, params = {}):
 		get = params.get
 
-		# if there is a link in feeds dictonary, this means this is a real category
+		# if there is a link in feeds dictionary, this means this is a real category
 		if ( get("feed") in self.feeds):
 			self.listCategoryFolder(params)
 			return
@@ -111,6 +111,15 @@ class IRFreeNavigation:
 		# otherwhise it has to be the root or some meta directory
 		path = get("path", "/root")
 		
+		# hide subcategories, open 'all' immediatly
+		if ( path!="/root" and self.__addon__.getSetting("subcat") == "true" ):
+			# search for subcategory 'all'
+			for menuitem in self.menuitems:
+				if ( menuitem.get("path") == (path+"/all") ):
+					# the following function expects a dictionary with the keys: feed & path -> so just use the menuitem
+					self.listCategoryFolder(menuitem)
+					return
+			
 		# add all items that belong to this path (root or meta directory)
 		for menuitem in self.menuitems:
 			item_get = menuitem.get 
@@ -364,7 +373,7 @@ class IRFreeNavigation:
 			title = self.__language__(30600)
 		if result == "":
 			result = self.__language__(30602)
-			
+		
 		if ( status == 303):
 			self.showMessage(title, result)
 		elif ( status == 500):

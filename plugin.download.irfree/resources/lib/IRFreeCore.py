@@ -35,9 +35,9 @@ class IRFreeCore(object):
 		from_page = page_cnt * page + 1
 		to_page = from_page + page_cnt - 1
 		
-		( posts, next, result) = self._scrapePosts( link,from_page,to_page )
+		( posts, next, result_str, result) = self._scrapePosts( link,from_page,to_page )
 		if (result != 200):
-			return ( posts, result )
+			return ( result_str, result )
 		
 		objects = []
 		for post in posts:
@@ -55,7 +55,7 @@ class IRFreeCore(object):
 		if self.__dbg__:
 			print self.__plugin__ + " scrapeFilehosterLinks: " + repr(link)
 
-		( full_website, result) = self._fetchWebsite(link)
+		( full_website, result_str, result) = self._fetchWebsite(link)
 		
 		# get only area with the file-links (ignore samples and comments)
 		website = self._executeRE('</table></span>(.+?)<a href="http://www.irfree.com/premium-member/"', full_website)
@@ -77,7 +77,7 @@ class IRFreeCore(object):
 			if ( len(file_links) == 0):
 				return (self.__language__(30604), 303)
 		else:
-			return ( [ ], result )
+			return ( result_str , result )
 		
 		if self.__dbg__:
 			print self.__plugin__ + " scrapeFilehosterLinks done: " + str(file_links)
@@ -147,14 +147,14 @@ class IRFreeCore(object):
 				
 			return ( dict(), 500 )
 
-	def _fetchWebsite(self, link):
+	def _fetchWebsite(self, link, recursion_cnt=0):
 		if self.__dbg__:
 			print self.__plugin__ + " _fetchWebsite: " + repr(link)
 		website = ""
 
-		# prevent dos attack ;), wait at least 500 milliseconds between every fetch
+		# prevent dos attack ;), wait at least 400 milliseconds between every fetch
 		# otherwise more than 20 posts per page doesn't work
-		while (self.last_fetch+0.5>time.time()):
+		while (self.last_fetch+0.4>time.time()):
 			time.sleep(0.1)
 	
 		url = urllib2.Request(link)
@@ -170,11 +170,19 @@ class IRFreeCore(object):
 	
 			if self.__dbg__:
 				print self.__plugin__ + " _fetchWebsite done"
-			return ( website, 200 )
-		except urllib2.HTTPError, e:
+			return ( website, "", 200 )
+		except (urllib2.HTTPError, urllib2.URLError), e:
+			# retry access via recursion for a maximum of 20 tries (prevent endless loop)
+			if (isinstance(e,urllib2.URLError) and e.reason[0]==111 and recursion_cnt<20):
+				# irfree.com refused connection due to too short access intervals
+				# access will be refused for about 1 sec
+				time.sleep(0.5)
+				if self.__dbg__:
+					print self.__plugin__ + " _fetchWebsite : access denied, sleep and try again in 500ms"
+				return self._fetchWebsite(link,recursion_cnt+1)
 			if self.__dbg__:
 				print self.__plugin__ + " _fetchWebsite exception: " + str(e)
-			return ( self.__language__(30603), "303" )
+			return ( "", self.__language__(30603), 303 )
 		except:
 			if self.__dbg__:
 				print self.__plugin__ + " _fetchWebsite uncaught exception"
@@ -182,7 +190,7 @@ class IRFreeCore(object):
 								   , sys.exc_info()[2].tb_frame.f_code.co_name, sys.exc_info()[2].tb_lineno, sys.exc_info()[1])
 				print self.__plugin__ + " _fetchWebsite result: " + repr(website)
 			
-			return ( "", 500 )
+			return ( "", "", 500 )
 
 	def _scrapePosts( self, link, from_page, to_page ):
 		if self.__dbg__:
@@ -191,6 +199,7 @@ class IRFreeCore(object):
 		next = True
 		website = ""
 		posts = [ ]
+		result_str = ""
 		result = 200
 		page_cnt = to_page - from_page + 1
 		
@@ -201,7 +210,7 @@ class IRFreeCore(object):
 			if pDialog.iscanceled():
 				break
 			
-			( pagecontent, result) = self._fetchWebsite(link+"/page/"+str(page))
+			( pagecontent, result_str, result) = self._fetchWebsite(link+"/page/"+str(page))
 			if ( result != 200):
 				break
 			
@@ -230,7 +239,7 @@ class IRFreeCore(object):
 		else:
 			posts = [ ]
 
-		return ( posts, next, result)
+		return ( posts, next, result_str, result)
 
 	def _scrapeFilehosterLinks( self, website, filehoster ):
 		if (filehoster == 0):
