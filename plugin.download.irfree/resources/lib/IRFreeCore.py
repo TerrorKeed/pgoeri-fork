@@ -83,6 +83,13 @@ class IRFreeCore(object):
 			print self.__plugin__ + " scrapeFilehosterLinks done: " + str(file_links)
 		return ( file_links, 200 )
 
+	#=================================== Testing ======================================= 
+	def testLinks(self, links):
+		for link in links:
+			( pagecontent, result_str, result) = self._fetchWebsite(link)
+			if ( result != 200):
+				print self.__plugin__ + " ERROR: " + link
+			
 
 	#===============================================================================
 	#
@@ -173,13 +180,14 @@ class IRFreeCore(object):
 			return ( website, "", 200 )
 		except (urllib2.HTTPError, urllib2.URLError), e:
 			# retry access via recursion for a maximum of 20 tries (prevent endless loop)
-			if (isinstance(e,urllib2.URLError) and e.reason[0]==111 and recursion_cnt<20):
-				# irfree.com refused connection due to too short access intervals
-				# access will be refused for about 1 sec
-				time.sleep(0.5)
-				if self.__dbg__:
-					print self.__plugin__ + " _fetchWebsite : access denied, sleep and try again in 500ms"
-				return self._fetchWebsite(link,recursion_cnt+1)
+			if (isinstance(e,urllib2.URLError) and not isinstance(e,urllib2.HTTPError)):
+				if (e.reason[0]==111 and recursion_cnt<20):
+					# irfree.com refused connection due to too short access intervals
+					# access will be refused for about 1 sec
+					time.sleep(0.5)
+					if self.__dbg__:
+						print self.__plugin__ + " _fetchWebsite : access denied, sleep and try again in 500ms"
+					return self._fetchWebsite(link,recursion_cnt+1)
 			if self.__dbg__:
 				print self.__plugin__ + " _fetchWebsite exception: " + str(e)
 			return ( "", self.__language__(30603), 303 )
