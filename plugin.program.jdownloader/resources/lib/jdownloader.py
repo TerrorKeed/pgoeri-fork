@@ -55,12 +55,6 @@ BASE_RESOURCE_PATH = xbmc.translatePath( Addon.getAddonInfo( "Profile" ) )
 try: os.mkdir(BASE_RESOURCE_PATH)
 except: pass
 
-# load settings
-ip_adress = str(Addon.getSetting("ip_adress"))
-ip_port = str(Addon.getSetting("ip_port"))
-
-urlPrefix = 'http://' + ip_adress + ':' + ip_port
-
 class JDError(Exception):
 	 def __init__(self, message='', original=None):
 		  Exception.__init__(self, message)
@@ -74,7 +68,7 @@ class JDError(Exception):
 		  else:
 			return self.message
 
-def _http_query(query):
+def _http_query_with_urlprefix(query,urlPrefix):
 	request = urlPrefix+query
 	request_count = 0
 	while True:
@@ -95,6 +89,32 @@ def _http_query(query):
 		request_count = request_count + 1
 	result = response.read()
 	response.close()
+	return result
+
+
+def _get_urlprefix(setting_suffix):
+	# load settings
+	ip_adress = str(Addon.getSetting("ip_adress"+setting_suffix))
+	ip_port = str(Addon.getSetting("ip_port"+setting_suffix))
+	use_hostname = Addon.getSetting("use_hostname"+setting_suffix) == "true"
+	hostname = str(Addon.getSetting("hostname"+setting_suffix))
+	
+	if (use_hostname):
+		urlPrefix = 'http://' + hostname + ':' + ip_port
+	else:
+		urlPrefix = 'http://' + ip_adress + ':' + ip_port
+	
+	return urlPrefix
+
+def _http_query(query):
+	try:
+		result = _http_query_with_urlprefix(query, _get_urlprefix(""))
+	except JDError, error:
+		use_conn2 = Addon.getSetting("use_conn2") == "true"
+		if (use_conn2):
+			result = _http_query_with_urlprefix(query, _get_urlprefix("2"))
+		else:
+			raise error
 	return result
 
 # Get Info #
@@ -193,7 +213,7 @@ def action_addcontainer(link):
 	# add link
 	# Parameter 'start' is not supported with rc-version 9568!
 	#_http_query('/action/add/container/grabber' + str(grabber) + '/start' + str(start) + '/' + str(link))
-	result = _http_query('/action/add/container/grabber' + str(grabber) + '/' + str(urllib.quote(link)))
+	result = _http_query('/action/add/container/grabber' + str(grabber) + '/' + str(link))
 	return result
 
 # Links seperated by spaces, won't work, call this functions for each link seperatly
@@ -202,7 +222,7 @@ def action_addlink(link):
 	grabber = Addon.getSetting("add_use_grabber")
 	start = Addon.getSetting("add_start")
 	# add link
-	result = _http_query('/action/add/links/grabber' + str(grabber) + '/start' + str(start) + '/' + str(urllib.quote(link)))
+	result = _http_query('/action/add/links/grabber' + str(grabber) + '/start' + str(start) + '/' + str(link))
 	return result
 
 def action_addlinks_from_file(filename):
