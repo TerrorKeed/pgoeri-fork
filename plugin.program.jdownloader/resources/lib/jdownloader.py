@@ -7,6 +7,9 @@ from traceback import print_exc
 import xbmc,xbmcaddon
 import sys
 
+__dbg__				= sys.modules[ "__main__" ].__dbg__
+__logprefix__		= sys.modules[ "__main__" ].__logprefix__
+
 #defines
 GET_SPEED			= "downloadspeed"
 GET_SPEEDLIMIT		= "speedlimit"
@@ -14,38 +17,38 @@ GET_STATUS			= "status"
 GET_CURRENTFILECNT	= "currentfilecount"
 
 STATE_RUNNING		= "RUNNING"
-STATE_NOTRUNNING		= "NOT_RUNNING"
+STATE_NOTRUNNING	= "NOT_RUNNING"
 STATE_STOPPING		= "STOPPING"
 
 ACTION_START			= "01 start"
-ACTION_STOP			= "02 stop"
+ACTION_STOP				= "02 stop"
 ACTION_PAUSE			= "03 pause"
-ACTION_TOGGLE		= "04 toggle"
+ACTION_TOGGLE			= "04 toggle"
 
 ACTION_SPEEDLIMIT		= "05 speed limit"
-ACTION_MAXDOWNLOADS	= "06 max downloads"
+ACTION_MAXDOWNLOADS		= "06 max downloads"
 
 ACTION_ADD_LINKS		= "07 add links"
-ACTION_ADD_DLC		= "08 add dlc"
+ACTION_ADD_DLC			= "08 add dlc"
 
 ACTION_RECONNECT		= "10 reconnect"
 
 ACTION_JD_UPDATE		= "20 update JDownloader"
 ACTION_JD_RESTART		= "21 restart JDownloader"
-ACTION_JD_SHUTDOWN	= "22 shutdown JDownloader"
+ACTION_JD_SHUTDOWN		= "22 shutdown JDownloader"
 
 ALL_ACTIONS = {
-	ACTION_START:				30060,
-	ACTION_STOP:				30061,
+	ACTION_START:			30060,
+	ACTION_STOP:			30061,
 	ACTION_PAUSE:			30062,
 	ACTION_TOGGLE:			30063,
-	ACTION_SPEEDLIMIT:			30064,
+	ACTION_SPEEDLIMIT:		30064,
 	ACTION_MAXDOWNLOADS:	30065,
-	ACTION_ADD_LINKS:			30069,
+	ACTION_ADD_LINKS:		30069,
 	ACTION_ADD_DLC:			30070,
 	ACTION_RECONNECT:		30071,
-	ACTION_JD_UPDATE:			30066,
-	ACTION_JD_RESTART:			30067,
+	ACTION_JD_UPDATE:		30066,
+	ACTION_JD_RESTART:		30067,
 	ACTION_JD_SHUTDOWN:		30068
 }
 
@@ -70,6 +73,8 @@ class JDError(Exception):
 
 def _http_query_with_urlprefix(query,urlPrefix):
 	request = urlPrefix+query
+	if __dbg__:
+		print __logprefix__ + "httpQuery: " + repr(request)
 	request_count = 0
 	while True:
 		error_data = ""
@@ -221,6 +226,10 @@ def action_addlink(link):
 	# get settings
 	grabber = Addon.getSetting("add_use_grabber")
 	start = Addon.getSetting("add_start")
+	# prepare link - quote special chars, e.g '?'
+	link = urllib.quote(link)
+	# restore double point (won't work atm)
+	link = link.replace( '%3A', ':' )
 	# add link
 	result = _http_query('/action/add/links/grabber' + str(grabber) + '/start' + str(start) + '/' + str(link))
 	return result

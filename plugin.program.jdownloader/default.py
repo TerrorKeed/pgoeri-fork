@@ -22,7 +22,9 @@ import urllib
 import time
 
 __addon__ = xbmcaddon.Addon(__addonID__)
-__language__ = __addon__.getLocalizedString
+__language__	= __addon__.getLocalizedString
+__dbg__			= __addon__.getSetting( "debug" ) == "true"
+__logprefix__	= "p.p.jd-"+__version__+": "
 
 BASE_RESOURCE_PATH = os.path.join( __addon__.getAddonInfo('path'), "resources" )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
@@ -113,8 +115,8 @@ try:
 	if "action" in params: mode=3
 except: pass
 
-print "Mode: "+str(mode)
-print "URL: "+str(url)
+if __dbg__:
+	print __logprefix__ + "MODE: " + str(mode) + " URL: " + str(url)
 
 #check connection
 try:
