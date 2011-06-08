@@ -238,7 +238,7 @@ class OneDDLCore(object):
 			return [ ]
 		
 		if self.__dbg__:
-			print self.__plugin__ + " _scrapeFilehosterLinksNow: filehoster: %s - hd: %s - 1click: %s" % (fh_label, getHD, get1Click)
+			print self.__plugin__ + " _scrapeFilehosterLinksNow: hd: %s - 1click: %s - filehoster: %s" % (getHD, get1Click, fh_label)
 			
 		if (getHD==True):
 			# assumption sd and hd version are always seperated by an hsep and sd is always above hd
