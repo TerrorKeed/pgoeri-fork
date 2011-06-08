@@ -187,6 +187,11 @@ class OneDDLNavigation:
 				self.showMessage(self.__language__(30803), e.message)
 	
 	#================================== List Item manipulation =========================================	
+	def addDefaultContextMenu(self, cm):
+		# always add 'addon settings' to context menu
+		cm.append( (self.__language__(30502), 'XBMC.RunPlugin(%s?&action=open_settings&)' % ( sys.argv[0] ) ) )
+		cm.append( (self.__language__(30503), 'XBMC.ActivateWindow(programs,plugin://%s/)' % (self.__JDaddonID__, ) ) )
+	
 	# is only used by List Menu
 	def addListItem(self, params = {}, item_params = {}):
 		get = params.get
@@ -221,9 +226,7 @@ class OneDDLNavigation:
 		if (item("page")):
 			url += "page=" + item("page") + "&"
 		
-		# always add 'addon settings' to context menu
-		cm.append( (self.__language__(30502), 'XBMC.RunPlugin(%s?path=%s&action=open_settings&)' % ( sys.argv[0], item("path" ) ) ) )
-		cm.append( (self.__language__(30503), 'XBMC.ActivateWindow(programs,plugin://%s/)' % (self.__JDaddonID__, ) ) )
+		self.addDefaultContextMenu(cm)
 
 		if len(cm) > 0:
 			listitem.addContextMenuItems( cm, replaceItems=True )
@@ -263,8 +266,8 @@ class OneDDLNavigation:
 		
 		# add 'video info' to context menu
 		cm.append( ( self.__language__( 30500 ), "XBMC.Action(Info)", ) )
-		# always add 'addon settings' to context menu
-		cm.append( (self.__language__(30502), 'XBMC.RunPlugin(%s?path=%s&action=open_settings&)' % ( sys.argv[0], item("path") ) ) )
+		
+		self.addDefaultContextMenu(cm)
 		
 		listitem.addContextMenuItems( cm, replaceItems=True )
 
