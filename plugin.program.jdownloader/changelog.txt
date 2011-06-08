@@ -1,3 +1,6 @@
+[B]Version 1.2.4[/B]
+    * Initial release for eden-pre
+
 [B]Version 1.0.4[/B]
     * Added new features: use hostname, use fall back connection
     * Fixed quoting problem
