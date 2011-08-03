@@ -44,7 +44,7 @@ class OneDDLCore(object):
 			objects.append(self._getPostInfo(post))
 		
 		# set next status of last scraped post
-		if (next == False):
+		if (len(objects)>0 and next == False):
 			objects[-1]['next'] = "false"
 		
 		if self.__dbg__:
@@ -196,7 +196,16 @@ class OneDDLCore(object):
 			if pDialog.iscanceled():
 				break
 			
-			( pagecontent, result_str, result) = self._fetchWebsite(link+"/page/"+str(page))
+			if ("/?s=" in link):
+				# special hack for the search result pages
+				if (page > 1):
+					page_link = link.replace("/?s=","/page/"+str(page)+"/?s=")
+				else:
+					page_link = link 
+			else:
+				page_link = link+"/page/"+str(page)
+			
+			( pagecontent, result_str, result) = self._fetchWebsite(page_link)
 			if ( result != 200):
 				break
 			

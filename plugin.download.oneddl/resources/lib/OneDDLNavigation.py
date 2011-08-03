@@ -56,6 +56,7 @@ class OneDDLNavigation:
 	feeds['tvdvdrip']		= "http://www.oneddl.com/category/tv-shows/tv-dvdrip"
 	feeds['uncat']			= "http://www.oneddl.com/category/uncategorized"
 	feeds['vodo']			= "http://www.oneddl.com/category/vodo"
+	feeds['search']			= "http://www.oneddl.com/?s="
 
 	# we fill the list with menuitems, with labels from the appropriate language file
 	#	label							,path							, thumbnail						feed
@@ -105,6 +106,8 @@ class OneDDLNavigation:
 		{'label':__language__( 30063 )	,'path':"/root/misc/trailers"	, 'thumbnail':"misc"			, 'feed':"trailers" },
 		{'label':__language__( 30064 )	,'path':"/root/misc/uncat"		, 'thumbnail':"misc"			, 'feed':"uncat" },
 		{'label':__language__( 30065 )	,'path':"/root/misc/vodo"		, 'thumbnail':"misc"			, 'feed':"vodo" },
+		# search
+		{'label':__language__( 30080 )	,'path':"/root/search"			, 'thumbnail':"search"			, 'feed':"search" },
 	)
 
 	#==================================== Main Entry Points===========================================
@@ -143,14 +146,31 @@ class OneDDLNavigation:
 		get = params.get
 		if (get("action") == "add_link"):
 			self.addLink(params)
-		if (get("action") == "open_settings"):
+		elif (get("action") == "open_settings"):
 			self.__addon__.openSettings()
 			xbmc.executebuiltin("XBMC.Container.Refresh")
 
 	def listCategoryFolder(self, params = {}):
 		get = params.get
 
-		( result, status ) = core.scrapePosts(self.feeds[get("feed")], int(get("page", "0")) )
+		feed = get("feed")
+		link = self.feeds[feed]
+		
+		# special handling for search
+		if (feed == "search"):
+			if (not get("searchstr")):
+				kb = xbmc.Keyboard();
+				kb.setHeading("Search...")
+				kb.doModal()
+				if (kb.isConfirmed()):
+					params["searchstr"] = kb.getText();
+				else:
+					return False
+				
+			if (get("searchstr")):
+				link += get("searchstr")
+		
+		( result, status ) = core.scrapePosts(link, int(get("page", "0")) )
 		if status != 200:
 			feed_label = ""
 			for menuitem in self.menuitems:
@@ -167,7 +187,7 @@ class OneDDLNavigation:
 			return False
 		
 		self.parsePostList(get("path"), params, result);
-
+	
 	#================================== Plugin Actions =========================================
 
 	def addLink(self, params = {}):
@@ -215,6 +235,8 @@ class OneDDLNavigation:
 			thumbnail = self.getThumbnail(item("thumbnail"))
 			
 		listitem=xbmcgui.ListItem( item("label"), iconImage=icon, thumbnailImage=thumbnail )
+		
+		# create plugin link for this folder item
 		url = '%s?path=%s&' % ( sys.argv[0], item("path") )
 		
 		if (item("action")):
@@ -226,6 +248,9 @@ class OneDDLNavigation:
 		if (item("page")):
 			url += "page=" + item("page") + "&"
 		
+		if (item("searchstr")):
+			url += "searchstr=" + item("searchstr") + "&"
+			
 		self.addDefaultContextMenu(cm)
 
 		if len(cm) > 0:
@@ -274,7 +299,7 @@ class OneDDLNavigation:
 		listitem.setInfo(type='Video', infoLabels=item_params)
 		
 		xbmcplugin.addDirectoryItem(handle=int(sys.argv[1]), url=url, listitem=listitem, isFolder=False, totalItems=listSize + 1)
-				   
+		
 	#==================================== Core Output Parsing Functions ===========================================
 
 	#parses a folder list consisting of a tuple of dictionaries
@@ -302,12 +327,15 @@ class OneDDLNavigation:
 			self.addFolderListItem( params, result_params, listSize + 1)
 			
 		if next:
+			# prepare a special map with values that are needed for a new folder item
 			item = {"path":get("path"), "label":self.__language__( 30501 ), "thumbnail":"next", "page":str(int(get("page", "0")) + 1)} 
 			if (get("feed")):
 				item["feed"] = get("feed")
 			if (get("action")):
 				item["action"] = get("action")
-								 
+			if (get("searchstr")):
+				item["searchstr"] = get("searchstr")
+			
 			self.addFolderListItem(params, item, listSize)
 		
 		xbmcplugin.endOfDirectory( handle=int( sys.argv[ 1 ] ), succeeded=True, cacheToDisc=False )
@@ -333,6 +361,8 @@ class OneDDLNavigation:
 				item["feed"] = get("feed")
 			if (get("action")):
 				item["action"] = get("action")
+			if (get("searchstr")):
+				item["searchstr"] = get("searchstr")
 			
 			self.addFolderListItem(params, item)
 		

@@ -46,7 +46,9 @@
     <string id="30063">Trailers</string>
     <string id="30064">Uncategorized</string>
     <string id="30065">Vodo</string>
-     
+    <!-- search -->
+    <string id="30080">Search</string>
+    
     <!-- Plugin settings strings -->
     <string id="30300">Prefered Filehoster</string>
     <string id="30301">Alternative Filehoster 1</string>
