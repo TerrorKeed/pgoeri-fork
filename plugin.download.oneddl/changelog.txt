@@ -1,5 +1,8 @@
-[B]Version 0.1.0[/B]
-    * Initial release
+[B]Version 0.2.0[/B]
+    * Refactoring (Using now the library DDLScraper)
 
 [B]Version 0.1.1[/B]
     * Added search function
+
+[B]Version 0.1.0[/B]
+    * Initial release

@@ -44,6 +44,7 @@ class IRFreeNavigation(DDLScraperNavigation):
 	feeds['boxsets']		= "http://www.irfree.com/category/tv-shows/tv-showsboxsets"
 	feeds['vectors']		= "http://www.irfree.com/category/vectors"
 	feeds['wallpapers']		= "http://www.irfree.com/category/wallpapers"
+	feeds['search']			= "http://www.irfree.com/?s="
 
 	# we fill the list with menuitems, with labels from the appropriate language file
 	#	label							,path							, thumbnail						feed
@@ -90,6 +91,8 @@ class IRFreeNavigation(DDLScraperNavigation):
 		{'label':__language__( 30036 )	,'path':"/root/misc/tutorials"	, 'thumbnail':"misc"			, 'feed':"tutorials" },
 		{'label':__language__( 30037 )	,'path':"/root/misc/vectors"	, 'thumbnail':"misc"			, 'feed':"vectors" },
 		{'label':__language__( 30038 )	,'path':"/root/misc/wallpapers"	, 'thumbnail':"misc"			, 'feed':"wallpapers" },
+		# search
+		{'label':__language__( 30080 )	,'path':"/root/search"			, 'thumbnail':"search"			, 'feed':"search" },
 	)
 	 
 	def __init__(self):

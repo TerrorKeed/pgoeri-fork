@@ -34,9 +34,11 @@ class IRFreeCore(DDLScraperCore):
 		# 3: img
 		# 4: description
 		if ( link == "http://www.irfree.com" ):
-			posts = re.compile('class="entry_header">.+?<a href="(.+?)".*?>(.+?)</a>.+?<img.+?src="(.+?)".+?\n(.+?)</div>',re.DOTALL).findall(website)
+			posts = re.compile('class="entry_header">.+?<a href="(.+?)".*?>(.+?)</a>.+?(?:<img.+?src="(.+?)".+?<p>|<p>)(.+?)</p>',re.DOTALL).findall(website)
+		elif ( "/?s=" in link ):
+			posts = re.compile('class="posts">.+?<a href="(.+?)".*?>(.+?)</a>.+?(?:<img.+?src="(.+?)".+?<p>|<p>)(.+?)</p>',re.DOTALL).findall(website)
 		else:
-			posts = re.compile('class="page-content">.+?<a href="(.+?)".+?>(.+?)</a>.+?<img.+?src="(.+?)".+?\n(.+?)</div>',re.DOTALL).findall(website)
+			posts = re.compile('class="page-content">.+?<a href="(.+?)".+?>(.+?)</a>.+?(?:<img.+?src="(.+?)".+?<p>|<p>)(.+?)</p>',re.DOTALL).findall(website)
 		return posts
 	
 	def _scrapeFilehosterLinksNow( self, website, filehoster ):
@@ -50,7 +52,7 @@ class IRFreeCore(DDLScraperCore):
 			return [ ]
 		
 		if self.__dbg__:
-			print self.__plugin__ + " _scrapeFilehosterLinks: starting with " + repr(url)
+			print self.__plugin__ + " _scrapeFilehosterLinksNow: starting with " + repr(url)
 			
 		scraped_links = re.compile('href="(%s.+?)"|>(OR)<|>(SUB)<' % url,re.DOTALL).findall(website);
 		

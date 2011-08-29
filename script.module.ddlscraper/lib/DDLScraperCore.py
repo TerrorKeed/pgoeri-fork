@@ -246,4 +246,13 @@ class DDLScraperCore(object):
 		return full_website
 	
 	def _preparePageLink(self, link, page):
-		return link+"/page/"+str(page)
+		if ("/?s=" in link):
+			# special hack for the search result pages
+			if (page > 1):
+				page_link = link.replace("/?s=","/page/"+str(page)+"/?s=")
+			else:
+				page_link = link 
+		else:
+			page_link = link+"/page/"+str(page)
+		return page_link
+	

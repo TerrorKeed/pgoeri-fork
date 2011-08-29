@@ -22,17 +22,6 @@ class OneDDLCore(DDLScraperCore):
 			website = full_website
 		return website
 	
-	def _preparePageLink(self, link, page):
-		if ("/?s=" in link):
-			# special hack for the search result pages
-			if (page > 1):
-				page_link = link.replace("/?s=","/page/"+str(page)+"/?s=")
-			else:
-				page_link = link 
-		else:
-			page_link = link+"/page/"+str(page)
-		return page_link
-	
 	def _extractPosts(self, link, website):
 		# 1: url
 		# 2: title

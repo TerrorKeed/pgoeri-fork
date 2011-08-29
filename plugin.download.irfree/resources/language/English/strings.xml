@@ -43,6 +43,8 @@
     <string id="30036">Tutorials</string>
     <string id="30037">Vectors</string>
     <string id="30038">Wallpapers</string>
+    <!-- search -->
+    <string id="30080">Search</string>
      
     <!-- Plugin settings strings -->
     <string id="30300">Prefered Filehoster</string>
