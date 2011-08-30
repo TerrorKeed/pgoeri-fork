@@ -10,8 +10,8 @@ class OneDDLNavigation(DDLScraperNavigation):
 	#===============================================================================
 	feeds = {};
 	feeds['all']			= "http://www.oneddl.com"
-	#feeds['1click']			= "http://www.oneddl.com/category/1-click/"
-	feeds['apps']			= "http://www.oneddl.com/category/apps/"
+	#feeds['1click']			= "http://www.oneddl.com/category/1-click"
+	feeds['apps']			= "http://www.oneddl.com/category/apps"
 	feeds['ebooks']			= "http://www.oneddl.com/category/ebooks"
 	feeds['comics']			= "http://www.oneddl.com/category/ebooks/comics"
 	feeds['games']			= "http://www.oneddl.com/category/games"

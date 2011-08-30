@@ -14,6 +14,9 @@ class DDLScraperNavigation:
 	def listMenu(self, params = {}):
 		get = params.get
 
+		# perform a selftest
+		#self.selfTest()
+		
 		# if there is a link in feeds dictionary, this means this is a real category
 		if ( get("feed") in self.feeds):
 			self.listCategoryFolder(params)
@@ -275,10 +278,11 @@ class DDLScraperNavigation:
 		xbmcplugin.endOfDirectory( handle=int( sys.argv[ 1 ] ), succeeded=True, cacheToDisc=True )
 		
 	#=================================== Testing ======================================= 
-	def testFeeds(self):
-		self._core.testLinks(self.feeds.values())
-			
-		
+	
+	def selfTest(self):
+		# test all category links (this takes a while)
+		self._core.selfTest(self.feeds.values())
+	
 	#=================================== Tool Box ======================================= 
 	# shows a more userfriendly notification
 	def showMessage(self, heading, message):

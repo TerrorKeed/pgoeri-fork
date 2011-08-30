@@ -6,6 +6,7 @@ class OneDDLCore(DDLScraperCore):
 	
 	def __init__(self):
 		self.__title__		= "OneDDL.com"
+		self.__url__		= "http://www.oneddl.com"
 		self.__nextpage__	= "class='page larger'"
 		
 	#===============================================================================
@@ -103,4 +104,26 @@ class OneDDLCore(DDLScraperCore):
 		if len(links)==0:
 			links = self._scrapeFilehosterLinksByQuality( website, not preferHD)
 		return links
+	
+	def _scrapeFilehoster( self, website):
+		# extract links
+		urls = re.compile('href="(http://.+?)/').findall(website);
+		
+		# extract strings
+		filehoster = re.compile('<p><strong>(.+?)</strong>').findall(website);
+		
+		return set(urls) | set(filehoster)
+	
+	def _getCategories(self):
+		categories = []
+		
+		( full_website, result_str, result) = self._fetchWebsite(self.__url__)
+		
+		if (result == 200):
+			# extract relevant part
+			website = self._executeRE('<div id="categories-3"(.+?)</div>', full_website)
+			
+			categories = re.compile('<a href="(.+?)"',re.DOTALL).findall(website)
+			
+		return categories
 	

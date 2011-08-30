@@ -27,9 +27,6 @@ if (__name__ == "__main__" ):
 	navigator = navigation.IRFreeNavigation()
 	
 	if (not sys.argv[2]):
-		# test all category links (this takes a while)
-		#navigator.testFeeds()
-			
 		navigator.listMenu()
 	else:
 		params = navigator.getParameters(sys.argv[2])

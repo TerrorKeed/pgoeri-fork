@@ -5,6 +5,7 @@ class IRFreeCore(DDLScraperCore):
 	
 	def __init__(self):
 		self.__title__		= "IRFree.com"
+		self.__url__		= "http://www.irfree.com"
 		self.__nextpage__	= 'class="nextpostslink"'
 		# prevent dos attack ;), wait at least 400 milliseconds between every fetch
 		# otherwise more than 20 posts per page doesn't work
@@ -23,6 +24,8 @@ class IRFreeCore(DDLScraperCore):
 			website = self._executeRE('Type The Password(.+?)Tags: ', full_website)
 		if (website == None):
 			website = self._executeRE('Download:(.+?)Tags: ', full_website)
+		if (website == None):
+			website = self._executeRE('Download:(.+?)<p class="postmetacat"', full_website)
 		if (website == None):
 			# not possible to extract link section, use the whole website for scraping
 			website = full_website
@@ -79,4 +82,23 @@ class IRFreeCore(DDLScraperCore):
 				file_links = self._scrapeFilehosterLinksNow( website, (alt_filehoster-1) )
 		
 		return file_links
+	
+	def _scrapeFilehoster( self, website):
+		# extract links
+		urls = re.compile('href="(http://.+?)/').findall(website);
+		
+		return set(urls)
+	
+	def _getCategories(self):
+		categories = []
+		
+		( full_website, result_str, result) = self._fetchWebsite(self.__url__)
+		
+		if (result == 200):
+			# extract relevant part
+			website = self._executeRE('<li id="categories"(.+?)<li id="archives"', full_website)
+			
+			categories = re.compile('<a href="(.+?)"',re.DOTALL).findall(website)
+			
+		return categories
 	

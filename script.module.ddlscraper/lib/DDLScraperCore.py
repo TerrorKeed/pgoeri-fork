@@ -1,4 +1,5 @@
 import sys, urllib, urllib2, re, pickle, html2text, time, xbmcgui
+from operator import itemgetter
 # ERRORCODES:
 # 200 = OK
 # 303 = See other (returned an error message)
@@ -10,7 +11,9 @@ class DDLScraperCore(object):
 	__plugin__		= sys.modules[ "__main__" ].__plugin__
 	__dbg__			= sys.modules[ "__main__" ].__dbg__
 	__dbgv__		= False
+	# the following members must be set in the child class
 	__title__		= ""
+	__url__			= ""
 	__nextpage__	= ""
 	__delay__		= 0.0
 	
@@ -75,13 +78,59 @@ class DDLScraperCore(object):
 		return ( links, 200 )
 
 	#=================================== Testing ======================================= 
-	def testLinks(self, links):
+	def _testLinks(self, links):
 		for link in links:
 			( pagecontent, result_str, result) = self._fetchWebsite(link)
 			if ( result != 200):
 				print self.__plugin__ + " ERROR: " + link
-			
+	
+	def _testSearchNewCategories(self, my_links):
+		all_links = self._getCategories()
+		
+		for link in all_links:
+			if (link.rstrip("/") not in my_links):
+				self._error("New categorie found: "+link)
 
+	def _testScrapeFileHoster(self, link ):
+		if self.__dbg__:
+			print self.__plugin__ + " scrapeFilehoster: " + repr(link)
+
+		( full_website, result_str, result) = self._fetchWebsite(link)
+		
+		# get only area with the file-links (ignore samples and comments)
+		website = self._trimPosts(full_website)
+			
+		if (result == 200):
+			filehoster = self._scrapeFilehoster(website)
+		
+		return filehoster
+	
+	def _testSearchAllFileHoster(self):
+		all_filehoster = {}
+		( posts, next, result_str, result) = self._scrapePosts( self.__url__, 0, 4 )
+		if (result == 200):
+			for post in posts:
+				filehoster = self._testScrapeFileHoster(post[0])
+				for fh in filehoster:
+					if fh in all_filehoster:
+						all_filehoster[fh] = all_filehoster[fh] + 1
+					else:
+						all_filehoster[fh] = 1
+		# print results
+		sorted_fh = sorted(all_filehoster.iteritems(), key=itemgetter(1), reverse=True)
+		print sorted_fh
+		self._log("All filehoster:\n"+str("\n".join([str(fh[1]).ljust(3)+": "+fh[0] for fh in sorted_fh])))
+	
+	def selfTest(self, feeds):
+		# test all category links (this takes a while)
+		self._testLinks(feeds)
+		
+		# search for new category links
+		self._testSearchNewCategories(feeds)
+		
+		# search for all available file hoster
+		self._testSearchAllFileHoster()
+	
 	#===============================================================================
 	#
 	# Internal functions to DDLScraperCore.py
@@ -92,6 +141,13 @@ class DDLScraperCore(object):
 	#
 	#===============================================================================
 
+	def _log(self,msg):
+		if self.__dbg__:
+			print self.__plugin__ + " DEBUG: " + msg
+			
+	def _error(self,msg):
+		print self.__plugin__ + " ERROR: " + msg
+				
 	def _getPostInfo(self, value):
 		if self.__dbg__:
 			print self.__plugin__ + " _getPostInfo: " + value[1]
