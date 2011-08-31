@@ -119,7 +119,6 @@ class DDLScraperCore(object):
 						all_filehoster[fh] = 1
 		# print results
 		sorted_fh = sorted(all_filehoster.iteritems(), key=itemgetter(1), reverse=True)
-		print sorted_fh
 		self._log("All filehoster:\n"+str("\n".join([str(fh[1]).ljust(3)+": "+fh[0] for fh in sorted_fh])))
 	
 	def selfTest(self, feeds):

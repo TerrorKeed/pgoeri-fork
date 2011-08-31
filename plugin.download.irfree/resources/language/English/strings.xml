@@ -43,6 +43,12 @@
     <string id="30036">Tutorials</string>
     <string id="30037">Vectors</string>
     <string id="30038">Wallpapers</string>
+    
+    <string id="30040">Graphics</string>
+    <string id="30041">Mobile Apps</string>
+    <string id="30042">Android</string>
+    <string id="30043">Windows Mobile</string>
+    <string id="30044">Mac OS X</string>
     <!-- search -->
     <string id="30080">Search</string>
      
@@ -54,6 +60,8 @@
     <string id="30304">Alternative Filehoster</string>
     <string id="30305">None</string>
     <string id="30306">Number of posts per page</string>
+    <string id="30307">upfile.in</string>
+    <string id="30308">wupload.com</string>
     <string id="30310">Hide TV Shows</string>
     <string id="30311">Hide Movies</string>
     <string id="30312">Hide Music</string>
@@ -63,9 +71,11 @@
     <string id="30316">Hide Miscellaneous</string>
     <string id="30317">Hide All</string>
     <string id="30318">Hide Subcategories</string>
+    <string id="30319">Hide Mobile Apps</string>
     <string id="30320">Notification length in seconds</string>
     <string id="30321">Set thumbnail view for videos in Confluence</string>
     <string id="30322">Debug</string>
+    <string id="30323">Hide Graphics</string>
     <string id="30350">Categories</string>
     <string id="30351">Advanced</string>
 

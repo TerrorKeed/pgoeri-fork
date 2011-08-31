@@ -36,8 +36,8 @@ class IRFreeCore(DDLScraperCore):
 		# 2: title
 		# 3: img
 		# 4: description
-		if ( link == "http://www.irfree.com" ):
-			posts = re.compile('class="entry_header">.+?<a href="(.+?)".*?>(.+?)</a>.+?(?:<img.+?src="(.+?)".+?<p>|<p>)(.+?)</p>',re.DOTALL).findall(website)
+		if ( link == "http://irfree.com" ):
+			posts = re.compile('class="entry_header">.+?<a href="(.+?)".*?>(.+?)</a>.+?<img.+?src="(.+?)"(.+?)</p>',re.DOTALL).findall(website)
 		elif ( "/?s=" in link ):
 			posts = re.compile('class="posts">.+?<a href="(.+?)".*?>(.+?)</a>.+?(?:<img.+?src="(.+?)".+?<p>|<p>)(.+?)</p>',re.DOTALL).findall(website)
 		else:
@@ -51,6 +51,10 @@ class IRFreeCore(DDLScraperCore):
 			url = "http://www.filesonic.com/file/"
 		elif (filehoster == 2):
 			url = "http://www.fileserve.com/file/"
+		elif (filehoster == 3):
+			url = "http://upfile.in"
+		elif (filehoster == 4):
+			url = "http://www.wupload.com"
 		else:
 			return [ ]
 		
