@@ -10,8 +10,10 @@ class OneDDLNavigation(DDLScraperNavigation):
 	#===============================================================================
 	feeds = {};
 	feeds['all']			= "http://www.oneddl.com"
-	#feeds['1click']			= "http://www.oneddl.com/category/1-click"
+	feeds['1click']			= "http://www.oneddl.com/category/1-click" # NOT_USED
 	feeds['apps']			= "http://www.oneddl.com/category/apps"
+	feeds['mac_apps']		= "http://www.oneddl.com/category/apps/mac-apps"
+	feeds['win_apps']		= "http://www.oneddl.com/category/apps/windows"
 	feeds['ebooks']			= "http://www.oneddl.com/category/ebooks"
 	feeds['comics']			= "http://www.oneddl.com/category/ebooks/comics"
 	feeds['games']			= "http://www.oneddl.com/category/games"
@@ -38,7 +40,7 @@ class OneDDLNavigation(DDLScraperNavigation):
 	feeds['music']			= "http://www.oneddl.com/category/music"
 	feeds['mp3']			= "http://www.oneddl.com/category/music/mp3"
 	feeds['mvid']			= "http://www.oneddl.com/category/music/mvid"
-	#feeds['sitenews']		= "http://www.oneddl.com/category/site-new" news, announcements, no downloads
+	feeds['sitenews']		= "http://www.oneddl.com/category/site-news" # NOT_USED: news, announcements, no downloads
 	feeds['staffpicks']		= "http://www.oneddl.com/category/staff-picks"
 	feeds['trailers']		= "http://www.oneddl.com/category/trailers"
 	feeds['tvshows']		= "http://www.oneddl.com/category/tv-shows"
@@ -90,7 +92,10 @@ class OneDDLNavigation(DDLScraperNavigation):
 		{'label':__language__( 30050 )	,'path':"/root/ebooks"			, 'thumbnail':"ebooks"			, 'feed':"" },
 		{'label':__language__( 30000 )	,'path':"/root/ebooks/all"		, 'thumbnail':"ebooks"			, 'feed':"ebooks" },
 		{'label':__language__( 30051 )	,'path':"/root/ebooks/comics"	, 'thumbnail':"ebooks"			, 'feed':"comics" },
-		{'label':__language__( 30055 )	,'path':"/root/apps"			, 'thumbnail':"apps"			, 'feed':"apps" },
+		{'label':__language__( 30055 )	,'path':"/root/apps"			, 'thumbnail':"apps"			, 'feed':"" },
+		{'label':__language__( 30000 )	,'path':"/root/apps/all"		, 'thumbnail':"apps"			, 'feed':"apps" },
+		{'label':__language__( 30056 )	,'path':"/root/apps/mac"		, 'thumbnail':"apps"			, 'feed':"mac_apps" },
+		{'label':__language__( 30057 )	,'path':"/root/apps/win"		, 'thumbnail':"apps"			, 'feed':"win_apps" },
 		# miscellaneous
 		{'label':__language__( 30060 )	,'path':"/root/misc"			, 'thumbnail':"misc"			, 'feed':"" },
 		{'label':__language__( 30061 )	,'path':"/root/misc/iphone"		, 'thumbnail':"iphone"			, 'feed':"iphone" },

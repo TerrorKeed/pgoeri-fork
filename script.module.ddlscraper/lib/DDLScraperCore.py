@@ -112,6 +112,7 @@ class DDLScraperCore(object):
 			for post in posts:
 				filehoster = self._testScrapeFileHoster(post[0])
 				for fh in filehoster:
+					fh = fh.lower();
 					if fh in all_filehoster:
 						all_filehoster[fh] = all_filehoster[fh] + 1
 					else:

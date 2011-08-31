@@ -32,15 +32,23 @@ class OneDDLCore(DDLScraperCore):
 
 	def _scrapeFilehosterLinksNow( self, website, getHD, get1Click, filehoster ):
 		if (filehoster == 0):
-			fh_label = "Rapidshare"
+			fh_label = "rapidshare"
 		elif (filehoster == 1):
-			fh_label = "Hotfile"
+			fh_label = "hotfile"		# deprecated
 		elif (filehoster == 2):
-			fh_label = "FileServe"
+			fh_label = "fileserve"
 		elif (filehoster == 3):
-			fh_label = "FileSonic"
+			fh_label = "filesonic"
 		elif (filehoster == 4):
-			fh_label = "FileFactory"
+			fh_label = "filefactory"	# deprecated
+		elif (filehoster == 5):
+			fh_label = "megaupload"
+		elif (filehoster == 6):
+			fh_label = "multiupload"
+		elif (filehoster == 7):
+			fh_label = "wupload" 
+		elif (filehoster == 8):
+			fh_label = "oron"
 		else:
 			return [ ]
 		
@@ -86,6 +94,10 @@ class OneDDLCore(DDLScraperCore):
 			alt_filehoster = int(self.__addon__.getSetting( "alt_filehoster2" ))
 			if ( alt_filehoster != 0):
 				links = self._scrapeFilehosterLinksNow( website, getHD, get1Click, (alt_filehoster-1) )
+		if ( len(links) == 0):
+			alt_filehoster = int(self.__addon__.getSetting( "alt_filehoster3" ))
+			if ( alt_filehoster != 0):
+				links = self._scrapeFilehosterLinksNow( website, getHD, get1Click, (alt_filehoster-1) )
 		return links
 	
 	def _scrapeFilehosterLinksByQuality( self, website, getHD):
@@ -110,7 +122,7 @@ class OneDDLCore(DDLScraperCore):
 		urls = re.compile('href="(http://.+?)/').findall(website);
 		
 		# extract strings
-		filehoster = re.compile('<p><strong>(.+?)</strong>').findall(website);
+		filehoster = re.compile('<p><strong>(.+?)[ <(]').findall(website);
 		
 		return set(urls) | set(filehoster)
 	

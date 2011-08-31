@@ -3,9 +3,10 @@
 
   <!-- General -->
   <category>
-    <setting id="filehoster" type="enum" label="30300" lvalues="30311|30312|30313|30314|30315" default="0" />
-    <setting id="alt_filehoster1" type="enum" label="30301" lvalues="30310|30311|30312|30313|30314|30315" default="0" />
-    <setting id="alt_filehoster2" type="enum" label="30302" lvalues="30310|30311|30312|30313|30314|30315" default="0" />
+    <setting id="filehoster" type="enum" label="30300" lvalues="30311|30312|30313|30314|30315|30316|30317|30318|30319" default="0" />
+    <setting id="alt_filehoster1" type="enum" label="30301" lvalues="30310|30311|30312|30313|30314|30315|30316|30317|30318|30319" default="0" />
+    <setting id="alt_filehoster2" type="enum" label="30302" lvalues="30310|30311|30312|30313|30314|30315|30316|30317|30318|30319" default="0" />
+    <setting id="alt_filehoster3" type="enum" label="30306" lvalues="30310|30311|30312|30313|30314|30315|30316|30317|30318|30319" default="0" />
     <setting id="prefer_hd" type="bool" label="30303" default="true" />
     <setting id="prefer_1click" type="bool" label="30304" default="true" />
     <setting type="sep" />

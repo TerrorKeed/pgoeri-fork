@@ -39,6 +39,8 @@
     <string id="30051">Comics</string>
     <!-- apps -->
     <string id="30055">Apps</string>
+    <string id="30056">Mac</string>
+    <string id="30057">Windows</string>
     <!-- miscellaneous -->
     <string id="30060">Miscellaneous</string>
     <string id="30061">iPhone</string>
@@ -56,12 +58,17 @@
     <string id="30303">Prefer HD Links</string>
     <string id="30304">Prefer 1Click Links</string>
     <string id="30305">Number of posts per page</string>
+    <string id="30306">Alternative Filehoster 3</string>
     <string id="30310">None</string>
     <string id="30311">rapidshare.com</string>
-    <string id="30312">hotfile.com</string>
+    <string id="30312">hotfile.com</string> <!-- seems dead -->
     <string id="30313">fileserve.com</string>
     <string id="30314">filesonic.com</string>
-    <string id="30315">filefactory.com</string>
+    <string id="30315">filefactory.com</string> <!-- seems dead -->
+    <string id="30316">megaupload.com</string>
+    <string id="30317">multiupload.com</string>
+    <string id="30318">wupload.com</string>
+    <string id="30319">oron.com</string>
     
     <string id="30320">Hide TV Shows</string>
     <string id="30321">Hide Movies</string>
