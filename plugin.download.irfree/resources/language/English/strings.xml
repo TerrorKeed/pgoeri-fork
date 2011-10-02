@@ -9,14 +9,12 @@
     <string id="30004">Movies</string>
     <string id="30005">Anime</string>
     <string id="30006">DVD-R</string>
-    <string id="30007">BDrip/BBrip</string>
+    <string id="30007">BDRIP</string>
     
     <string id="30008">Music</string>
     <string id="30009">Musicvideos</string>
     
     <string id="30010">Games</string>
-    <string id="30011">Console Games</string>
-    <string id="30012">PS2</string>
     <string id="30013">PS3</string>
     <string id="30014">PSP</string>
     <string id="30015">Wii</string>
@@ -36,18 +34,11 @@
     
     <!-- miscellaneous -->
     <string id="30031">Miscellaneous</string>
-    <string id="30032">iPhone/iPod</string>
-    <string id="30033">Other</string>
-    <string id="30034">Retro</string>
-    <string id="30035">Templates</string>
+    <string id="30032">iPhone</string>
     <string id="30036">Tutorials</string>
-    <string id="30037">Vectors</string>
-    <string id="30038">Wallpapers</string>
     
-    <string id="30040">Graphics</string>
-    <string id="30041">Mobile Apps</string>
     <string id="30042">Android</string>
-    <string id="30043">Windows Mobile</string>
+    <string id="30043">Windows</string>
     <string id="30044">Mac OS X</string>
     <!-- search -->
     <string id="30080">Search</string>

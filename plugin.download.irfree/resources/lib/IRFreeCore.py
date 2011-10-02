@@ -6,7 +6,7 @@ class IRFreeCore(DDLScraperCore):
 	def __init__(self):
 		self.__title__		= "IRFree.com"
 		self.__url__		= "http://www.irfree.com"
-		self.__nextpage__	= 'class="nextpostslink"'
+		self.__nextpage__	= '<div class="turnRight"><a'
 		# prevent dos attack ;), wait at least 400 milliseconds between every fetch
 		# otherwise more than 20 posts per page doesn't work
 		self.__delay__ = 0.4
@@ -27,6 +27,8 @@ class IRFreeCore(DDLScraperCore):
 		if (website == None):
 			website = self._executeRE('Download:(.+?)<p class="postmetacat"', full_website)
 		if (website == None):
+			website = self._executeRE('Download:(.+?)class="ratingBox"', full_website)
+		if (website == None):
 			# not possible to extract link section, use the whole website for scraping
 			website = full_website
 		return website;
@@ -36,12 +38,7 @@ class IRFreeCore(DDLScraperCore):
 		# 2: title
 		# 3: img
 		# 4: description
-		if ( link == "http://irfree.com" ):
-			posts = re.compile('class="entry_header">.+?<a href="(.+?)".*?>(.+?)</a>.+?<img.+?src="(.+?)"(.+?)</p>',re.DOTALL).findall(website)
-		elif ( "/?s=" in link ):
-			posts = re.compile('class="posts">.+?<a href="(.+?)".*?>(.+?)</a>.+?(?:<img.+?src="(.+?)".+?<p>|<p>)(.+?)</p>',re.DOTALL).findall(website)
-		else:
-			posts = re.compile('class="page-content">.+?<a href="(.+?)".+?>(.+?)</a>.+?(?:<img.+?src="(.+?)".+?<p>|<p>)(.+?)</p>',re.DOTALL).findall(website)
+		posts = re.compile('class="newsTitle">.*?<a href="(.+?)".*?>(.+?)</a>.+?(?:<img.+?src="(.+?)".+?</p>|</p>)(.+?)<ul class="newsActions">',re.DOTALL).findall(website)
 		return posts
 	
 	def _scrapeFilehosterLinksNow( self, website, filehoster ):
@@ -89,8 +86,7 @@ class IRFreeCore(DDLScraperCore):
 	
 	def _scrapeFilehoster( self, website):
 		# extract links
-		urls = re.compile('href="(http://.+?)/').findall(website);
-		
+		urls = re.compile('href="(http://.+?)/').findall(website)
 		return set(urls)
 	
 	def _getCategories(self):
@@ -100,9 +96,12 @@ class IRFreeCore(DDLScraperCore):
 		
 		if (result == 200):
 			# extract relevant part
-			website = self._executeRE('<li id="categories"(.+?)<li id="archives"', full_website)
-			
-			categories = re.compile('<a href="(.+?)"',re.DOTALL).findall(website)
+			website = self._executeRE('<ul class="category"(.+?)<form id="search"', full_website)
+			if ( website == None):
+				website = self._executeRE('<ul class="category"(.+?)</div>', full_website)
+			# extract categories
+			if ( website != None ):
+				categories = re.compile('<a href="(.+?)"',re.DOTALL).findall(website)
 			
 		return categories
 	

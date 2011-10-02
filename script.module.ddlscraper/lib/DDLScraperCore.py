@@ -32,6 +32,16 @@ class DDLScraperCore(object):
 	def __init__(self):
 		return None
 	
+	def _log(self,msg):
+		if self.__dbg__:
+			print self.__plugin__ + " DEBUG: " + msg
+			
+	def _info(self,msg):
+		print self.__plugin__ + " INFO: " + msg
+			
+	def _error(self,msg):
+		print self.__plugin__ + " ERROR: " + msg
+
 	def scrapePosts(self, link, page ):
 		if self.__dbg__:
 			print self.__plugin__ + " scrapePosts: " + repr(link) + " - page: " + repr(page)
@@ -88,6 +98,8 @@ class DDLScraperCore(object):
 		all_links = self._getCategories()
 		
 		for link in all_links:
+			if "http://" not in link:
+				link = self.__url__ + link
 			if (link.rstrip("/") not in my_links):
 				self._error("New categorie found: "+link)
 
@@ -119,7 +131,7 @@ class DDLScraperCore(object):
 						all_filehoster[fh] = 1
 		# print results
 		sorted_fh = sorted(all_filehoster.iteritems(), key=itemgetter(1), reverse=True)
-		self._log("All filehoster:\n"+str("\n".join([str(fh[1]).ljust(3)+": "+fh[0] for fh in sorted_fh])))
+		self._info("All filehoster:\n"+str("\n".join([str(fh[1]).ljust(3)+": "+fh[0] for fh in sorted_fh])))
 	
 	def selfTest(self, feeds):
 		# test all category links (this takes a while)
@@ -130,6 +142,8 @@ class DDLScraperCore(object):
 		
 		# search for all available file hoster
 		self._testSearchAllFileHoster()
+		
+		self._info("self test DONE!")
 	
 	#===============================================================================
 	#
@@ -140,13 +154,6 @@ class DDLScraperCore(object):
 	# False MUST be handled properly in External functions
 	#
 	#===============================================================================
-
-	def _log(self,msg):
-		if self.__dbg__:
-			print self.__plugin__ + " DEBUG: " + msg
-			
-	def _error(self,msg):
-		print self.__plugin__ + " ERROR: " + msg
 				
 	def _getPostInfo(self, value):
 		if self.__dbg__:
