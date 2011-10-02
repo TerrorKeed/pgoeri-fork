@@ -2,8 +2,8 @@
     * Refactoring (Using now the library DDLScraper)
     * Added search function
     * Fixed problem with posts, that have no image. Sometimes XBMC didn't react anymore
-    * New categories: Graphics & Mobile Apps
     * New supported filehoster: upfile.in, wupload.com
+    * Fixed problems with the new website design
 
 [B]Version 0.1.2[/B]
     * Fixed problems with scraping category 'All' and specific movies
