@@ -1,3 +1,8 @@
+[B]Version 0.2.1[/B]
+    * Fixed problems with the new website design
+    * Ignore duplicate filehoster links
+    * New sub categories: HDRips & FLAC
+
 [B]Version 0.2.0[/B]
     * Refactoring (Using now the library DDLScraper)
     * New sub categories: Mac Applications & Windows Applications

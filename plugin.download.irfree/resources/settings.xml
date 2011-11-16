@@ -6,7 +6,7 @@
     <setting id="filehoster" type="enum" label="30300" lvalues="30301|30302|30303|30307|30308" default="0" />
     <setting id="alt_filehoster" type="enum" label="30304" lvalues="30305|30301|30302|30303|30307|30308" default="0" />
     <setting type="sep" />
-    <setting id="perpage" type="enum" label="30306" values="10|20|30|40|50" default="2" />
+    <setting id="perpage" type="enum" label="30306" values="1|2|3|4|5" default="2" />
   </category>
 
   <!-- Folders -->

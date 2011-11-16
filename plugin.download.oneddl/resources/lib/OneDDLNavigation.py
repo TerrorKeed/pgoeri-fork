@@ -33,11 +33,13 @@ class OneDDLNavigation(DDLScraperNavigation):
 	feeds['dvdr']			= "http://www.oneddl.com/category/movies/dvdr"
 	feeds['dvdrip']			= "http://www.oneddl.com/category/movies/dvdrip"
 	feeds['dvdscr']			= "http://www.oneddl.com/category/movies/dvdscr"
+	feeds['hdrip']			= "http://www.oneddl.com/category/movies/hdrip"
 	feeds['r5']				= "http://www.oneddl.com/category/movies/r5"
 	feeds['scr']			= "http://www.oneddl.com/category/movies/scr"
 	feeds['telecine']		= "http://www.oneddl.com/category/movies/telecine"
 	feeds['telesync']		= "http://www.oneddl.com/category/movies/telesync"
 	feeds['music']			= "http://www.oneddl.com/category/music"
+	feeds['flac']			= "http://www.oneddl.com/category/music/flac"
 	feeds['mp3']			= "http://www.oneddl.com/category/music/mp3"
 	feeds['mvid']			= "http://www.oneddl.com/category/music/mvid"
 	feeds['sitenews']		= "http://www.oneddl.com/category/site-news" # NOT_USED: news, announcements, no downloads
@@ -74,12 +76,14 @@ class OneDDLNavigation(DDLScraperNavigation):
 		{'label':__language__( 30017)	,'path':"/root/movies/dvdr"		, 'thumbnail':"movies"			, 'feed':"dvdr" },
 		{'label':__language__( 30018)	,'path':"/root/movies/dvdrip"	, 'thumbnail':"movies"			, 'feed':"dvdrip" },
 		{'label':__language__( 30019)	,'path':"/root/movies/dvdscr"	, 'thumbnail':"movies"			, 'feed':"dvdscr" },
+		{'label':__language__( 30024)	,'path':"/root/movies/hdrip"	, 'thumbnail':"movies"			, 'feed':"hdrip" },
 		{'label':__language__( 30020)	,'path':"/root/movies/r5"		, 'thumbnail':"movies"			, 'feed':"r5" },
 		{'label':__language__( 30021)	,'path':"/root/movies/scr"		, 'thumbnail':"movies"			, 'feed':"scr" },
 		{'label':__language__( 30022)	,'path':"/root/movies/telecine"	, 'thumbnail':"movies"			, 'feed':"telecine" },
 		{'label':__language__( 30023)	,'path':"/root/movies/telesync"	, 'thumbnail':"movies"			, 'feed':"telesync" },
 		{'label':__language__( 30030 )	,'path':"/root/music"			, 'thumbnail':"music"			, 'feed':"" },
 		{'label':__language__( 30000 )	,'path':"/root/music/all"		, 'thumbnail':"music"			, 'feed':"music" },
+		{'label':__language__( 30033 )	,'path':"/root/music/flac"		, 'thumbnail':"music"			, 'feed':"flac" },
 		{'label':__language__( 30031 )	,'path':"/root/music/mp3"		, 'thumbnail':"music"			, 'feed':"mp3" },
 		{'label':__language__( 30032 )	,'path':"/root/music/mvid"		, 'thumbnail':"music"			, 'feed':"mvid" },
 		{'label':__language__( 30040 )	,'path':"/root/games"			, 'thumbnail':"games"			, 'feed':"" },

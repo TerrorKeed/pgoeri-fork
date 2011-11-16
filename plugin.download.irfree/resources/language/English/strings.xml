@@ -9,7 +9,7 @@
     <string id="30004">Movies</string>
     <string id="30005">Anime</string>
     <string id="30006">DVD-R</string>
-    <string id="30007">BDRIP</string>
+    <string id="30007">BDrip/BBrip</string>
     
     <string id="30008">Music</string>
     <string id="30009">Musicvideos</string>
@@ -50,7 +50,7 @@
     <string id="30303">fileserve.com</string>
     <string id="30304">Alternative Filehoster</string>
     <string id="30305">None</string>
-    <string id="30306">Number of posts per page</string>
+    <string id="30306">Number of pages scraped at once</string>
     <string id="30307">upfile.in</string>
     <string id="30308">wupload.com</string>
     <string id="30310">Hide TV Shows</string>

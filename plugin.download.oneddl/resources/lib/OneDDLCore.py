@@ -19,6 +19,8 @@ class OneDDLCore(DDLScraperCore):
 		# get only area with the file-links (ignore samples and comments)
 		website = self._executeRE('id="more-(.+?)class="postmeta"', full_website)
 		if (website == None):
+			website = self._executeRE('id="more-(.+?)<!-- .entry-content -->', full_website)
+		if (website == None):
 			# not possible to extract link section, use the whole website for scraping
 			website = full_website
 		return website
@@ -28,6 +30,8 @@ class OneDDLCore(DDLScraperCore):
 		# 2: title
 		# 3: img
 		posts = re.compile('class="posttitle">.+?<a href="(.+?)".+?>(.+?)</a>.+?</div>.+?<img.+?src="(.+?)"',re.DOTALL).findall(website)
+		if (len(posts) == 0):
+			posts = re.compile('class="entry-title">.*?<a href="(.+?)".+?>(.+?)</a>.+?class="entry-content".+?<img.+?src="(.+?)"',re.DOTALL).findall(website)
 		return posts
 
 	def _scrapeFilehosterLinksNow( self, website, getHD, get1Click, filehoster ):
@@ -115,6 +119,10 @@ class OneDDLCore(DDLScraperCore):
 		links = self._scrapeFilehosterLinksByQuality( website, preferHD)
 		if len(links)==0:
 			links = self._scrapeFilehosterLinksByQuality( website, not preferHD)
+		
+		# remove duplicates
+		links = set(links)
+		
 		return links
 	
 	def _scrapeFilehoster( self, website):
@@ -133,7 +141,7 @@ class OneDDLCore(DDLScraperCore):
 		
 		if (result == 200):
 			# extract relevant part
-			website = self._executeRE('<div id="categories-3"(.+?)</div>', full_website)
+			website = self._executeRE('<div class="menu-categories-container"(.+?)</div>', full_website)
 			
 			categories = re.compile('<a href="(.+?)"',re.DOTALL).findall(website)
 			

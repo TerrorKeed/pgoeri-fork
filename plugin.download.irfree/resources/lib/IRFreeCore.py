@@ -82,6 +82,9 @@ class IRFreeCore(DDLScraperCore):
 			if ( alt_filehoster != 0):
 				file_links = self._scrapeFilehosterLinksNow( website, (alt_filehoster-1) )
 		
+		# remove duplicates
+		file_links = set(file_links)
+		
 		return file_links
 	
 	def _scrapeFilehoster( self, website):

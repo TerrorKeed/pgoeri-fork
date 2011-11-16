@@ -25,7 +25,7 @@ class IRFreeNavigation(DDLScraperNavigation):
 	feeds['xbox360']		= "http://www.irfree.com/games/xbox360"
 	feeds['movies']			= "http://www.irfree.com/movies"
 	feeds['anime']			= "http://www.irfree.com/movies/anime"
-	feeds['hdrip']			= "http://www.irfree.com/movies/bdrip"
+	feeds['hdrip']			= "http://www.irfree.com/movies/bdripbbrip"
 	feeds['cam']			= "http://www.irfree.com/movies/cam"
 	feeds['dvdr']			= "http://www.irfree.com/movies/dvd-r"
 	feeds['dvdrip']			= "http://www.irfree.com/movies/dvdrip"
@@ -37,7 +37,7 @@ class IRFreeNavigation(DDLScraperNavigation):
 	feeds['musicvideos']	= "http://www.irfree.com/music/mvid"
 	feeds['tutorials']		= "http://www.irfree.com/tutorials"
 	feeds['tvshows']		= "http://www.irfree.com/tv-shows"
-	feeds['tv_x264']		= "http://www.irfree.com/tv-shows/tv-shows264"
+	feeds['tv_x264']		= "http://www.irfree.com/tv-shows/tv-showx264"
 	feeds['boxsets']		= "http://www.irfree.com/tv-shows/tv-showsboxsets"
 	feeds['search']			= "http://www.irfree.com/?s="
 

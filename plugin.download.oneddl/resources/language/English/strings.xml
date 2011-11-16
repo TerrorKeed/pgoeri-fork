@@ -23,10 +23,12 @@
     <string id="30021">SCR</string>
     <string id="30022">Telecine</string>
     <string id="30023">TeleSync</string>
+    <string id="30024">HDRip</string>
     <!-- music -->
     <string id="30030">Music</string>
     <string id="30031">MP3</string>
     <string id="30032">MViD</string>
+    <string id="30033">FLAC</string>
     <!-- games -->
     <string id="30040">Games</string>
     <string id="30041">PC</string>
