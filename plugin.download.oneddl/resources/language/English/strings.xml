@@ -61,16 +61,6 @@
     <string id="30304">Prefer 1Click Links</string>
     <string id="30305">Number of posts per page</string>
     <string id="30306">Alternative Filehoster 3</string>
-    <string id="30310">None</string>
-    <string id="30311">rapidshare.com</string>
-    <string id="30312">hotfile.com</string> <!-- seems dead -->
-    <string id="30313">fileserve.com</string>
-    <string id="30314">filesonic.com</string>
-    <string id="30315">filefactory.com</string> <!-- seems dead -->
-    <string id="30316">megaupload.com</string>
-    <string id="30317">multiupload.com</string>
-    <string id="30318">wupload.com</string>
-    <string id="30319">oron.com</string>
     
     <string id="30320">Hide TV Shows</string>
     <string id="30321">Hide Movies</string>
@@ -89,6 +79,22 @@
     <string id="30350">Categories</string>
     <string id="30351">Advanced</string>
 
+    <string id="30360">None</string>
+    <string id="30361">rapidshare.com</string>
+    <string id="30362">hotfile.com</string> <!-- seems dead -->
+    <string id="30363">fileserve.com</string>
+    <string id="30364">filesonic.com</string> <!--  is dead -->
+    <string id="30365">filefactory.com</string> <!-- seems dead -->
+    <string id="30366">megaupload.com</string> <!--  is dead -->
+    <string id="30367">multiupload.com</string>
+    <string id="30368">wupload.com</string>
+    <string id="30369">oron.com</string>
+    <string id="30370">turbobit.net</string>
+    <string id="30371">ul.to</string>
+    <string id="30372">netload.in</string>
+    <string id="30373">depositfiles.com</string>
+    <string id="30374">filepost.com</string>
+    
     <!-- Strings used by DDLScraper -->
     <!-- Menu strings -->
     <string id="30500">Video information</string>

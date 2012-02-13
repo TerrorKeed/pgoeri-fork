@@ -7,6 +7,7 @@ class OneDDLCore(DDLScraperCore):
 	def __init__(self):
 		self.__title__		= "OneDDL.com"
 		self.__url__		= "http://www.oneddl.com"
+		#self.__url__		= "http://www.oneddl.com/category/tv-shows/"
 		self.__nextpage__	= "class='page larger'"
 		
 	#===============================================================================
@@ -42,17 +43,27 @@ class OneDDLCore(DDLScraperCore):
 		elif (filehoster == 2):
 			fh_label = "fileserve"
 		elif (filehoster == 3):
-			fh_label = "filesonic"
+			fh_label = "filesonic"		# dead
 		elif (filehoster == 4):
 			fh_label = "filefactory"	# deprecated
 		elif (filehoster == 5):
-			fh_label = "megaupload"
+			fh_label = "megaupload"		# dead
 		elif (filehoster == 6):
 			fh_label = "multiupload"
 		elif (filehoster == 7):
 			fh_label = "wupload" 
 		elif (filehoster == 8):
 			fh_label = "oron"
+		elif (filehoster == 9):
+			fh_label = "turbobit"
+		elif (filehoster == 10):
+			fh_label = "ul.to"
+		elif (filehoster == 11):
+			fh_label = "netload"
+		elif (filehoster == 12):
+			fh_label = "depositfiles"
+		elif (filehoster == 13):
+			fh_label = "filepost"
 		else:
 			return [ ]
 		
