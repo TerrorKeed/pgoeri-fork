@@ -3,13 +3,29 @@ from DDLScraperCore import DDLScraperCore
 
 class OneDDLCore(DDLScraperCore):
 	
-	
 	def __init__(self):
 		self.__title__		= "OneDDL.com"
-		self.__url__		= "http://www.oneddl.com"
-		#self.__url__		= "http://www.oneddl.com/category/tv-shows/"
+		self.__url__		= "http://www.oneddl.eu"
+		#self.__url__		= "http://www.oneddl.eu/category/tv-shows/" # used for self test
 		self.__nextpage__	= "class='page larger'"
 		
+		self.__filehoster__	= []
+		self.__filehoster__.insert(0,	{ "label": "rapidshare",	"alt_label": "" } )
+		self.__filehoster__.insert(1,	{ "label": "hotfile",		"alt_label": "" } )			# deprecated
+		self.__filehoster__.insert(2,	{ "label": "fileserve",		"alt_label": "" } )
+		self.__filehoster__.insert(3,	{ "label": "filesonic",		"alt_label": "" } )			# dead
+		self.__filehoster__.insert(4,	{ "label": "filefactory",	"alt_label": "" } )		# deprecated
+		self.__filehoster__.insert(5,	{ "label": "megaupload",	"alt_label": "" } )			# dead
+		self.__filehoster__.insert(6,	{ "label": "multiupload",	"alt_label": "" } )
+		self.__filehoster__.insert(7,	{ "label": "wupload",		"alt_label": "" } )
+		self.__filehoster__.insert(8,	{ "label": "oron",			"alt_label": "" } )
+		self.__filehoster__.insert(9,	{ "label": "turbobit",		"alt_label": "" } )
+		self.__filehoster__.insert(10,	{ "label": "uploaded",		"alt_label": "ul.to" } )
+		self.__filehoster__.insert(11,	{ "label": "netload",		"alt_label": "" } )
+		self.__filehoster__.insert(12,	{ "label": "depositfiles",	"alt_label": "" } )
+		self.__filehoster__.insert(13,	{ "label": "filepost",		"alt_label": "" } )
+		self.__filehoster__.insert(14,	{ "label": "bitshare",		"alt_label": "" } )
+		 
 	#===============================================================================
 	#
 	# OneDDL specific functions
@@ -36,36 +52,9 @@ class OneDDLCore(DDLScraperCore):
 		return posts
 
 	def _scrapeFilehosterLinksNow( self, website, getHD, get1Click, filehoster ):
-		if (filehoster == 0):
-			fh_label = "rapidshare"
-		elif (filehoster == 1):
-			fh_label = "hotfile"		# deprecated
-		elif (filehoster == 2):
-			fh_label = "fileserve"
-		elif (filehoster == 3):
-			fh_label = "filesonic"		# dead
-		elif (filehoster == 4):
-			fh_label = "filefactory"	# deprecated
-		elif (filehoster == 5):
-			fh_label = "megaupload"		# dead
-		elif (filehoster == 6):
-			fh_label = "multiupload"
-		elif (filehoster == 7):
-			fh_label = "wupload" 
-		elif (filehoster == 8):
-			fh_label = "oron"
-		elif (filehoster == 9):
-			fh_label = "turbobit"
-		elif (filehoster == 10):
-			fh_label = "ul.to"
-		elif (filehoster == 11):
-			fh_label = "netload"
-		elif (filehoster == 12):
-			fh_label = "depositfiles"
-		elif (filehoster == 13):
-			fh_label = "filepost"
-		else:
-			return [ ]
+		
+		fh_label = self.__filehoster__[filehoster]["label"]
+		fh_alt_label = self.__filehoster__[filehoster]["alt_label"]
 		
 		if self.__dbg__:
 			print self.__plugin__ + " _scrapeFilehosterLinksNow: hd: %s - 1click: %s - filehoster: %s" % (getHD, get1Click, fh_label)
@@ -77,9 +66,6 @@ class OneDDLCore(DDLScraperCore):
 			tmp = self._executeRE("(.*)<hr />", website)
 			if (tmp!=None):
 				website = tmp
-
-
-
 			
 		if (website==None):
 			return [ ]
@@ -92,11 +78,13 @@ class OneDDLCore(DDLScraperCore):
 			return [ ]
 		
 		# get filehoster content
-		website = self._executeRE("<p><strong>%s(.*?)</p>" % (fh_label, ), website, re.IGNORECASE)
-		if (website==None):
+		all_links = self._executeRE("<p><strong>%s(.*?)</p>" % (fh_label, ), website, re.IGNORECASE)
+		if (all_links==None and len(fh_alt_label)>0 ):
+			all_links = self._executeRE("<p><strong>%s(.*?)</p>" % (fh_alt_label, ), website, re.IGNORECASE)
+		if (all_links==None):
 			return [ ]
 		
-		scraped_links = re.compile('href="(.+?)"',re.DOTALL).findall(website);
+		scraped_links = re.compile('href="(.+?)"',re.DOTALL).findall(all_links);
 		return scraped_links
 	
 	def _scrapeFilehosterLinksByLinkType( self, website, getHD, get1Click):

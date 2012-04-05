@@ -1,3 +1,8 @@
+[B]Version 0.2.3[/B]
+    * New supported filehoster: bitshare.com
+    * New sub categories: Movies/Complete BluRay, Movies/RC, Ebooks/Magazines
+    * Fixed problem with fetching uploaded.to links
+
 [B]Version 0.2.2[/B]
     * New supported filehoster: turbobit.net, ul.to, netload.in, depositfiles.com, filepost.com
 
