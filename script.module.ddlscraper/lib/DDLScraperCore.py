@@ -15,6 +15,7 @@ class DDLScraperCore(object):
 	__title__		= ""
 	__url__			= ""
 	__nextpage__	= ""
+	__filehoster__	= []
 	__delay__		= 0.0
 	
 	USERAGENT = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8"
@@ -117,21 +118,60 @@ class DDLScraperCore(object):
 		
 		return filehoster
 	
+	def _getFileHosterFlag(self, fh_label):
+		found = False
+		
+		if ( fh_label.startswith("http://") ):
+			return "L"	# fh label is a link
+		
+		for fh in self.__filehoster__:
+			if (fh_label == fh["label"] or fh_label == fh["alt_label"]):
+				found = True
+				break
+		
+		if (found):
+			return " "	# known fh label
+		else:
+			return "*"	# new fh label
+	
 	def _testSearchAllFileHoster(self):
 		all_filehoster = {}
-		( posts, next, result_str, result) = self._scrapePosts( self.__url__, 0, 4 )
+		( posts, next, result_str, result) = self._scrapePosts( self.__url__, 0, 3 )
 		if (result == 200):
+			
+			pDialog = xbmcgui.DialogProgress()
+			pDialog.create(self.__title__,self.__language__(30701))
+			pDialog.update(0)
+			
+			cnt = len(posts)
+			idx = 0
 			for post in posts:
+				if pDialog.iscanceled():
+					break
+				
 				filehoster = self._testScrapeFileHoster(post[0])
+				
 				for fh in filehoster:
 					fh = fh.lower();
+					
+					# extract specific posts for testing a specific filehoster
+					#if (fh == "bitshare"):
+					#	print "BITSHARE:"+post[0]
+					
 					if fh in all_filehoster:
 						all_filehoster[fh] = all_filehoster[fh] + 1
 					else:
 						all_filehoster[fh] = 1
+				
+				idx += 1
+				perc = idx*100.0/cnt
+				pDialog.update(int(perc))
+			
+			pDialog.close()
+			
 		# print results
 		sorted_fh = sorted(all_filehoster.iteritems(), key=itemgetter(1), reverse=True)
-		self._info("All filehoster:\n"+str("\n".join([str(fh[1]).ljust(3)+": "+fh[0] for fh in sorted_fh])))
+		self._info("All filehoster:\n"+str("\n".join([self._getFileHosterFlag(fh[0])+" "+str(fh[1]).ljust(3)+": "+fh[0] for fh in sorted_fh])))
 	
 	def selfTest(self, feeds):
 		# test all category links (this takes a while)
