@@ -1,5 +1,6 @@
-import sys, urllib, urllib2, re, pickle, html2text, time, xbmcgui
+import sys, urllib, urllib2, re, pickle, html2text, time, os, xbmcgui, xbmc, socket
 from operator import itemgetter
+from PluginException import PluginException
 # ERRORCODES:
 # 200 = OK
 # 303 = See other (returned an error message)
@@ -15,11 +16,13 @@ class DDLScraperCore(object):
 	__title__		= ""
 	__url__			= ""
 	__nextpage__	= ""
-	__filehoster__	= []
 	__delay__		= 0.0
+	__filehoster__	= {}
+	__urls__		= []
 	
-	USERAGENT = "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8"
-
+	USERAGENT			= "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8"
+	BASE_RESOURCE_PATH	= xbmc.translatePath( __addon__.getAddonInfo( "Profile" ) )
+	
 	#===============================================================================
 	#
 	# External functions called by Navigation Class
@@ -31,6 +34,10 @@ class DDLScraperCore(object):
 	last_fetch = 0
 
 	def __init__(self):
+		# make sure addon_data dir exists
+		try: os.mkdir(self.BASE_RESOURCE_PATH)
+		except: pass
+		
 		return None
 	
 	def _log(self,msg):
@@ -43,6 +50,17 @@ class DDLScraperCore(object):
 	def _error(self,msg):
 		print self.__plugin__ + " ERROR: " + msg
 
+	def _raise(self,msg):
+		self._error(msg)
+		raise PluginException(msg)
+
+	def _exception(self,function):
+		print self.__plugin__ + " uncaught exception in " + function
+		print 'ERROR: %s::%s (%d) - %s' % (self.__class__.__name__,
+										sys.exc_info()[2].tb_frame.f_code.co_name,
+										sys.exc_info()[2].tb_lineno,
+										sys.exc_info()[1])
+		
 	def scrapePosts(self, link, page ):
 		if self.__dbg__:
 			print self.__plugin__ + " scrapePosts: " + repr(link) + " - page: " + repr(page)
@@ -90,10 +108,26 @@ class DDLScraperCore(object):
 
 	#=================================== Testing ======================================= 
 	def _testLinks(self, links):
+			
+		pDialog = xbmcgui.DialogProgress()
+		pDialog.create(self.__title__,self.__language__(30702))
+		pDialog.update(0)
+			
+		cnt = len(links)
+		idx = 0
 		for link in links:
+			if pDialog.iscanceled():
+				break
+				
 			( pagecontent, result_str, result) = self._fetchWebsite(link)
 			if ( result != 200):
 				print self.__plugin__ + " ERROR: " + link
+				
+			idx += 1
+			perc = idx*100.0/cnt
+			pDialog.update(int(perc))
+			
+		pDialog.close()
 	
 	def _testSearchNewCategories(self, my_links):
 		all_links = self._getCategories()
@@ -115,28 +149,33 @@ class DDLScraperCore(object):
 			
 		if (result == 200):
 			filehoster = self._scrapeFilehoster(website)
+		else:
+			filehoster = ()
 		
 		return filehoster
 	
-	def _getFileHosterFlag(self, fh_label):
+	def _getFileHosterFlag(self, filehoster):
 		found = False
 		
-		if ( fh_label.startswith("http://") ):
-			return "L"	# fh label is a link
+		for url in self.__urls__:
+			if (filehoster.startswith(url)):
+				return "L"	# this is a known none filehoster url
 		
-		for fh in self.__filehoster__:
-			if (fh_label == fh["label"] or fh_label == fh["alt_label"]):
-				found = True
+		for fh in self.__filehoster__.values():
+			if (("label" in fh and filehoster == fh["label"]) or
+				("label_alt" in fh and filehoster == fh["label_alt"]) or
+				("url" in fh and filehoster == fh["url"])):
+				found = True # known filehoster
 				break
 		
 		if (found):
-			return " "	# known fh label
+			return " "	# known filehoster
 		else:
-			return "*"	# new fh label
+			return "*"	# new filehoster!
 	
 	def _testSearchAllFileHoster(self):
 		all_filehoster = {}
-		( posts, next, result_str, result) = self._scrapePosts( self.__url__, 0, 3 )
+		( posts, next, result_str, result) = self._scrapePosts( self.__url__, 0, 9 )
 		if (result == 200):
 			
 			pDialog = xbmcgui.DialogProgress()
@@ -168,10 +207,31 @@ class DDLScraperCore(object):
 				pDialog.update(int(perc))
 			
 			pDialog.close()
-			
-		# print results
+		
+		# sort all found filehoster by number of occurence	
 		sorted_fh = sorted(all_filehoster.iteritems(), key=itemgetter(1), reverse=True)
-		self._info("All filehoster:\n"+str("\n".join([self._getFileHosterFlag(fh[0])+" "+str(fh[1]).ljust(3)+": "+fh[0] for fh in sorted_fh])))
+		
+		# save results to file
+		fh_file = os.path.join( self.BASE_RESOURCE_PATH , "filehoster.txt" )
+		try:
+			f = open(fh_file,"wb")
+			pickle.dump(sorted_fh,f)
+			f.close()
+		except IOError:
+			self._exception("_testSearchAllFileHoster")
+	
+	def _testPrintAllFileHoster(self):
+		# load filehoster from file
+		fh_file = os.path.join( self.BASE_RESOURCE_PATH , "filehoster.txt" )
+		try:
+			f = open(fh_file,"rb")
+			sorted_fh = pickle.load(f)
+			f.close()
+			
+			# print filehoster
+			self._info("All filehoster:\n"+str("\n".join([self._getFileHosterFlag(fh[0])+" "+str(fh[1]).ljust(3)+": "+fh[0] for fh in sorted_fh])))
+		except IOError:
+			self._exception("_testPrintAllFileHoster")
 	
 	def selfTest(self, feeds):
 		# test all category links (this takes a while)
@@ -180,8 +240,11 @@ class DDLScraperCore(object):
 		# search for new category links
 		self._testSearchNewCategories(feeds)
 		
-		# search for all available file hoster
+		# search for all available file hoster and save it to a file
 		self._testSearchAllFileHoster()
+		
+		# print all filehoster from that file
+		self._testPrintAllFileHoster()
 		
 		self._info("self test DONE!")
 	
@@ -242,10 +305,7 @@ class DDLScraperCore(object):
 				print self.__plugin__ + " _getPostInfo done"
 			return post;
 		except:
-			if self.__dbg__:
-				print self.__plugin__ + " _getPostInfo uncaught exception"
-				print 'ERROR: %s::%s (%d) - %s' % (self.__class__.__name__
-								   , sys.exc_info()[2].tb_frame.f_code.co_name, sys.exc_info()[2].tb_lineno, sys.exc_info()[1])
+			self._exception("_getPostInfo")
 				
 			return ( dict(), 500 )
 
@@ -261,7 +321,7 @@ class DDLScraperCore(object):
 		url = urllib2.Request(link)
 		url.add_header('User-Agent', self.USERAGENT)
 		try:
-			con = urllib2.urlopen(url)
+			con = urllib2.urlopen(url) # timeout=
 			website = con.read()
 			if self.__dbgv__:
 				print self.__plugin__ + " _fetchWebsite result: " + repr(website)
@@ -286,10 +346,8 @@ class DDLScraperCore(object):
 				print self.__plugin__ + " _fetchWebsite exception: " + str(e)
 			return ( "", self.__language__(30603), 303 )
 		except:
+			self._exception("_fetchWebsite")
 			if self.__dbg__:
-				print self.__plugin__ + " _fetchWebsite uncaught exception"
-				print 'ERROR: %s::%s (%d) - %s' % (self.__class__.__name__
-								   , sys.exc_info()[2].tb_frame.f_code.co_name, sys.exc_info()[2].tb_lineno, sys.exc_info()[1])
 				print self.__plugin__ + " _fetchWebsite result: " + repr(website)
 			
 			return ( "", "", 500 )
@@ -359,3 +417,11 @@ class DDLScraperCore(object):
 			page_link = link+"/page/"+str(page)
 		return page_link
 	
+	def _getFilehoster(self, fh_key):
+		
+		if (fh_key not in self.__filehoster__.keys()):
+			self._raise(self.__language__(30900))
+			return None
+		
+		return self.__filehoster__[fh_key]
+		

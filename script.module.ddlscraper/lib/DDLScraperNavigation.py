@@ -287,7 +287,11 @@ class DDLScraperNavigation:
 	# shows a more userfriendly notification
 	def showMessage(self, heading, message):
 		duration = ([5, 10, 15, 20, 25, 30][int(self.__addon__.getSetting( 'notification_length' ))]) * 1000
-		xbmc.executebuiltin('XBMC.Notification("%s", "%s", %s)' % ( heading, message, duration) )
+		xbmc.executebuiltin('XBMC.Notification("%s", "%s", %s)' % ( heading, message, duration ) )
+
+	def showError(self, message):
+		duration = ([5, 10, 15, 20, 25, 30][int(self.__addon__.getSetting( 'notification_length' ))]) * 1000
+		xbmc.executebuiltin('XBMC.Notification("%s", "%s", %s, "DefaultIconError.png")' % ( xbmc.getLocalizedString(257), message, duration ) )
 
 	# create the full thumbnail path for skins directory
 	def getThumbnail( self, title ):
