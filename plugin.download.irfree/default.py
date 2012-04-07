@@ -1,14 +1,13 @@
 import sys, os, xbmc, xbmcaddon
 
 # plugin constants
-__version__			= "0.2.1"
+__version__			= "0.2.2"
 __plugin__			= "IRFree.com-" + __version__
 __author__			= "pgoeri"
 __url__				= "http://pgoeri-xbmc-plugins.googlecode.com"
 __svn_url__			= "http://pgoeri-xbmc-plugins.googlecode.com/svn/trunk/plugin.download.irfree/"
-__svn_revision__	= "$Revision$"
-__XBMC_Revision__	= "35648"
-__date__			= "16-11-2011"
+__XBMC_Revision__	= "ec33f1f05a364d6dc69504134158cab31b970f29" # 03-04-2012
+__date__			= "08-04-2012"
 
 __addon__			= xbmcaddon.Addon(id='plugin.download.irfree')
 __language__		= __addon__.getLocalizedString
