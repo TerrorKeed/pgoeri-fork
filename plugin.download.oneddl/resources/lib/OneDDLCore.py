@@ -4,27 +4,27 @@ from DDLScraperCore import DDLScraperCore
 class OneDDLCore(DDLScraperCore):
 	
 	def __init__(self):
+		super(type(self),self).__init__()
+		
 		self.__title__		= "OneDDL.com"
 		self.__url__		= "http://www.oneddl.eu"
-		#self.__url__		= "http://www.oneddl.eu/category/tv-shows/" # used for self test
+		#self.__url__		= "http://www.oneddl.eu/category/tv-shows/" # used for filehoster self test
 		self.__nextpage__	= "class='page larger'"
 		
-		self.__filehoster__	= []
-		self.__filehoster__.insert(0,	{ "label": "rapidshare",	"alt_label": "" } )
-		self.__filehoster__.insert(1,	{ "label": "hotfile",		"alt_label": "" } )			# deprecated
-		self.__filehoster__.insert(2,	{ "label": "fileserve",		"alt_label": "" } )
-		self.__filehoster__.insert(3,	{ "label": "filesonic",		"alt_label": "" } )			# dead
-		self.__filehoster__.insert(4,	{ "label": "filefactory",	"alt_label": "" } )		# deprecated
-		self.__filehoster__.insert(5,	{ "label": "megaupload",	"alt_label": "" } )			# dead
-		self.__filehoster__.insert(6,	{ "label": "multiupload",	"alt_label": "" } )
-		self.__filehoster__.insert(7,	{ "label": "wupload",		"alt_label": "" } )
-		self.__filehoster__.insert(8,	{ "label": "oron",			"alt_label": "" } )
-		self.__filehoster__.insert(9,	{ "label": "turbobit",		"alt_label": "" } )
-		self.__filehoster__.insert(10,	{ "label": "uploaded",		"alt_label": "ul.to" } )
-		self.__filehoster__.insert(11,	{ "label": "netload",		"alt_label": "" } )
-		self.__filehoster__.insert(12,	{ "label": "depositfiles",	"alt_label": "" } )
-		self.__filehoster__.insert(13,	{ "label": "filepost",		"alt_label": "" } )
-		self.__filehoster__.insert(14,	{ "label": "bitshare",		"alt_label": "" } )
+		self.__filehoster__	= {}
+		self.__filehoster__["0"] = { "label": "rapidshare",	"alt_label": "",		"url": "http://rapidshare.com" }
+		self.__filehoster__["4"] = { "label": "filefactory",	"alt_label": "" }
+		self.__filehoster__["9"] = { "label": "turbobit",		"alt_label": "",		"url": "http://turbobit.net" }
+		self.__filehoster__["10"] = { "label": "uploaded",		"alt_label": "ul.to",	"url": "http://ul.to" }
+		self.__filehoster__["11"] = { "label": "netload",		"alt_label": "" }
+		self.__filehoster__["12"] = { "label": "depositfiles",	"alt_label": "" }
+		self.__filehoster__["13"] = { "label": "filepost",		"alt_label": "" }
+		self.__filehoster__["14"] = { "label": "bitshare",		"alt_label": "" }
+		#self.__filehoster__[""] = { "label": "",		"alt_label": "",	"url": "" }
+		
+		# ignore the following urls, when looking for new filehosters
+		self.__urls__		= []
+		self.__urls__.append("http://linksafe.me")
 		 
 	#===============================================================================
 	#
@@ -51,10 +51,14 @@ class OneDDLCore(DDLScraperCore):
 			posts = re.compile('class="entry-title">.*?<a href="(.+?)".+?>(.+?)</a>.+?class="entry-content".+?<img.+?src="(.+?)"',re.DOTALL).findall(website)
 		return posts
 
-	def _scrapeFilehosterLinksNow( self, website, getHD, get1Click, filehoster ):
+	def _scrapeFilehosterLinksNow( self, website, getHD, get1Click, fh_key ):
 		
-		fh_label = self.__filehoster__[filehoster]["label"]
-		fh_alt_label = self.__filehoster__[filehoster]["alt_label"]
+		fh = self._getFilehoster(fh_key)
+		if (fh == None):
+			return []
+		
+		fh_label = fh["label"]
+		fh_alt_label = fh["alt_label"]
 		
 		if self.__dbg__:
 			print self.__plugin__ + " _scrapeFilehosterLinksNow: hd: %s - 1click: %s - filehoster: %s" % (getHD, get1Click, fh_label)
@@ -88,19 +92,19 @@ class OneDDLCore(DDLScraperCore):
 		return scraped_links
 	
 	def _scrapeFilehosterLinksByLinkType( self, website, getHD, get1Click):
-		links = self._scrapeFilehosterLinksNow( website, getHD, get1Click, int(self.__addon__.getSetting( "filehoster" )) )
+		links = self._scrapeFilehosterLinksNow( website, getHD, get1Click, self.__addon__.getSetting( "filehoster" ) )
 		if ( len(links) == 0):
-			alt_filehoster = int(self.__addon__.getSetting( "alt_filehoster1" ))
-			if ( alt_filehoster != 0):
-				links = self._scrapeFilehosterLinksNow( website, getHD, get1Click, (alt_filehoster-1) )
+			alt_filehoster = self.__addon__.getSetting( "alt_filehoster1" )
+			if ( alt_filehoster != "0"):
+				links = self._scrapeFilehosterLinksNow( website, getHD, get1Click, str(int(alt_filehoster)-1) )
 		if ( len(links) == 0):
-			alt_filehoster = int(self.__addon__.getSetting( "alt_filehoster2" ))
-			if ( alt_filehoster != 0):
-				links = self._scrapeFilehosterLinksNow( website, getHD, get1Click, (alt_filehoster-1) )
+			alt_filehoster = self.__addon__.getSetting( "alt_filehoster2" )
+			if ( alt_filehoster != "0"):
+				links = self._scrapeFilehosterLinksNow( website, getHD, get1Click, str(int(alt_filehoster)-1) )
 		if ( len(links) == 0):
-			alt_filehoster = int(self.__addon__.getSetting( "alt_filehoster3" ))
-			if ( alt_filehoster != 0):
-				links = self._scrapeFilehosterLinksNow( website, getHD, get1Click, (alt_filehoster-1) )
+			alt_filehoster = self.__addon__.getSetting( "alt_filehoster3" )
+			if ( alt_filehoster != "0"):
+				links = self._scrapeFilehosterLinksNow( website, getHD, get1Click, str(int(alt_filehoster)-1) )
 		return links
 	
 	def _scrapeFilehosterLinksByQuality( self, website, getHD):

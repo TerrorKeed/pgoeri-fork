@@ -1,4 +1,5 @@
 [B]Version 0.2.3[/B]
+    * Removed obsolete filehoster: hotfile.com, fileserve.com, filesonic.com, megaupload.com, multiupload.com, wupload.com & oron.com
     * New supported filehoster: bitshare.com
     * New sub categories: Movies/Complete BluRay, Movies/RC, Ebooks/Magazines
     * Fixed problem with fetching uploaded.to links

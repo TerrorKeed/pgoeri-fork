@@ -84,20 +84,13 @@
 
     <string id="30360">None</string>
     <string id="30361">rapidshare.com</string>
-    <string id="30362">hotfile.com</string> <!-- seems dead -->
-    <string id="30363">fileserve.com</string>
-    <string id="30364">filesonic.com</string> <!--  is dead -->
-    <string id="30365">filefactory.com</string> <!-- seems dead -->
-    <string id="30366">megaupload.com</string> <!--  is dead -->
-    <string id="30367">multiupload.com</string>
-    <string id="30368">wupload.com</string>
-    <string id="30369">oron.com</string>
-    <string id="30370">turbobit.net</string>
-    <string id="30371">ul.to</string>
-    <string id="30372">netload.in</string>
-    <string id="30373">depositfiles.com</string>
-    <string id="30374">filepost.com</string>
-    <string id="30375">bitshare.com</string>
+    <string id="30362">filefactory.com</string>
+    <string id="30363">turbobit.net</string>
+    <string id="30364">uploaded.to</string>
+    <string id="30365">netload.in</string>
+    <string id="30366">depositfiles.com</string>
+    <string id="30367">filepost.com</string>
+    <string id="30368">bitshare.com</string>
     
     <!-- Strings used by DDLScraper -->
     <!-- Menu strings -->
@@ -115,9 +108,13 @@
     
     <string id="30700">Fetch posts...</string>
     <string id="30701">Fetch filehosters...</string>
+    <string id="30702">Test all categories...</string>
     
     <string id="30800">Added %d link(s) to JDownloader</string>
     <string id="30801">Add Links</string>
     <string id="30802">JD Info</string>
     <string id="30803">JD Error</string>
+    
+    <!-- errors -->
+    <string id="30900">Invalid filehoster setting. Fix your plugin settings!</string>
 </strings>
