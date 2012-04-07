@@ -45,14 +45,9 @@
      
     <!-- Plugin settings strings -->
     <string id="30300">Prefered Filehoster</string>
-    <string id="30301">hotfile.com</string>
-    <string id="30302">filesonic.com</string>
-    <string id="30303">fileserve.com</string>
-    <string id="30304">Alternative Filehoster</string>
-    <string id="30305">None</string>
-    <string id="30306">Number of pages scraped at once</string>
-    <string id="30307">upfile.in</string>
-    <string id="30308">wupload.com</string>
+    <string id="30301">Alternative Filehoster</string>
+    <string id="30302">Number of pages scraped at once</string>
+    
     <string id="30310">Hide TV Shows</string>
     <string id="30311">Hide Movies</string>
     <string id="30312">Hide Music</string>
@@ -70,6 +65,10 @@
     <string id="30350">Categories</string>
     <string id="30351">Advanced</string>
 
+    <string id="30360">None</string>
+    <string id="30361">turbobit.net</string>
+    <string id="30362">extabit.com</string>
+    
     <!-- Strings used by DDLScraper -->
     <!-- Menu strings -->
     <string id="30500">Video information</string>
@@ -85,9 +84,14 @@
     <string id="30604">Couldn't scrape any filehoster links</string>
     
     <string id="30700">Fetch posts...</string>
+    <string id="30701">Fetch filehosters...</string>
+    <string id="30702">Test all categories...</string>
     
     <string id="30800">Added %d link(s) to JDownloader</string>
     <string id="30801">Add Links</string>
     <string id="30802">JD Info</string>
     <string id="30803">JD Error</string>
+    
+    <!-- errors -->
+    <string id="30900">Invalid filehoster setting. Fix your plugin settings!</string>
 </strings>

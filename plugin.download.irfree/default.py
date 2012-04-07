@@ -24,14 +24,18 @@ if (__name__ == "__main__" ):
 		print __plugin__
 	
 	import IRFreeNavigation as navigation
+	from PluginException import PluginException
 	navigator = navigation.IRFreeNavigation()
 	
-	if (not sys.argv[2]):
-		navigator.listMenu()
-	else:
-		params = navigator.getParameters(sys.argv[2])
-		get = params.get
-		if (get("action")):
-			navigator.executeAction(params)
-		elif (get("path")):
-			navigator.listMenu(params)
+	try:
+		if (not sys.argv[2]):
+			navigator.listMenu()
+		else:
+			params = navigator.getParameters(sys.argv[2])
+			get = params.get
+			if (get("action")):
+				navigator.executeAction(params)
+			elif (get("path")):
+				navigator.listMenu(params)
+	except PluginException, e:
+		navigator.showError(e.message)
