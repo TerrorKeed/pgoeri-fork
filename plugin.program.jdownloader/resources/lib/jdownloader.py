@@ -132,6 +132,13 @@ def _http_query(query):
 			raise error
 	return result
 
+# determine the current remote control api version (nightly or stable)
+nightly = False
+try:
+	if (int(_http_query("/get/rcversion")) > 9568 ):
+		nightly = True
+except: pass
+
 # Get Info #
 
 # As long as only the package info gets parsed, it doesn't matter which list gets loaded (currentlist,alllist,finishedlist)
@@ -141,14 +148,20 @@ def get_downloadlist(x):
 	xmlfile = os.path.join( BASE_RESOURCE_PATH , "dlist.xml" )
 	try:
 		#result = _http_query('/get/downloads/%s' % x)
-		result = _http_query('/get/downloads/currentlist')
+		if (nightly):
+			result = _http_query('/get/downloads/current/list')
+		else:
+			result = _http_query('/get/downloads/currentlist')
 		
 		fileObj = open(xmlfile,"w")
 		fileObj.write(result)
 		fileObj.close()
 		
 		xmldoc = minidom.parseString(result)
-		itemlist = xmldoc.getElementsByTagName('package')
+		if (nightly):
+			itemlist = xmldoc.getElementsByTagName('packages')
+		else:
+			itemlist = xmldoc.getElementsByTagName('package')
 		filelist = []
 		for s in itemlist :
 			package = {}
@@ -174,7 +187,10 @@ def get(x):
 	if x == GET_STATUS:
 		getStr = '/get/downloadstatus'
 	if x == GET_CURRENTFILECNT:
-		getStr = '/get/downloads/currentcount'
+		if (nightly):
+			getStr = '/get/downloads/current/count'
+		else:
+			getStr = '/get/downloads/currentcount'
 	
 	result = _http_query(getStr)
 	if result.startswith("0"): result = 'none'
@@ -214,22 +230,42 @@ def action( x , limit = "0" ):
 		actionStr = '/action/pause'
 	if x == ACTION_TOGGLE:
 		actionStr = '/action/toggle'
-	if x == ACTION_SPEEDLIMIT:
-		actionStr = '/action/set/download/limit/' + str(limit)
-	if x == ACTION_MAXDOWNLOADS:
-		actionStr = '/action/set/download/max/' + str(limit)
 	if x == ACTION_RECONNECT:
 		actionStr = '/action/reconnect'
-	if x == ACTION_ENA_RECONNECT:
-		actionStr = '/action/set/reconnectenabled/false' # interface is wrong, expects the opposite values
-	if x == ACTION_DIS_RECONNECT:
-		actionStr = '/action/set/reconnectenabled/true' # interface is wrong, expects the opposite values
-	if x == ACTION_ENA_PREMIUM:
-		actionStr = '/action/set/premiumenabled/true'
-	if x == ACTION_DIS_PREMIUM:
-		actionStr = '/action/set/premiumenabled/false'
-	if x == ACTION_JD_UPDATE:
-		actionStr = '/action/update/force%s/' % str(limit)
+	if (nightly):
+		if x == ACTION_SPEEDLIMIT:
+			actionStr = '/set/download/limit/' + str(limit)
+		if x == ACTION_MAXDOWNLOADS:
+			actionStr = '/set/download/max/' + str(limit)
+		if x == ACTION_ENA_RECONNECT:
+			actionStr = '/set/reconnect/true'
+		if x == ACTION_DIS_RECONNECT:
+			actionStr = '/set/reconnect/false' 
+		if x == ACTION_ENA_PREMIUM:
+			actionStr = '/set/premium/true'
+		if x == ACTION_DIS_PREMIUM:
+			actionStr = '/set/premium/false'
+		if x == ACTION_JD_UPDATE:
+			if (limit==1):
+				actionStr = '/action/forceupdate'
+			else:
+				actionStr = '/action/update'
+	else:
+		if x == ACTION_SPEEDLIMIT:
+			actionStr = '/action/set/download/limit/' + str(limit)
+		if x == ACTION_MAXDOWNLOADS:
+			actionStr = '/action/set/download/max/' + str(limit)
+		if x == ACTION_ENA_RECONNECT:
+			actionStr = '/action/set/reconnectenabled/false' # interface is wrong, expects the opposite values
+		if x == ACTION_DIS_RECONNECT:
+			actionStr = '/action/set/reconnectenabled/true' # interface is wrong, expects the opposite values
+		if x == ACTION_ENA_PREMIUM:
+			actionStr = '/action/set/premiumenabled/true'
+		if x == ACTION_DIS_PREMIUM:
+			actionStr = '/action/set/premiumenabled/false'
+		if x == ACTION_JD_UPDATE:
+			actionStr = '/action/update/force%s/' % str(limit)
+			
 	if x == ACTION_JD_RESTART:
 		actionStr = '/action/restart'
 	if x == ACTION_JD_SHUTDOWN:
