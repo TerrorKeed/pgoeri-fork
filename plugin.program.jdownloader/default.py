@@ -24,6 +24,7 @@ import time
 __addon__ = xbmcaddon.Addon(__addonID__)
 __language__	= __addon__.getLocalizedString
 __dbg__			= __addon__.getSetting( "debug" ) == "true"
+__listview__	= __addon__.getSetting( "list_view" ) == "true"
 __logprefix__	= "p.p.jd-"+__version__+": "
 
 BASE_RESOURCE_PATH = os.path.join( __addon__.getAddonInfo('path'), "resources" )
@@ -103,6 +104,12 @@ def get_filename( mode = 0):
 			filename = ""
 	return filename
 
+def pkg_is_finished(item):
+	if (item["Percentage"] == "100,00" or item["Percentage"] == "100.00"):
+		return True
+	else:
+		return False
+	
 params=get_params()
 url=None
 mode=None
@@ -129,7 +136,6 @@ except jdownloader.JDError, error:
 
 #main menu:
 if mode==None or mode==0:
-	
 	#status color
 	status = jdownloader.get(jdownloader.GET_STATUS)
 	if jdownloader.STATE_NOTRUNNING in status:
@@ -149,6 +155,11 @@ if mode==None or mode==0:
 	addDir( __language__(30051) + ": %s - %s: %s KB/s - %s %s" % (status , __language__(30052) , downloadspeed, jdownloader.get(jdownloader.GET_CURRENTFILECNT), __language__(30053)) , "actions" , 2 , "" )
 	addDir( __language__(30050), "currentlist" , 1 , "" )
 	addDir( __language__(30056), "finishedlist" , 1 , "" )
+	
+	# change to view if set in settings
+	if (__listview__):
+		xbmc.executebuiltin("Container.SetViewMode(51)")
+	
 	end_of_directory( True )
 	
 #list of packages
@@ -156,15 +167,25 @@ if mode==1:
 	filelist = jdownloader.get_downloadlist(url)
 	for item in filelist:
 		add = True
-		summary = item["Name"] + item["Size"] + item["Percentage"] + "%"
+		summary = item["Percentage"] + "%"
+		if (item["Eta"].strip() != "~"):
+			summary += " - " + item["Eta"].strip()
+		summary += " | " + item["Name"].strip() + " | " + item["Size"]
 		
 		#modify color (YELLOW = active downloading, GREEN = finished) 
 		if not item["Eta"] == "~ ": summary = summary.replace( summary , "[COLOR=ffFFFF00]%s[/COLOR]" % ( summary )) # YELLOW
-		elif item["Percentage"] == "100,00": summary = summary.replace( summary , "[COLOR=ff00FF00]%s[/COLOR]" % ( summary )) # GREEN
+		elif pkg_is_finished(item): summary = summary.replace( summary , "[COLOR=ff00FF00]%s[/COLOR]" % ( summary )) # GREEN
+		
 		#only add finished packages in finishedlist
 		if url == "finishedlist":
-			if not item["Percentage"] == "100,00" : add = False
+			if not pkg_is_finished(item) : add = False
+			
 		if add: addLink( summary , "" , "" )
+	
+	# change to view if set in settings
+	if (__listview__):
+		xbmc.executebuiltin("Container.SetViewMode(51)")
+		
 	end_of_directory( True )
 
 #choose action

@@ -1,5 +1,7 @@
 [B]Version 1.2.6[/B]
     * Fixed problems with nightly version of JDownloader
+    * Fixed empty list in 'finished packages' sub menu
+    * Rearranged package information in package list view (<percentage> (- <eta>) | <title> | <size>)
 
 [B]Version 1.2.5[/B]
     * Added new actions to user interface: 'Enable/Disable reconnect', 'Enable/Disable premium'

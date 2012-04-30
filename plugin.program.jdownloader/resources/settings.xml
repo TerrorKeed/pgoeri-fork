@@ -28,6 +28,7 @@
   
   <!-- Advanced -->
   <category label="30030">
+    <setting id="list_view" type="bool" label="30032" default="true" />
     <setting id="debug" type="bool" label="30031" default="false" />
   </category>
   
