@@ -101,10 +101,9 @@ class DDLScraperNavigation:
 				self.errorHandling(self.__language__(30801), file_links, status)
 				return False
 			
-			try:
-				for link in file_links:
-					xbmc.executebuiltin('XBMC.RunPlugin(plugin://%s/?action=addlink&url=%s)' % ( self.__JDaddonID__, link ) )
-				self.showMessage(self.__language__(30802),self.__language__(30800) % len(file_links))
+			try: 
+				xbmc.executebuiltin('XBMC.RunPlugin(plugin://%s/?action=addlinklist&url=%s)' % ( self.__JDaddonID__, (" ".join(file_links)) ) )
+				self.showMessage(self.__language__(30800) % len(file_links), get("title") )
 			except jdownloader.JDError, error:
 				(type, e, traceback) = sys.exc_info()
 				self.showMessage(self.__language__(30803), e.message)
@@ -188,7 +187,7 @@ class DDLScraperNavigation:
 		icon = item("img", "DefaultFolder.png")
 		listitem=xbmcgui.ListItem(item("Title"), iconImage=icon, thumbnailImage=item("img") )
 
-		url = '%s?path=%s&action=add_link&url=%s' % ( sys.argv[0], item("path"), item("url"));
+		url = '%s?path=%s&action=add_link&title=%s&url=%s' % ( sys.argv[0], item("path"), item("Title"), item("url"));
 			
 		cm = []
 		

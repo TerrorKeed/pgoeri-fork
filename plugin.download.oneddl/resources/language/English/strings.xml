@@ -110,7 +110,7 @@
     <string id="30701">Fetch filehosters...</string>
     <string id="30702">Test all categories...</string>
     
-    <string id="30800">Added %d link(s) to JDownloader</string>
+    <string id="30800">Added %d link(s):</string>
     <string id="30801">Add Links</string>
     <string id="30802">JD Info</string>
     <string id="30803">JD Error</string>
