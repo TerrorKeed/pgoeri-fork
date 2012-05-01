@@ -1,8 +1,10 @@
 [B]Version 1.2.6[/B]
-    * Fixed problems with nightly version of JDownloader
-    * Fixed empty list in 'finished packages' sub menu
-    * Fixed problem with automatic start of downloads: 'Start downloading after adding new links' feature did not work, when the dl list was completely empty
-    * Rearranged package information in package list view (<percentage> (- <eta>) | <title> | <size>)
+    * bug - jdnightly: fixed problems with nightly version of JDownloader
+    * bug - pkg_list: fixed empty list in 'finished packages' sub menu
+    * bug - add_links: fixed problem with automatic start of downloads: 'Start downloading after adding new links' feature did not work, when the dl list was completely empty
+    * improvement - pkg_list: rearranged package information in package list view (<percentage> (- <eta>) | <title> | <size>)
+    * improvement - pkg_list: automatic generated packages names (e.g. "Added 234204920") get replaced by filename, if possible
+    * feature - file_list: show all files and their status by clicking on a package in the pkg list 
 
 [B]Version 1.2.5[/B]
     * Added new actions to user interface: 'Enable/Disable reconnect', 'Enable/Disable premium'

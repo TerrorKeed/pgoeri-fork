@@ -24,7 +24,6 @@ import time
 __addon__ = xbmcaddon.Addon(__addonID__)
 __language__	= __addon__.getLocalizedString
 __dbg__			= __addon__.getSetting( "debug" ) == "true"
-__listview__	= __addon__.getSetting( "list_view" ) == "true"
 __logprefix__	= "p.p.jd-"+__version__+": "
 
 BASE_RESOURCE_PATH = os.path.join( __addon__.getAddonInfo('path'), "resources" )
@@ -104,12 +103,18 @@ def get_filename( mode = 0):
 			filename = ""
 	return filename
 
-def pkg_is_finished(item):
-	if (item["Percentage"] == "100,00" or item["Percentage"] == "100.00"):
+def item_is_finished(percent):
+	if (percent == "100,00" or percent == "100.00"):
 		return True
 	else:
 		return False
 	
+def force_view():
+	# change to list view if set in settings
+	if (__addon__.getSetting( "list_view" ) == "true"):
+		xbmc.executebuiltin("Container.SetViewMode(51)")
+
+
 params=get_params()
 url=None
 mode=None
@@ -153,38 +158,32 @@ if mode==None or mode==0:
 	
 	#add the three main list entrys
 	addDir( __language__(30051) + ": %s - %s: %s KB/s - %s %s" % (status , __language__(30052) , downloadspeed, jdownloader.get(jdownloader.GET_CURRENTFILECNT), __language__(30053)) , "actions" , 2 , "" )
-	addDir( __language__(30050), "currentlist" , 1 , "" )
+	addDir( __language__(30050), "alllist" , 1 , "" )
 	addDir( __language__(30056), "finishedlist" , 1 , "" )
 	
-	# change to view if set in settings
-	if (__listview__):
-		xbmc.executebuiltin("Container.SetViewMode(51)")
+	force_view()
 	
 	end_of_directory( True )
 	
 #list of packages
 if mode==1: 
-	filelist = jdownloader.get_downloadlist(url)
-	for item in filelist:
-		add = True
-		summary = item["Percentage"] + "%"
-		if (item["Eta"].strip() != "~"):
-			summary += " - " + item["Eta"].strip()
-		summary += " | " + item["Name"].strip() + " | " + item["Size"]
+	pkglist = jdownloader.get_pkglist(url)
+	for pkg in pkglist:
+		summary = pkg["percent"] + "%"
+		if (pkg["eta"] != "~"):
+			summary += " - " + pkg["eta"]
+		summary += " | " + pkg["display"] + " | " + pkg["size"]
 		
 		#modify color (YELLOW = active downloading, GREEN = finished) 
-		if not item["Eta"] == "~ ": summary = summary.replace( summary , "[COLOR=ffFFFF00]%s[/COLOR]" % ( summary )) # YELLOW
-		elif pkg_is_finished(item): summary = summary.replace( summary , "[COLOR=ff00FF00]%s[/COLOR]" % ( summary )) # GREEN
+		if not pkg["eta"] == "~": summary = summary.replace( summary , "[COLOR=ffFFFF00]%s[/COLOR]" % ( summary )) # YELLOW
+		elif item_is_finished(pkg["percent"]): summary = summary.replace( summary , "[COLOR=ff00FF00]%s[/COLOR]" % ( summary )) # GREEN
 		
 		#only add finished packages in finishedlist
-		if url == "finishedlist":
-			if not pkg_is_finished(item) : add = False
+		if (url == "finishedlist" and not item_is_finished(pkg["percent"])): continue
 			
-		if add: addLink( summary , "" , "" )
+		addDir( summary , pkg["name"] , 4, "" )
 	
-	# change to view if set in settings
-	if (__listview__):
-		xbmc.executebuiltin("Container.SetViewMode(51)")
+	force_view()
 		
 	end_of_directory( True )
 
@@ -238,3 +237,20 @@ if mode==3:
 		jdownloader.action_addcontainer(url)
 	if (params["action"] == "reconnect"):
 		jdownloader.action(jdownloader.ACTION_RECONNECT)
+
+#list of files per package
+if mode==4: 
+	filelist = jdownloader.get_filelist(url)
+	print filelist
+	for file in filelist:
+		summary = file["name"] + " | " + file["status"]
+		
+		#modify color (YELLOW = active downloading, GREEN = finished) 
+		if not file["speed"] == "0": summary = summary.replace( summary , "[COLOR=ffFFFF00]%s[/COLOR]" % ( summary )) # YELLOW
+		elif item_is_finished(file["percent"]): summary = summary.replace( summary , "[COLOR=ff00FF00]%s[/COLOR]" % ( summary )) # GREEN
+		
+		addLink( summary , "" , "" )
+	
+	force_view()
+		
+	end_of_directory( True )
