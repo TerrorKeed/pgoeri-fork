@@ -232,6 +232,8 @@ if mode== 2:
 if mode==3:
 	if (params["action"] == "addlink"):
 		jdownloader.action_addlink(url)
+	if (params["action"] == "addlinklist"):
+		jdownloader.action_addlinklist(url)
 	if (params["action"] == "addcontainer"):
 		jdownloader.action_addcontainer(url)
 	if (params["action"] == "reconnect"):

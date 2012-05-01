@@ -284,7 +284,7 @@ def action_addcontainer(link):
 	result = _http_query('/action/add/container/grabber' + str(grabber) + '/' + str(link))
 	return result
 
-# Links seperated by spaces, won't work, call this functions for each link seperatly
+# Links separated by spaces, won't work, call this functions for each link separately
 def action_addlink(link):
 	# get settings
 	grabber = Addon.getSetting("add_use_grabber")
@@ -295,6 +295,34 @@ def action_addlink(link):
 	link = link.replace( '%3A', ':' )
 	# add link
 	result = _http_query('/action/add/links/grabber' + str(grabber) + '/start' + str(start) + '/' + str(link))
+	return result
+
+# Links separated by spaces, won't work, but as parameters (&l1=<link1>&l2=<link2>&...) it works (in r9568)
+# expects multiple links separated by '|'
+def action_addlinklist(linklist):
+	# get settings
+	grabber = Addon.getSetting("add_use_grabber")
+	start = Addon.getSetting("add_start")
+	
+	links = ""
+	first = True
+	idx=0
+	for link in linklist.split(" "):
+		# prepare link - quote special chars, e.g '?'
+		link = urllib.quote(link)
+		# restore double point (won't work atm)
+		link = link.replace( '%3A', ':' )
+		# add link
+		if (first):
+			links = "?l"
+			first = False
+		else:
+			links += "&l"
+		links += str(idx) + "=" + link
+		idx += 1
+	
+	print links
+	result = _http_query('/action/add/links/grabber' + str(grabber) + '/start' + str(start) + '/' + str(links))
 	return result
 
 def action_addlinks_from_file(filename):
