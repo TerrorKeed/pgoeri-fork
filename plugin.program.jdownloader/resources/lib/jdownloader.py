@@ -5,7 +5,7 @@ import socket,urllib,urllib2,httplib,os
 from xml.dom import minidom
 from traceback import print_exc
 import xbmc,xbmcaddon
-import sys
+import sys,time
 
 __dbg__				= sys.modules[ "__main__" ].__dbg__
 __logprefix__		= sys.modules[ "__main__" ].__logprefix__
@@ -272,6 +272,7 @@ def action( x , limit = "0" ):
 		actionStr = '/action/shutdown'
 
 	result = _http_query(actionStr)
+	
 	return result
 
 def action_addcontainer(link):
@@ -282,6 +283,9 @@ def action_addcontainer(link):
 	# Parameter 'start' is not supported with rc-version 9568!
 	#_http_query('/action/add/container/grabber' + str(grabber) + '/start' + str(start) + '/' + str(link))
 	result = _http_query('/action/add/container/grabber' + str(grabber) + '/' + str(link))
+	
+	force_start()
+	
 	return result
 
 # Links separated by spaces, won't work, call this functions for each link separately
@@ -295,6 +299,9 @@ def action_addlink(link):
 	link = link.replace( '%3A', ':' )
 	# add link
 	result = _http_query('/action/add/links/grabber' + str(grabber) + '/start' + str(start) + '/' + str(link))
+	
+	force_start()
+	
 	return result
 
 # Links separated by spaces, won't work, but as parameters (&l1=<link1>&l2=<link2>&...) it works (in r9568)
@@ -321,8 +328,10 @@ def action_addlinklist(linklist):
 		links += str(idx) + "=" + link
 		idx += 1
 	
-	print links
 	result = _http_query('/action/add/links/grabber' + str(grabber) + '/start' + str(start) + '/' + str(links))
+	
+	force_start()
+	
 	return result
 
 def action_addlinks_from_file(filename):
@@ -332,3 +341,11 @@ def action_addlinks_from_file(filename):
 	for line in lines:
 		action_addlink(line)
 	return "%d link(s) added" % (len(lines), )
+
+# HACK: fixes problem, that jd already stopped again before the links are added to the dl list (decrypting takes a few seconds) 
+def force_start():
+	if (Addon.getSetting("add_start") == "1"):
+		now = time.time();
+		while ((get(GET_STATUS) != STATE_RUNNING or get(GET_SPEED) == "none") and now + 20.0 > time.time()): # try for a maximum of 20 seconds to start jd
+			action(ACTION_START)
+			time.sleep(4.0)

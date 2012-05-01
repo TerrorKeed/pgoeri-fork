@@ -1,6 +1,7 @@
 [B]Version 1.2.6[/B]
     * Fixed problems with nightly version of JDownloader
     * Fixed empty list in 'finished packages' sub menu
+    * Fixed problem with automatic start of downloads: 'Start downloading after adding new links' feature did not work, when the dl list was completely empty
     * Rearranged package information in package list view (<percentage> (- <eta>) | <title> | <size>)
 
 [B]Version 1.2.5[/B]
