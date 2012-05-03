@@ -13,22 +13,18 @@ __XBMC_Revision__	= "4fbc70fda4f3706e4e90ff353acde49176c6a07c" # Trunk (01/06/11
 __useragent__		= "Mozilla/5.0 (Windows; U; Windows NT 5.1; fr; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1"
 
 from traceback import print_exc
-import xbmcplugin
-import xbmc
-import xbmcgui
-import xbmcaddon
-import os
-import urllib
-import time
+import xbmc,xbmcplugin,xbmcgui,xbmcaddon
+import os,urllib,time
 
-__addon__ = xbmcaddon.Addon(__addonID__)
+__addon__		= xbmcaddon.Addon(__addonID__)
+__dialog__		= xbmcgui.Dialog()
 __language__	= __addon__.getLocalizedString
 __dbg__			= __addon__.getSetting( "debug" ) == "true"
 __logprefix__	= "p.p.jd-"+__version__+": "
 
+# add lib directoy to sys path (in order to import the jdownloader python file)
 BASE_RESOURCE_PATH = os.path.join( __addon__.getAddonInfo('path'), "resources" )
 sys.path.append( os.path.join( BASE_RESOURCE_PATH, "lib" ) )
-dialog = xbmcgui.Dialog()
 
 import jdownloader
 
@@ -97,7 +93,7 @@ def get_filename( mode = 0):
 		filename = def_file
 	else:
 		# show browse dialog
-		filename = dialog.browse( 1 , heading , "files", mask, False, False, def_file_path)
+		filename = __dialog__.browse( 1 , heading , "files", mask, False, False, def_file_path)
 		# verify selection
 		if not os.path.isfile(filename):
 			filename = ""
@@ -114,6 +110,21 @@ def force_view():
 	if (__addon__.getSetting( "list_view" ) == "true"):
 		xbmc.executebuiltin("Container.SetViewMode(51)")
 
+def auto_refresh(status, force=False):
+	refresh = False
+	
+	if (force):
+		refresh = True
+		seconds = 3
+	elif (__addon__.getSetting( "auto_refresh" ) == "true" and status != jdownloader.STATE_NOTRUNNING):
+		refresh = True
+		seconds = int(__addon__.getSetting( "refresh_interval" ))
+		seconds = min(seconds,60)
+		seconds = max(seconds,1)
+	
+	if (refresh):
+		xbmc.executebuiltin('XBMC.AlarmClock(JDAutoRefresh, XBMC.RunPlugin(plugin://%s?mode=5&url=refresh), 00:00:%02d, true)' % (__addonID__, seconds ) )
+
 
 params=get_params()
 url=None
@@ -121,18 +132,20 @@ mode=None
 
 try: url=urllib.unquote_plus(params["url"])
 except: pass
+
 try: mode=int(params["mode"])
 except: pass
-try:
+
+try: 
 	if "action" in params: mode=3
 except: pass
 
 if __dbg__:
 	print __logprefix__ + "MODE: " + str(mode) + " URL: " + str(url)
 
-#check connection
+#check connection (and get state only once)
 try:
-	jdownloader.get(jdownloader.GET_STATUS)
+	status = jdownloader.get(jdownloader.GET_STATUS)
 except jdownloader.JDError, error:
 	(type, e, traceback) = sys.exc_info()
 	showError(xbmc.getLocalizedString(257), e.message)
@@ -142,13 +155,14 @@ except jdownloader.JDError, error:
 #main menu:
 if mode==None or mode==0:
 	#status color
-	status = jdownloader.get(jdownloader.GET_STATUS)
 	if jdownloader.STATE_NOTRUNNING in status:
-		status = status.replace( status , "[COLOR=FFFF0000]%s[/COLOR]" % ( status ))	# RED
+		status_display = status.replace( status , "[COLOR=FFFF0000]%s[/COLOR]" % ( status ))	# RED
 	elif jdownloader.STATE_RUNNING in status:
-		status = status.replace( status , "[COLOR=ff00FF00]%s[/COLOR]" % ( status ))	# GREEN
+		status_display = status.replace( status , "[COLOR=ff00FF00]%s[/COLOR]" % ( status ))	# GREEN
 	elif jdownloader.STATE_STOPPING in status:
-		status = status.replace( status , "[COLOR=ffFFFF00]%s[/COLOR]" % ( status ))	# YELLOW
+		status_display = status.replace( status , "[COLOR=ffFFFF00]%s[/COLOR]" % ( status ))	# YELLOW
+	else:
+		status_display = status
 	
 	#downloadspeed color (change color to YELLOW if speed limit is set)
 	downloadspeed = jdownloader.get(jdownloader.GET_SPEED)
@@ -157,7 +171,7 @@ if mode==None or mode==0:
 		downloadspeed = downloadspeed.replace( downloadspeed , "[COLOR=ffFFFF00]%s[/COLOR]" % ( downloadspeed ))
 	
 	#add the three main list entrys
-	addDir( __language__(30051) + ": %s - %s: %s KB/s - %s %s" % (status , __language__(30052) , downloadspeed, jdownloader.get(jdownloader.GET_CURRENTFILECNT), __language__(30053)) , "actions" , 2 , "" )
+	addDir( __language__(30051) + ": %s - %s: %s KB/s - %s %s" % (status_display , __language__(30052) , downloadspeed, jdownloader.get(jdownloader.GET_CURRENTFILECNT), __language__(30053)) , "actions" , 2 , "" )
 	addDir( __language__(30050), "alllist" , 1 , "" )
 	addDir( __language__(30056), "finishedlist" , 1 , "" )
 	
@@ -165,8 +179,11 @@ if mode==None or mode==0:
 	
 	end_of_directory( True )
 	
+	auto_refresh(status)
+	
 #list of packages
-if mode==1: 
+if mode==1:
+	addDir( __language__(30058), "", None, "") # add dummy entry in first line, for prettier behavior on auto refresh
 	pkglist = jdownloader.get_pkglist(url)
 	for pkg in pkglist:
 		summary = pkg["percent"] + "%"
@@ -186,21 +203,25 @@ if mode==1:
 	force_view()
 		
 	end_of_directory( True )
+	
+	auto_refresh(status)
 
 #choose action
 if mode== 2:
-	actions = jdownloader.getAvailableActions()
+	xbmc.executebuiltin('XBMC.CancelAlarm(JDAutoRefresh, true)')
+	
+	actions = jdownloader.getAvailableActions(status)
 	actionlabels = []
 	for i in actions:
 		actionlabels.append(__language__(jdownloader.ALL_ACTIONS[i]))
-	select = dialog.select(__language__(30054) , actionlabels)
+	select = __dialog__.select(__language__(30054) , actionlabels)
 	
 	if not select == -1: 
 		if actions[select] in [jdownloader.ACTION_SPEEDLIMIT,jdownloader.ACTION_MAXDOWNLOADS]:
-			limit = dialog.numeric( 0 , __language__(30055) )
+			limit = __dialog__.numeric( 0 , __language__(30055) )
 			result = jdownloader.action(actions[select],limit)
 		elif actions[select] == jdownloader.ACTION_JD_UPDATE:
-			limit = dialog.yesno( "JDownloader" , __language__(30057) )
+			limit = __dialog__.yesno( "JDownloader" , __language__(30057) )
 			result = jdownloader.action(actions[select],limit) 
 		elif actions[select] == jdownloader.ACTION_ADD_LINKS:
 			filename = get_filename(0);
@@ -224,8 +245,8 @@ if mode== 2:
 			result = result.replace("reconnect=true","reconnect=false")
 		
 		showMessage("JDownloader" , result )
-		time.sleep(3) # otherwise status is not correct after start/stop
-		xbmc.executebuiltin("XBMC.Container.Update")
+		
+		auto_refresh(status,True)
 
 #interface for other addons
 if mode==3:
@@ -240,8 +261,8 @@ if mode==3:
 
 #list of files per package
 if mode==4: 
+	addLink( __language__(30059),"","") # add dummy entry in first line, for prettier behavior on auto refresh
 	filelist = jdownloader.get_filelist(url)
-	print filelist
 	for file in filelist:
 		summary = file["name"] + " | " + file["status"]
 		
@@ -254,3 +275,9 @@ if mode==4:
 	force_view()
 		
 	end_of_directory( True )
+	
+	auto_refresh(status)
+
+#refresh
+if mode==5:
+	xbmc.executebuiltin("XBMC.Container.Refresh") 

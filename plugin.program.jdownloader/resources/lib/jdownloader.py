@@ -218,13 +218,11 @@ def get(x):
 	return result
 
 # Actions #
-
-def getAvailableActions():
+def getAvailableActions(status):
 	actions = ALL_ACTIONS.keys();
 	
 	actions.sort();
 	
-	status = get(GET_STATUS)
 	if STATE_NOTRUNNING in status: 
 		for i in [ACTION_STOP,ACTION_PAUSE,ACTION_SPEEDLIMIT,ACTION_MAXDOWNLOADS]:
 			actions.remove(i)
