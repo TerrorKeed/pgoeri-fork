@@ -296,6 +296,8 @@ class DDLScraperCore(object):
 			
 			# fill video specific fields, used by info dialog
 			post['Title'] = html2text.html2text(post['raw_title'].decode('utf-8'))
+			# use multiple lines for multiple titles
+			post['Title'] = post['Title'].replace(" & "," &\n")
 			#for now, just show raw_descr
 			post['Plot'] = html2text.html2text(raw_descr.decode('utf-8'))
 			# per default, there is always a next page (if not, will be set in parent function)

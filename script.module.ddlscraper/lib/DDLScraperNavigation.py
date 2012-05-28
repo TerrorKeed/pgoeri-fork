@@ -185,9 +185,13 @@ class DDLScraperNavigation:
 		item = item_params.get
 		
 		icon = item("img", "DefaultFolder.png")
+		
 		listitem=xbmcgui.ListItem(item("Title"), iconImage=icon, thumbnailImage=item("img") )
 
-		url = '%s?path=%s&action=add_link&title=%s&url=%s' % ( sys.argv[0], item("path"), item("Title"), item("url"));
+		# replace ampersand with plus sign, otherwise there will occur errors on splitting the parameters!
+		pTitle = item("Title").replace("&","+")
+
+		url = '%s?path=%s&action=add_link&title=%s&url=%s' % ( sys.argv[0], item("path"), pTitle, item("url"));
 			
 		cm = []
 		
