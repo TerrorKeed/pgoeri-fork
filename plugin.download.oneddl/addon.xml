@@ -14,6 +14,7 @@
   </extension>
   <extension point="xbmc.addon.metadata">
     <platform>all</platform>
+    <broken>OneDDL.com is dead. Use the all new RlsBB.com plugin as alternative.</broken>
     <summary lang="en">Browse releases on OneDDL.com and add links to JDownloader</summary>
     <description lang="en">This plugin scrapes posts from OneDDL.com and presents them as directory items. By selecting a post the link gets added to JDownloader.</description>
   </extension>

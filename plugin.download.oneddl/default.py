@@ -12,7 +12,6 @@ __date__			= "08-04-2012"
 __addon__			= xbmcaddon.Addon(id='plugin.download.oneddl')
 __language__		= __addon__.getLocalizedString
 __dbg__				= __addon__.getSetting( "debug" ) == "true"
-__JDaddonID__		= "plugin.program.jdownloader"
 
 sys.path.append( os.path.join( __addon__.getAddonInfo('path'), "resources", "lib" ) )
 
@@ -21,11 +20,11 @@ if (__name__ == "__main__" ):
 		print __plugin__ + " ARGV: " + repr(sys.argv)
 	else:
 		print __plugin__
-	
+
 	import OneDDLNavigation as navigation
 	from PluginException import PluginException
 	navigator = navigation.OneDDLNavigation()
-	
+
 	try:
 		if (not sys.argv[2]):
 			navigator.listMenu()
