@@ -1,0 +1,22 @@
+previous.png
+Icon taken from nuka's original YouTube plugin, assumed to be ok license wise 
+
+iphone.png
+Author: Studiomx
+Licence: Linkware
+http://www.iconarchive.com/category/lifestyle/hardwaremx-icons-by-studiomx.html
+
+movies.png
+Author: Iconshock
+Licence: Linkware
+http://www.iconarchive.com/category/movie/cinema-icons-by-iconshock.html
+
+music.png, games.png
+Author: Diego Leal
+Licence: Free for non-commercial use.
+http://www.iconarchive.com/category/application/multimedia-icons-by-iconhive.html
+
+tvshows.png
+Author: Sakurambo
+Licence: public domain
+http://commons.wikimedia.org/wiki/File:Television_icon.svg
