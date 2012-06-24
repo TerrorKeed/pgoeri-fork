@@ -1,40 +1,23 @@
 import sys, os, xbmc, xbmcaddon
 
 # plugin constants
-__version__			= "0.2.2"
+__version__			= "0.2.3"
 __plugin__			= "IRFree.com-" + __version__
+__addonID__			= "plugin.download.irfree"
 __author__			= "pgoeri"
 __url__				= "http://pgoeri-xbmc-plugins.googlecode.com"
 __svn_url__			= "http://pgoeri-xbmc-plugins.googlecode.com/svn/trunk/plugin.download.irfree/"
-__XBMC_Revision__	= "ec33f1f05a364d6dc69504134158cab31b970f29" # 03-04-2012
-__date__			= "08-04-2012"
+__XBMC_Revision__	= "11.0" # Eden
+__date__			= "25-06-2012"
 
-__addon__			= xbmcaddon.Addon(id='plugin.download.irfree')
+__addon__			= xbmcaddon.Addon(id=__addonID__)
 __language__		= __addon__.getLocalizedString
 __dbg__				= __addon__.getSetting( "debug" ) == "true"
-__JDaddonID__		= "plugin.program.jdownloader"
 
-sys.path.append( os.path.join( __addon__.getAddonInfo('path'), "resources", "lib" ) )
 
 if (__name__ == "__main__" ):
-	if __dbg__:
-		print __plugin__ + " ARGV: " + repr(sys.argv)
-	else:
-		print __plugin__
+	sys.path.append( os.path.join( __addon__.getAddonInfo('path'), "resources", "lib" ) )
 	
 	import IRFreeNavigation as navigation
-	from PluginException import PluginException
-	navigator = navigation.IRFreeNavigation()
 	
-	try:
-		if (not sys.argv[2]):
-			navigator.listMenu()
-		else:
-			params = navigator.getParameters(sys.argv[2])
-			get = params.get
-			if (get("action")):
-				navigator.executeAction(params)
-			elif (get("path")):
-				navigator.listMenu(params)
-	except PluginException, e:
-		navigator.showError(e.message)
+	navigation.IRFreeNavigation().navigate()

@@ -70,6 +70,12 @@ class IRFreeCore(DDLScraperCore):
 		
 		return posts
 	
+	
+	#===============================================================================
+	#
+	# Scrape specific filehoster links from a post
+	#
+	#===============================================================================
 	def _scrapeFilehosterLinksNow( self, website, fh_key ):
 		
 		fh = self._getFilehoster(fh_key)
@@ -110,6 +116,12 @@ class IRFreeCore(DDLScraperCore):
 		
 		return file_links
 	
+	
+	#===============================================================================
+	#
+	# SELF TEST
+	#
+	#===============================================================================
 	def _scrapeFilehoster( self, website):
 		# extract links
 		urls = re.compile('href="(http://.+?)["/]').findall(website)

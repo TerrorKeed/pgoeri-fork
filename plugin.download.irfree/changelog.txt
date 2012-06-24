@@ -1,3 +1,6 @@
+[B]Version 0.2.3[/B]
+    * add multiple links at once and added title to the following notification
+
 [B]Version 0.2.2[/B]
     * Removed obsolete (=all) filehoster: hotfile.com, filesonic.com, fileserve.com, upfile.in & wupload.com
     * New supported filehoster: turbobit.net & extabit.com

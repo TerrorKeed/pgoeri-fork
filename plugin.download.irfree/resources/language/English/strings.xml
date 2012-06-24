@@ -80,7 +80,7 @@
     <string id="30600">Error</string>
     <string id="30601">Uncaught error:</string>
     <string id="30602">Unknown error</string>
-    <string id="30603">Couldn't scrape IRFree.com</string>
+    <string id="30603">Couldn't scrape %s</string>
     <string id="30604">Couldn't scrape any filehoster links</string>
     
     <string id="30700">Fetch posts...</string>
