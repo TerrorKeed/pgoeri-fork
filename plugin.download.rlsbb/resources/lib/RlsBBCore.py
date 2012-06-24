@@ -34,6 +34,7 @@ class RlsBBCore(DDLScraperCore):
 		self.__urls__.append("imdb")
 		self.__urls__.append("tv.com")
 		self.__urls__.append("tvrage")
+		#self.__urls__.append("")
 		 
 	#===============================================================================
 	#
@@ -64,7 +65,7 @@ class RlsBBCore(DDLScraperCore):
 	#===============================================================================
 	def _scrapeFilehosterLinksByFilehoster( self, website, fh_key ):
 		
-		fh = self._getFilehoster(fh_key)
+		fh = self._getFilehoster(fh_key,"0") # "0" means, there is not alternative filehoster defined
 		if (fh == None):
 			return []
 		
