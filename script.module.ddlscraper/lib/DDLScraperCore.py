@@ -1,17 +1,22 @@
 import sys, urllib, urllib2, re, pickle, html2text, time, os, xbmcgui, xbmc, socket
 from operator import itemgetter
 from PluginException import PluginException
+import mechanize
+
 # ERRORCODES:
 # 200 = OK
 # 303 = See other (returned an error message)
 # 500 = uncaught error
 
 class DDLScraperCore(object):
+	__plugin__		= sys.modules[ "__main__" ].__plugin__
 	__addon__		= sys.modules[ "__main__" ].__addon__
 	__language__	= sys.modules[ "__main__" ].__language__
-	__plugin__		= sys.modules[ "__main__" ].__plugin__
 	__dbg__			= sys.modules[ "__main__" ].__dbg__
-	__dbgv__		= False
+	
+	__dbgv__		= True # verbose debugging
+	__browser__		= mechanize.Browser()
+	
 	# the following members must be set in the child class
 	__title__		= ""
 	__url__			= ""
@@ -20,7 +25,6 @@ class DDLScraperCore(object):
 	__filehoster__	= {}
 	__urls__		= []
 	
-	USERAGENT			= "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-GB; rv:1.9.2.8) Gecko/20100722 Firefox/3.6.8"
 	BASE_RESOURCE_PATH	= xbmc.translatePath( __addon__.getAddonInfo( "Profile" ) )
 	
 	#===============================================================================
@@ -37,7 +41,9 @@ class DDLScraperCore(object):
 		# make sure addon_data dir exists
 		try: os.mkdir(self.BASE_RESOURCE_PATH)
 		except: pass
-		
+	
+		self.__browser__.set_handle_gzip(True)
+			
 		return None
 	
 	def _log(self,msg):
@@ -191,11 +197,11 @@ class DDLScraperCore(object):
 				filehoster = self._testScrapeFileHoster(post[0])
 				
 				for fh in filehoster:
-					fh = fh.lower();
+					fh = fh.lower().strip();
 					
 					# extract specific posts for testing a specific filehoster
-					#if (fh == "bitshare"):
-					#	print "BITSHARE:"+post[0]
+					#if (fh == "http://netfolder.in"):
+					#	print "POST: "+post[0]
 					
 					if fh in all_filehoster:
 						all_filehoster[fh] = all_filehoster[fh] + 1
@@ -207,18 +213,15 @@ class DDLScraperCore(object):
 				pDialog.update(int(perc))
 			
 			pDialog.close()
+			
+		# filter out irrelevant links
+		relevant_fh = dict(filter(lambda (fh,cnt): cnt>5, all_filehoster.items()))
 		
 		# sort all found filehoster by number of occurence	
-		sorted_fh = sorted(all_filehoster.iteritems(), key=itemgetter(1), reverse=True)
+		sorted_fh = sorted(relevant_fh.iteritems(), key=itemgetter(1), reverse=True)
 		
 		# save results to file
-		fh_file = os.path.join( self.BASE_RESOURCE_PATH , "filehoster.txt" )
-		try:
-			f = open(fh_file,"wb")
-			pickle.dump(sorted_fh,f)
-			f.close()
-		except IOError:
-			self._exception("_testSearchAllFileHoster")
+		self._writeToFile("filehoster.txt", sorted_fh, True)
 	
 	def _testPrintAllFileHoster(self):
 		# load filehoster from file
@@ -257,7 +260,19 @@ class DDLScraperCore(object):
 	# False MUST be handled properly in External functions
 	#
 	#===============================================================================
-				
+	
+	def _writeToFile(self, filename, filecontent, dump=False):
+		file = os.path.join( self.BASE_RESOURCE_PATH , filename )
+		try:
+			f = open(file,"wb")
+			if (dump):
+				pickle.dump(filecontent,f)
+			else:
+				f.write(filecontent)
+			f.close()
+		except IOError:
+			self._exception("_writeToFile")
+	
 	def _getPostInfo(self, value):
 		if self.__dbg__:
 			print self.__plugin__ + " _getPostInfo: " + value[1]
@@ -319,20 +334,17 @@ class DDLScraperCore(object):
 		if (self.__delay__ > 0.0):
 			while (self.last_fetch+self.__delay__>time.time()):
 				time.sleep(0.1)
-			
-		url = urllib2.Request(link)
-		url.add_header('User-Agent', self.USERAGENT)
+		
 		try:
-			con = urllib2.urlopen(url) # timeout=
-			website = con.read()
-			if self.__dbgv__:
-				print self.__plugin__ + " _fetchWebsite result: " + repr(website)
-			con.close()
+			self.__browser__.open(link)
+			website = self.__browser__.response().read()
 			
 			self.last_fetch = time.time()
 	
 			if self.__dbg__:
 				print self.__plugin__ + " _fetchWebsite done"
+			if self.__dbgv__:
+				self._writeToFile(urllib.quote_plus(link)+".html", website)
 			return ( website, "", 200 )
 		except (urllib2.HTTPError, urllib2.URLError), e:
 			# retry access via recursion for a maximum of 20 tries (prevent endless loop)
@@ -346,7 +358,7 @@ class DDLScraperCore(object):
 					return self._fetchWebsite(link,recursion_cnt+1)
 			if self.__dbg__:
 				print self.__plugin__ + " _fetchWebsite exception: " + str(e)
-			return ( "", self.__language__(30603), 303 )
+			return ( "", self.__language__(30603) % (self.__title__, ), 303 )
 		except:
 			self._exception("_fetchWebsite")
 			if self.__dbg__:
@@ -377,7 +389,6 @@ class DDLScraperCore(object):
 			( pagecontent, result_str, result) = self._fetchWebsite(page_link)
 			if ( result != 200):
 				break
-			
 			website += pagecontent
 			
 			perc = (page-from_page+1)*100/page_cnt
@@ -390,6 +401,9 @@ class DDLScraperCore(object):
 				break
 		
 		pDialog.close()
+		
+		if self.__dbgv__:
+			self._writeToFile(urllib.quote_plus(link)+"_"+str(from_page)+"_"+str(to_page)+".html", website)
 		
 		if ( result == 200 ):
 			posts = self._extractPosts(link,website)
@@ -419,7 +433,10 @@ class DDLScraperCore(object):
 			page_link = link+"/page/"+str(page)
 		return page_link
 	
-	def _getFilehoster(self, fh_key):
+	def _getFilehoster(self, fh_key, none_value=None):
+		
+		if (none_value != None and fh_key == none_value): # alt_filehoster not defined
+			return None
 		
 		if (fh_key not in self.__filehoster__.keys()):
 			self._raise(self.__language__(30900))
