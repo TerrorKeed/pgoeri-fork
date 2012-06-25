@@ -14,7 +14,7 @@ class DDLScraperCore(object):
 	__language__	= sys.modules[ "__main__" ].__language__
 	__dbg__			= sys.modules[ "__main__" ].__dbg__
 	
-	__dbgv__		= True # verbose debugging
+	__dbgv__		= False # verbose debugging
 	__browser__		= mechanize.Browser()
 	
 	# the following members must be set in the child class
@@ -413,6 +413,8 @@ class DDLScraperCore(object):
 		return ( posts, next, result_str, result)
 	
 	def _executeRE(self, regexp, content, add_flags=0):
+		if self.__dbgv__:
+			print self.__plugin__ + " _executeRE : " + regexp
 		result = re.compile(regexp,re.DOTALL+add_flags).findall( content )
 		if ( len(result)>=1 ):
 			return result[0]
