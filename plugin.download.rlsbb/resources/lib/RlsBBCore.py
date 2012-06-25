@@ -87,7 +87,7 @@ class RlsBBCore(DDLScraperCore):
 		if ((scraped_links==None or len(scraped_links)==0)):
 			# links could be on another page!
 			# get link to sub page
-			subpage_link = self._executeRE('href="(http://nfo.rlsbb.me/index.php/view/\d+?)">%s' % ( fh_label, ), website, re.IGNORECASE)
+			subpage_link = self._executeRE('href=" *?(http://nfo.rlsbb.me/index.php/view/\d+?)">%s' % ( fh_label, ), website, re.IGNORECASE)
 			if (subpage_link!=None and len(subpage_link)>0):
 				if self.__dbgv__:
 					print self.__plugin__ + " SUB PAGE: " + subpage_link
