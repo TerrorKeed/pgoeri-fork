@@ -3,7 +3,7 @@
 
   <!-- General -->
   <category>
-    <setting id="filehoster" type="enum" label="30310" lvalues="30361|30362|30363" entries="1|2|3" default="0" />
+    <setting id="filehoster" type="enum" label="30310" lvalues="30361|30362|30363" entries="1|2|3" default="1" />
     <!-- Alternative Filehoster -->
     <setting id="filehoster_alt1" type="enum" label="30311" lvalues="30360|30361|30362|30363" entries="0|1|2|3" default="0" />
     <setting id="filehoster_alt2" type="enum" label="30312" lvalues="30360|30361|30362|30363" entries="0|1|2|3" default="0" />
