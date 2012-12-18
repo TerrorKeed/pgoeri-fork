@@ -7,8 +7,8 @@ class RlsBBCore(DDLScraperCore):
 		super(type(self),self).__init__()
 		
 		self.__title__		= "RlsBB.me"
-		self.__url__		= "http://www.rlsbb.me"
-		#self.__url__		= "http://www.rlsbb.me/category/tv-shows" # used for filehoster self test
+		self.__url__		= "http://www.rlsbb.com"
+		#self.__url__		= "http://www.rlsbb.com/category/tv-shows" # used for filehoster self test
 		self.__nextpage__	= '<span id="olderEntries"><a href="'
 		
 		self.__filehoster__	= {}
