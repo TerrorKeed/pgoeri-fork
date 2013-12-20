@@ -6,9 +6,9 @@ __url__				= "http://pgoeri-xbmc-plugins.googlecode.com"
 __svn_url__			= "http://pgoeri-xbmc-plugins.googlecode.com/svn/trunk/plugin.program.jdownloader/"
 __credits__			= "Team XBMC passion, http://passion-xbmc.org & pgoeri"
 __platform__		= "xbmc media center, [LINUX, OS X, WIN32]"
-__date__			= "11-06-2012"
-__version__			= "1.3.0"
-__XBMC_Revision__	= "11.0" # Eden
+__date__			= "20-12-2013"
+__version__			= "1.3.1"
+__XBMC_Revision__	= "12.2" # FRODO
 __useragent__		= "Mozilla/5.0 (Windows; U; Windows NT 5.1; fr; rv:1.9.0.1) Gecko/2008070208 Firefox/3.0.1"
 
 from traceback import print_exc
