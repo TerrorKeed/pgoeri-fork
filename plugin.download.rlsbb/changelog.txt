@@ -1,3 +1,9 @@
+[B]Version 0.1.3 - 20.12.2013[/B]
+    * bug - XBMC 12.2 FRODO: fixed broken dependence
+    * bug: fixed scraping problems
+    * improvement: updated categories
+    * feature: added support for new filehoster: uploaded.to & ryushare.com
+
 [B]Version 0.1.2[/B]
     * bug: fixed problem with scraping pages due to domain change: rlsbb.me -> rlsbb.com
     * renamed plugin to RlsBB.com

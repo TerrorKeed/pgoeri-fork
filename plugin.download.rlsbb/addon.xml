@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <addon id="plugin.download.rlsbb"
        name="RlsBB.com"
-       version="0.1.2"
+       version="0.1.3"
        provider-name="pgoeri">
   <requires>
     <import addon="xbmc.python" version="2.1.0"/>
-    <import addon="script.module.ddlscraper" version="0.1.2"/>
+    <import addon="script.module.ddlscraper" version="0.1.3"/>
   </requires>
   <extension point="xbmc.python.pluginsource"
              library="default.py">
