@@ -1,4 +1,0 @@
-[B]Version 0.1.3 - 20.12.2013[/B]
-    * bug - XBMC 12.2 FRODO: fixed broken dependence
-    * bug - general: fixed path encoding problem -> navigation was broken
-    * improvement - self_test: generate missing code lines for new filehoster
