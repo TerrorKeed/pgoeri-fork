@@ -15,6 +15,8 @@ class RlsBBCore(DDLScraperCore):
 		self.__filehoster__["1"] = { "label": "netload",		"alt_label": "",		"url": "http://netload.in",		"alt_url": "http://netfolder.in" }
 		self.__filehoster__["2"] = { "label": "turbobit",		"alt_label": "",		"url": "http://turbobit.net",	"alt_url": "" }
 		self.__filehoster__["3"] = { "label": "rapidgator",		"alt_label": "",		"url": "http://rapidgator.net",	"alt_url": "" }
+		self.__filehoster__["4"] = { "label": "uploaded",		"alt_label": "",		"url": "http://ul.to",			"alt_url": "http://uploaded.to" }
+		self.__filehoster__["5"] = { "label": "ryushare",		"alt_label": "",		"url": "http://ryushare.com",	"alt_url": "" }
 		#self.__filehoster__[""] = { "label": "",		"alt_label": "",	"url": "" }
 		
 		
@@ -28,12 +30,17 @@ class RlsBBCore(DDLScraperCore):
 		self.__urls__.append("http://www.imdb.com")
 		self.__urls__.append("http://www.tv.com")
 		self.__urls__.append("http://www.tvrage.com")
+		self.__urls__.append("http://kickass.to")
+		self.__urls__.append("http://nfo.rlsbb.com")
+		self.__urls__.append("http://www.youtube.com")
 		self.__urls__.append("homepage")
 		self.__urls__.append("nfo")
 		self.__urls__.append("torrent search")
 		self.__urls__.append("imdb")
 		self.__urls__.append("tv.com")
 		self.__urls__.append("tvrage")
+		self.__urls__.append("trailer")
+
 		#self.__urls__.append("")
 		 
 	#===============================================================================
@@ -44,7 +51,10 @@ class RlsBBCore(DDLScraperCore):
 	
 	def _trimPosts(self, full_website):
 		# get only area with the file-links (ignore samples and comments)
-		website = self._executeRE('<div class="postContent">(.+?)<div class="postLinkPages">', full_website)
+		website = self._executeRE('<div class="postContent">(.+?)<div class="postLinkPages">', full_website)		
+		if (website == None):
+			# fallback to previous regexp
+			website = self._executeRE('<div id="contentArea">(.+?)<div id="pageNavigation">', full_website)
 		if (website == None):
 			# not possible to extract link section, use the whole website for scraping
 			website = full_website
@@ -54,7 +64,12 @@ class RlsBBCore(DDLScraperCore):
 		# 1: url
 		# 2: title
 		# 3: img
-		posts = re.compile('<div class="post">.+?<a href="(.+?)".+?>(.+?)</a>.+?<div class="postContent">.+?<img.+?src="(.+?)"',re.DOTALL).findall(website)
+		
+		# STARTPAGE
+		posts = re.compile('<div class="entry post">.+?<a href="(.+?)".+?>(.+?)</a>.+?<div class="entry-content">.+?<img.+?src="(.+?)"',re.DOTALL).findall(website)
+		if (len(posts) == 0):
+			# SUB PAGES
+			posts = re.compile('<div class="post">.+?<a href="(.+?)".+?>(.+?)</a>.+?<div class="postContent">.+?<img.+?src="(.+?)"',re.DOTALL).findall(website)
 		return posts
 	
 	
@@ -87,7 +102,7 @@ class RlsBBCore(DDLScraperCore):
 		if ((scraped_links==None or len(scraped_links)==0)):
 			# links could be on another page!
 			# get link to sub page
-			subpage_link = self._executeRE('href=" *?(http://nfo.rlsbb.me/index.php/view/\d+?)">%s' % ( fh_label, ), website, re.IGNORECASE)
+			subpage_link = self._executeRE('href=" *?(http://nfo.rlsbb.com/view/\w+?)">%s' % ( fh_label, ), website, re.IGNORECASE)
 			if (subpage_link!=None and len(subpage_link)>0):
 				if self.__dbgv__:
 					print self.__plugin__ + " SUB PAGE: " + subpage_link
