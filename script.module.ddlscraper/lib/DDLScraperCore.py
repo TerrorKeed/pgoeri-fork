@@ -223,7 +223,7 @@ class DDLScraperCore(object):
 		# save results to file
 		self._writeToFile("filehoster.txt", sorted_fh, True)
 	
-	def _testPrintAllFileHoster(self):
+	def _testPrintAllFileHoster(self, print_code):
 		# load filehoster from file
 		fh_file = os.path.join( self.BASE_RESOURCE_PATH , "filehoster.txt" )
 		try:
@@ -232,24 +232,41 @@ class DDLScraperCore(object):
 			f.close()
 			
 			# print filehoster
-			self._info("All filehoster:\n"+str("\n".join([self._getFileHosterFlag(fh[0])+" "+str(fh[1]).ljust(3)+": "+fh[0] for fh in sorted_fh])))
+			if print_code==True:
+				# only print unknown file hoster
+				tmp = ""
+				for fh in sorted_fh:
+					if self._getFileHosterFlag(fh[0]) == "*":
+						tmp += "self.__urls__.append(\""+fh[0]+"\")\n"
+				
+				if tmp != "":
+					self._info("Source Code for unknown file hoster:\n"+tmp)
+				else:
+					self._info("NO unknown file hoster!")
+			else:
+				self._info("All filehoster:\n"+str("\n".join([self._getFileHosterFlag(fh[0])+" "+str(fh[1]).ljust(3)+": "+fh[0] for fh in sorted_fh])))
 		except IOError:
 			self._exception("_testPrintAllFileHoster")
 	
-	def selfTest(self, feeds):
+	def selfTest(self, feeds, first_step):
 		# test all category links (this takes a while)
-		self._testLinks(feeds)
+		if first_step == 1:
+			self._testLinks(feeds)
 		
 		# search for new category links
-		self._testSearchNewCategories(feeds)
+		if first_step <= 2:
+			self._testSearchNewCategories(feeds)
 		
 		# search for all available file hoster and save it to a file
-		self._testSearchAllFileHoster()
+		if first_step <= 3:
+			self._testSearchAllFileHoster()
 		
 		# print all filehoster from that file
-		self._testPrintAllFileHoster()
+		if first_step <= 4:
+			self._testPrintAllFileHoster(False)
+			self._testPrintAllFileHoster(True)
 		
-		self._info("self test DONE!")
+		self._info("self test DONE (first step = "+first_step+")!",)
 	
 	#===============================================================================
 	#
