@@ -182,8 +182,11 @@ if mode==None or mode==0:
 	
 #list of packages
 if mode==1:
-	addDir( __language__(30058), "", None, "") # add dummy entry in first line, for prettier behavior on auto refresh
 	pkglist = jdownloader.get_pkglist(url)
+	if len(pkglist)==0:
+		addDir( __language__(30080), "", None, "")
+	else:
+		addDir( __language__(30058), "", None, "") # add dummy entry in first line, for prettier behavior on auto refresh
 	for pkg in pkglist:
 		summary = pkg["percent"] + "%"
 		if (pkg["eta"] != "~"):
@@ -259,7 +262,7 @@ if mode==3:
 		jdownloader.action(jdownloader.ACTION_RECONNECT)
 
 #list of files per package
-if mode==4: 
+if mode==4:
 	addLink( __language__(30059),"","") # add dummy entry in first line, for prettier behavior on auto refresh
 	filelist = jdownloader.get_filelist(url)
 	for file in filelist:
