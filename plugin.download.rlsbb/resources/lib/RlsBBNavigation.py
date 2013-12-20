@@ -20,7 +20,6 @@ class RlsBBNavigation(DDLScraperNavigation):
 	feeds['games_android']	= "http://www.rlsbb.com/category/games/android-games"
 	feeds['games_ios']		= "http://www.rlsbb.com/category/games/ios-games"
 	feeds['games_mac']		= "http://www.rlsbb.com/category/games/mac-games"
-	feeds['games_linux']	= "http://www.rlsbb.com/category/games/linux-games"
 	feeds['games_pc']		= "http://www.rlsbb.com/category/games/pc"
 	feeds['games_ps3']		= "http://www.rlsbb.com/category/games/ps3"
 	feeds['games_psp']		= "http://www.rlsbb.com/category/games/psp"
@@ -28,7 +27,6 @@ class RlsBBNavigation(DDLScraperNavigation):
 	feeds['games_xbox360']	= "http://www.rlsbb.com/category/games/xbox360"
 	feeds['movies']			= "http://www.rlsbb.com/category/movies"
 	feeds['movies_1080p']	= "http://www.rlsbb.com/category/movies/1080p-movie"
-	feeds['movies_3d']		= "http://www.rlsbb.com/category/movies/3d"
 	feeds['movies_720p']	= "http://www.rlsbb.com/category/movies/720p-movie"
 	feeds['movies_bdrip']	= "http://www.rlsbb.com/category/movies/bdrip-movies"
 	feeds['movies_cam']		= "http://www.rlsbb.com/category/movies/cam-movies"
@@ -37,11 +35,11 @@ class RlsBBNavigation(DDLScraperNavigation):
 	feeds['movies_dvdscr']	= "http://www.rlsbb.com/category/movies/dvdscr"
 	feeds['movies_hdtv']	= "http://www.rlsbb.com/category/movies/hdtv"
 	feeds['movies_old']		= "http://www.rlsbb.com/category/movies/old-movie"
+	feeds['movies_ppvrip']	= "http://www.rlsbb.com/category/movies/ppvrip"
 	feeds['movies_r5']		= "http://www.rlsbb.com/category/movies/r5-movies"
 	feeds['movies_scr']		= "http://www.rlsbb.com/category/movies/scr"
 	feeds['movies_ts']		= "http://www.rlsbb.com/category/movies/telesync"
 	feeds['movies_tvrip']	= "http://www.rlsbb.com/category/movies/tvrip"
-	feeds['movies_vodrip']	= "http://www.rlsbb.com/category/movies/vodrip"
 	feeds['movies_webrip']	= "http://www.rlsbb.com/category/movies/webrip"
 	feeds['music']			= "http://www.rlsbb.com/category/music"
 	feeds['music_album']	= "http://www.rlsbb.com/category/music/album"
@@ -67,7 +65,6 @@ class RlsBBNavigation(DDLScraperNavigation):
 		{'label':__language__( 30010 )	,'path':"/root/movies"			, 'thumbnail':"movies"			, 'feed':"" },
 		{'label':__language__( 30000 )	,'path':"/root/movies/all"		, 'thumbnail':"movies"			, 'feed':"movies" },
 		{'label':__language__( 30011)	,'path':"/root/movies/1080p"	, 'thumbnail':"movies"			, 'feed':"movies_1080p" },
-		{'label':__language__( 30020)	,'path':"/root/movies/3d"		, 'thumbnail':"movies"			, 'feed':"movies_3d" },
 		{'label':__language__( 30012)	,'path':"/root/movies/720p"		, 'thumbnail':"movies"			, 'feed':"movies_720p" },
 		{'label':__language__( 30013)	,'path':"/root/movies/bdrip"	, 'thumbnail':"movies"			, 'feed':"movies_bdrip" },
 		{'label':__language__( 30014)	,'path':"/root/movies/cam"		, 'thumbnail':"movies"			, 'feed':"movies_cam" },
@@ -76,11 +73,11 @@ class RlsBBNavigation(DDLScraperNavigation):
 		{'label':__language__( 30017)	,'path':"/root/movies/dvdscr"	, 'thumbnail':"movies"			, 'feed':"movies_dvdscr" },
 		{'label':__language__( 30018)	,'path':"/root/movies/hdtv"		, 'thumbnail':"movies"			, 'feed':"movies_hdtv" },
 		{'label':__language__( 30019)	,'path':"/root/movies/old"		, 'thumbnail':"movies"			, 'feed':"movies_old" },
+		{'label':__language__( 30020)	,'path':"/root/movies/ppvrip"	, 'thumbnail':"movies"			, 'feed':"movies_ppvrip" },
 		{'label':__language__( 30021)	,'path':"/root/movies/r5"		, 'thumbnail':"movies"			, 'feed':"movies_r5" },
 		{'label':__language__( 30022)	,'path':"/root/movies/scr"		, 'thumbnail':"movies"			, 'feed':"movies_scr" },
 		{'label':__language__( 30023)	,'path':"/root/movies/ts"		, 'thumbnail':"movies"			, 'feed':"movies_ts" },
 		{'label':__language__( 30024)	,'path':"/root/movies/tvrip"	, 'thumbnail':"movies"			, 'feed':"movies_tvrip" },
-		{'label':__language__( 30026)	,'path':"/root/movies/vodrip"	, 'thumbnail':"movies"			, 'feed':"movies_vodrip" },
 		{'label':__language__( 30025)	,'path':"/root/movies/webrip"	, 'thumbnail':"movies"			, 'feed':"movies_webrip" },
 		# music
 		{'label':__language__( 30030 )	,'path':"/root/music"			, 'thumbnail':"music"			, 'feed':"" },
@@ -94,7 +91,6 @@ class RlsBBNavigation(DDLScraperNavigation):
 		{'label':__language__( 30000 )	,'path':"/root/games/all"		, 'thumbnail':"games"			, 'feed':"games" },
 		{'label':__language__( 30041 )	,'path':"/root/games/android"	, 'thumbnail':"games"			, 'feed':"games_android" },
 		{'label':__language__( 30042 )	,'path':"/root/games/ios"		, 'thumbnail':"iphone"			, 'feed':"games_ios" },
-		{'label':__language__( 30047 )	,'path':"/root/games/linux"		, 'thumbnail':"games"			, 'feed':"games_linux" },
 		{'label':__language__( 30043 )	,'path':"/root/games/mac"		, 'thumbnail':"games"			, 'feed':"games_mac" },
 		{'label':__language__( 30044 )	,'path':"/root/games/pc"		, 'thumbnail':"games"			, 'feed':"games_pc" },
 		{'label':__language__( 30045 )	,'path':"/root/games/ps3"		, 'thumbnail':"games"			, 'feed':"games_ps3" },

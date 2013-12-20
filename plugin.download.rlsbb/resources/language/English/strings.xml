@@ -16,13 +16,12 @@
     <string id="30017">DVDSCR</string>
     <string id="30018">HDTV</string>
     <string id="30019">Old</string>
-    <string id="30020">3D</string>
+    <string id="30020">PPVRip</string>
     <string id="30021">R5</string>
     <string id="30022">SCR</string>
     <string id="30023">Telesync</string>
     <string id="30024">TVRip</string>
     <string id="30025">WebRip</string>
-    <string id="30026">VODRip</string>
     <!-- music -->
     <string id="30030">Music</string>
     <string id="30031">Album</string>
@@ -39,7 +38,6 @@
     <string id="30046">PSP</string>
     <string id="30047">Wii</string>
     <string id="30048">XBOX360</string>
-    <string id="30049">LiNUX</string>
     <!-- ebooks -->
     <string id="30050">Ebooks & Magazines</string>
     <!-- apps -->
@@ -88,8 +86,6 @@
     <string id="30361">netload.in</string>
     <string id="30362">turbobit.net</string>
     <string id="30363">rapidgator.net</string>
-    <string id="30364">uploaded.to</string>
-    <string id="30365">ryushare.com</string>
     
     <!-- Strings used by DDLScraper -->
     <!-- Menu strings -->
