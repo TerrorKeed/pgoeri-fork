@@ -12,8 +12,14 @@
     <provides>executable</provides>
   </extension>
   <extension point="xbmc.addon.metadata">
-    <platform>all</platform>
     <summary lang="en">Browse releases on rlsbb.com and add links to JDownloader</summary>
     <description lang="en">This plugin scrapes posts from rlsbb.com and presents them as directory items. By selecting a post the link gets added to JDownloader.</description>
+    <platform>all</platform>
+    <language>en</language>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+    <forum>http://forum.xbmc.org/showthread.php?tid=134983</forum>
+    <website>http://pgoeri-xbmc-plugins.googlecode.com/</website>
+    <source>http://pgoeri-xbmc-plugins.googlecode.com/svn/trunk/plugin.download.rlsbb/</source>
+    <email> pgoeri85 at gmail dot com</email>
   </extension>
 </addon>

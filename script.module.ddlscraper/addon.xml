@@ -14,5 +14,11 @@
     <summary lang="en">A library for "plugin.download." add-ons</summary>
     <description lang="en">This library provides base classes for presenting a posts from a web site and extract links from a specific post.</description>
     <platform>all</platform>
+    <language></language>
+    <license>GNU GENERAL PUBLIC LICENSE. Version 3, 29 June 2007</license>
+    <forum></forum>
+    <website>http://pgoeri-xbmc-plugins.googlecode.com/</website>
+    <source>http://pgoeri-xbmc-plugins.googlecode.com/svn/trunk/script.module.ddlscraper/</source>
+    <email> pgoeri85 at gmail dot com</email>
   </extension>
 </addon>
