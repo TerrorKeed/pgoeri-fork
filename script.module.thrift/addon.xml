@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<addon id="script.module.thrift"
+       name="Thrift"
+       version="0.9.1"
+       provider-name="pgoeri">
+  <requires>
+    <import addon="xbmc.python" version="2.1.0"/>
+  </requires>
+  <extension point="xbmc.python.module"
+             library="lib" />
+  <extension point="xbmc.addon.metadata">
+    <summary lang="en">A remote procedure call (RPC) framework developed for "scalable cross-language services development".</summary>
+    <description lang="en">The Apache Thrift software framework, for scalable cross-language services development, combines a software stack with a code generation engine to build services that work efficiently and seamlessly between C++, Java, Python, PHP, Ruby, Erlang, Perl, Haskell, C#, Cocoa, JavaScript, Node.js, Smalltalk, OCaml and Delphi and other languages.</description>
+    <disclaimer lang="en">Code taken from https://thrift.apache.org/download/</disclaimer>
+    <platform>all</platform>
+    <language></language>
+    <license>Apache License, Version 2.0</license>
+    <forum></forum>
+    <website>http://thrift.apache.org</website>
+    <source>http://git-wip-us.apache.org/repos/asf?p=thrift.git;a=tree;f=lib/py/src</source>
+    <email>pgoeri85 at gmail dot com</email>
+  </extension>
+</addon>
