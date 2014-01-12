@@ -104,14 +104,49 @@ class DDLScraperCore(object):
 		if (result == 200):
 			links = self._scrapeFilehosterLinks(website)
 			if ( len(links) == 0):
-				return (self.__language__(30604), 303)
+				return ( { 'msg': self.__language__(30604) }, 303)
 		else:
-			return ( result_str , result )
+			return ( { 'msg': result_str }, result)
 		
 		if self.__dbg__:
 			print self.__plugin__ + " scrapeFilehosterLinks done: " + str(links)
-		return ( links, 200 )
-
+		
+		return ( { 'links': links }, 200)
+	
+	def addLinksToPyLoad(self, pkgname, file_links):
+		# package name
+		# filter out all non-ASCII characters, because pyLoad 0.4.9 crashes when logging a non-ASCII character
+		pkgname = re.compile("[^\x20-\x7E]",re.DOTALL+re.IGNORECASE).sub( "", pkgname )
+		
+		autostart = "0"
+		if (self.__addon__.getSetting( "pyl_autostart" ) == "true"):
+			autostart = "1"
+		
+		data = {
+			'autostart': autostart,
+			'package': pkgname,
+			'urls': "\n".join(file_links)
+		}
+		
+		self._log("addLinksToPyLoad: " + str(data))
+		
+		url = self.__addon__.getSetting( "pyl_url" )
+		
+		request = urllib2.Request( url )
+		request.add_header('Referer', 'http://localhost:9666/flashgot')
+		request.add_data(urllib.urlencode(data))
+		
+		try:
+			response = urllib2.urlopen(request, timeout=5)
+		except urllib2.URLError, error:
+			self._raise(self.__language__(30911) % url )
+		
+		if (response.getcode() != 200):
+			if (response.getcode() == 500):
+				self._raise(self.__language__(30910))
+			else:
+				self._raise(self.__language__(30911) % url )
+	
 	#=================================== Testing ======================================= 
 	def _testLinks(self, links):
 			

@@ -8,6 +8,10 @@
     <setting id="filehoster_alt1" type="enum" label="30311" lvalues="30360|30361|30362|30363|30364|30365" entries="0|1|2|3|4|5" default="0" />
     <setting id="filehoster_alt2" type="enum" label="30312" lvalues="30360|30361|30362|30363|30364|30365" entries="0|1|2|3|4|5" default="0" />
     <setting type="sep" />
+    <setting id="dl_tool" type="enum" label="30370" lvalues="30371|30372" entries="1|2" default="1" />
+    <setting id="pyl_url" type="text" label="30375" default="http://127.0.0.1:9666/flashgot" visible="eq(-1,2)" />
+    <setting id="pyl_autostart" type="bool" label="30376" default="true" visible="eq(-2,2)" />
+    <setting type="sep" />
     <setting id="perpage" type="enum" label="30315" values="1|2|3|4|5" default="4" />
     <setting label="30320" type="lsep" />
     <setting id="prefer_hd" type="bool" label="30321" default="true" />

@@ -124,17 +124,32 @@ class DDLScraperNavigation:
 	def addLink(self, params={}):
 		get = params.get
 		if (get("url")):
-			(file_links , status) = self._core.scrapeFilehosterLinks(get("url"))
+			(result, status) = self._core.scrapeFilehosterLinks(get("url"))
 			if status != 200:
-				self.errorHandling(self.__language__(30801), file_links, status)
+				self.errorHandling(self.__language__(30801), result['msg'], status)
 				return False
-
-			try:
-				xbmc.executebuiltin('XBMC.RunPlugin(plugin://%s/?action=addlinklist&url=%s)' % (self.__JDaddonID__, urllib.quote(" ".join(file_links))))
-				self.showMessage(self.__language__(30800) % len(file_links), get("title"))
-			except:
-				(type, e, traceback) = sys.exc_info()
-				self.showMessage(self.__language__(30803), e.message)
+			
+			# extract links from result dict
+			file_links = result['links']
+			
+			# now supporting two different download tools: JDownloader & pyLoad
+			if (self.__addon__.getSetting( "dl_tool" ) == "2") :
+				# pyLoad
+				try:
+					self._core.addLinksToPyLoad(get("title"), file_links)
+					self.showMessage(self.__language__(30800) % len(file_links), get("title"))
+				except:
+					(type, e, traceback) = sys.exc_info()
+					print e
+					self.showErrorExt(self.__language__(30804), e.message)
+			else:
+				# JDownloader
+				try:
+					xbmc.executebuiltin('XBMC.RunPlugin(plugin://%s/?action=addlinklist&url=%s)' % (self.__JDaddonID__, urllib.quote(" ".join(file_links))))
+					self.showMessage(self.__language__(30800) % len(file_links), get("title"))
+				except:
+					(type, e, traceback) = sys.exc_info()
+					self.showErrorExt(self.__language__(30803), e.message)
 
 	#================================== List Item manipulation =========================================
 	def addDefaultContextMenu(self, cm):
@@ -321,15 +336,20 @@ class DDLScraperNavigation:
 		self._core.selfTest(self.feeds.values(),first_step)
 
 	#=================================== Tool Box =======================================
-	# shows a more userfriendly notification
+	
+	def getNotificationDuration(self):
+		return ([5, 10, 15, 20, 25, 30][int(self.__addon__.getSetting('notification_length'))]) * 1000;
+	
+	# shows a more user friendly notification
 	def showMessage(self, heading, message):
-		duration = ([5, 10, 15, 20, 25, 30][int(self.__addon__.getSetting('notification_length'))]) * 1000
-		xbmc.executebuiltin('XBMC.Notification("%s", "%s", %s)' % (heading, message, duration))
+		xbmc.executebuiltin('XBMC.Notification("%s", "%s", %s)' % (heading, message, self.getNotificationDuration()))
+
+	def showErrorExt(self, heading, message):
+		xbmc.executebuiltin('XBMC.Notification("%s", "%s", %s, "DefaultIconError.png")' % (heading, message, self.getNotificationDuration()))
 
 	def showError(self, message):
-		duration = ([5, 10, 15, 20, 25, 30][int(self.__addon__.getSetting('notification_length'))]) * 1000
-		xbmc.executebuiltin('XBMC.Notification("%s", "%s", %s, "DefaultIconError.png")' % (xbmc.getLocalizedString(257), message, duration))
-
+		self.showErrorExt(self.__language__(30600), message)
+		
 	# create the full thumbnail path for skins directory
 	def getThumbnail(self, title):
 		if (not title):
@@ -365,8 +385,8 @@ class DDLScraperNavigation:
 			result = self.__language__(30602)
 
 		if (status == 303):
-			self.showMessage(title, result)
+			self.showErrorExt(title, result)
 		elif (status == 500):
-			self.showMessage(title, self.__language__(30601))
+			self.showErrorExt(title, self.__language__(30601))
 		else:
-			self.showMessage(title, self.__language__(30602))
+			self.showErrorExt(title, self.__language__(30602))

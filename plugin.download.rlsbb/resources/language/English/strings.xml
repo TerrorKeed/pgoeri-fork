@@ -91,6 +91,13 @@
     <string id="30364">uploaded.to</string>
     <string id="30365">ryushare.com</string>
     
+    <string id="30370">Download tool</string>
+    <string id="30371">JDownloader</string>
+    <string id="30372">pyLoad</string>
+    <string id="30375">Address</string>
+    <string id="30376">Add links directly to queue</string>
+    
+    
     <!-- Strings used by DDLScraper -->
     <!-- Menu strings -->
     <string id="30500">Video information</string>
@@ -113,7 +120,11 @@
     <string id="30801">Add Links</string>
     <string id="30802">JD Info</string>
     <string id="30803">JD Error</string>
+    <string id="30804">pyLoad Error</string>
     
     <!-- errors -->
     <string id="30900">Invalid filehoster setting. Fix your plugin settings!</string>
+    <!-- pyLoad errors -->
+    <string id="30910">An internal error occurred during adding the package to pyLoad! (check the pyLoad log files)</string>
+    <string id="30911">pyLoad is not responding on %s!</string>
 </strings>
