@@ -1,14 +1,14 @@
 import sys, os, xbmc, xbmcaddon
 
 # plugin constants
-__version__			= "0.1.3"
+__version__			= "0.2.0"
 __plugin__			= "RlsBB.com-" + __version__
 __addonID__			= "plugin.download.rlsbb"
 __author__			= "pgoeri"
 __url__				= "http://pgoeri-xbmc-plugins.googlecode.com"
 __svn_url__			= "http://pgoeri-xbmc-plugins.googlecode.com/svn/trunk/plugin.download.rlsbb/"
-__XBMC_Revision__	= "12.2" # Frodo
-__date__			= "20-12-2013"
+__XBMC_Revision__	= "12.3" # Frodo
+__date__			= "12-01-2014"
 
 __addon__			= xbmcaddon.Addon(id=__addonID__)
 __language__		= __addon__.getLocalizedString
